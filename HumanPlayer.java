@@ -1,7 +1,7 @@
 import java.awt.Color;
 
 /**
- * HumanPlayer objects allows the user select moves when playing a game of chess
+ * A HumanPlayer represents a player in a connect4 game.
  * 
  * @author Shounak Ghosh
  * @version 4.30.2019
@@ -10,6 +10,7 @@ import java.awt.Color;
 public class HumanPlayer extends Player
 {
     BoardDisplay display;
+    Game game;
 
     /**
      * Constructor: Creates a HumanPlayer object

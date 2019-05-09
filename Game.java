@@ -2,7 +2,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 /**
- * Driver class that plays a game of chess between different types of Players
+ * The game of Connect4
  * 
  * @author Shounak Ghosh
  * @version 4.30.2019
