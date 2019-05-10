@@ -1,49 +1,32 @@
+package Connect4;
+
 import java.awt.Color;
 import java.util.ArrayList;
 
 /**
- * The game of Connect4
- * 
- * @author Shounak Ghosh
- * @version 4.30.2019
+ * plays the game (the board object plays the game tbh)
  *
  */
 public class Game
 {
-    private static boolean isGameOver;
+    private boolean isGameOver;
+    private Display gameDisplay;
+    private Player player1;
+    private Player player2;
 
-    /**
-     * Driver method; Sets up the board for play
-     * 
-     * @param args command-line argument
-     */
-    public static void main(String[] args)
-    {
-        Board board = new Board();
-        isGameOver = false;
-
-        
-        // display the board
-        BoardDisplay display = new BoardDisplay(board);
-
-        
-
-
-        display.showBoard();
+    public Game(Player p1, Player p2) {
+        board = new Board(p1, p2);
+        player1 = p1;
+        player2 = p2;
     }
 
     /**
-     * Plays a game between two players
-     * 
-     * @param board   The board to be played on
-     * @param display The BoardDisplay object used to display/update the board
-     * @param white   The white player; goes first
-     * @param black   The black player
+     * Displays and plays the game
      */
-    public static void play(Board board, BoardDisplay display, 
-                            Player white, Player black)
-    {
-        while (!isGameOver) // remove later
+    public void play() {
+        board.show();
+
+        while (!isGameOver) // add checking for game over
         {
             nextTurn(board, display, white);
             nextTurn(board, display, black);

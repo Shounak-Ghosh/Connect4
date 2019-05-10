@@ -1,15 +1,10 @@
+package Connect4;
+
 import java.awt.Color;
 
-/**
- * A HumanPlayer represents a player in a connect4 game.
- * 
- * @author Shounak Ghosh
- * @version 4.30.2019
- *
- */
 public class HumanPlayer extends Player
 {
-    BoardDisplay display;
+    Board board;
     Game game;
 
     /**
