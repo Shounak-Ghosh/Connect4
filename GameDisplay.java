@@ -8,18 +8,34 @@ import java.awt.event.MouseEvent;
 public class GameDisplay extends Display {
     
     Graphics g;
+    private boolean gameIsOver;
     
     public GameDisplay(Player p1, Player p2) {
         this.board = new Board(p1, p2);
+        gameIsOver = false;
     }
 
     public void mouseClicked(MouseEvent e) {
-        int column = getColumn(e.getX());
-        
-        if (board.isValidMove(column)) {
-            board.makeMove(column);
-            repaint();
+        if (!gameIsOver) { // game is not over, the click represents a move
+            
+            int column = getColumn(e.getX());
+            
+            // if the clicked column can be moved in
+            if (board.isValidMove(column)) {
+                
+                board.makeMove(column); // makes the move
+                repaint(); // repaints the window to reflect the move
+                
+                // tests for a winner - if there is, ends the game
+                // mouse clicks will have different functions
+                Player winner = board.winner();
+                if (winner!=null) {
+                    gameIsOver = true;
+                }
+                
+            }
         }
+        
     }
     
     public void paintComponent(Graphics g)

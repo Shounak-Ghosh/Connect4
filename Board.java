@@ -10,7 +10,7 @@ public class Board
     private Player p1;
     private Player p2;
     private Player currentPlayer;
-
+    
     /**
      * Creates a new Board
      * @param p1 player 1
@@ -45,7 +45,7 @@ public class Board
      */
     public void makeMove(int column) {
         int row = getTopmostEmptySlot(column);
-        grid[row][column] = new Piece(currentPlayer.getColor());
+        grid[row][column] = new Piece(currentPlayer.getColor(), currentPlayer);
     }
     
     /**
@@ -63,12 +63,100 @@ public class Board
     
     /**
      * WRITE THIS---------------------------------------------------------------
-     * 
+     *  horizontal & vertical testing done, TODO: diagonal...
      * @return if the winning player on the current board setup.
      *         if there is no winner, returns null.
      */
-    private Player winner() {
-        return null;
+    public Player winner() {
+        
+        Player player = null;
+        
+        
+        // testing horizontal and vertical
+        for (int r=0;r<grid.length-3;r++) {
+            for (int c=0;c<grid[0].length-3;c++) {
+                Piece test = grid[r][c];
+                
+                // test horizontally
+                if (test.is(grid[r][c+1]) &&
+                    test.is(grid[r][c+2]) &&
+                    test.is(grid[r][c+3])) {
+                    
+                    test.highlight(true);
+                    grid[r][c+1].highlight(true);
+                    grid[r][c+2].highlight(true);
+                    grid[r][c+3].highlight(true);
+                    
+                    player = test.getPlayer();
+                }
+                    
+                
+                // test vertically
+                if (test.is(grid[r+1][c]) &&
+                    test.is(grid[r+2][c]) &&
+                    test.is(grid[r+3][c])) {
+                    
+                    test.highlight(true);
+                    grid[r+1][c].highlight(true);
+                    grid[r+1][c].highlight(true);
+                    grid[r+1][c].highlight(true);
+                    
+                    player = test.getPlayer();
+                }
+                    
+            }
+        }
+        
+        // test diagonal with positive slope
+        for (int r=3;r<=5;r++) {
+            for(int c=0;c<=3;c++) {
+                Piece test = grid[r][c];
+                
+                if (test.is(grid[r+1][c+1]) &&
+                    test.is(grid[r+2][c+2]) &&
+                    test.is(grid[r+3][c+3])) {
+                    
+                    test.highlight(true);
+                    grid[r+1][c+1].highlight(true);
+                    grid[r+2][c+2].highlight(true);
+                    grid[r+3][c+3].highlight(true);
+                    
+                    player = test.getPlayer();
+                }
+
+            }
+        }
+        
+        // test diagonally with negative slope
+        for (int r=3;r<=5;r++) {
+            for(int c=3;c<=7;c++) {
+                Piece test = grid[r][c];
+                
+                if (test.is(grid[r-1][c-1]) &&
+                    test.is(grid[r-2][c-2]) &&
+                    test.is(grid[r-3][c-3])) {
+                    
+                    test.highlight(true);
+                    grid[r-1][c-1].highlight(true);
+                    grid[r-2][c-2].highlight(true);
+                    grid[r-3][c-3].highlight(true);
+                    
+                    player = test.getPlayer();
+                }
+
+            }
+        }
+        
+        return player;
     }
+
        
 }
+
+
+
+
+
+
+
+
