@@ -1,0 +1,9 @@
+TODOS:
+
+- rewrite method for testing for a winner in Board class (right now, every time 
+someone makes a move, it tests all possible formations for a win on the board. 
+I (gloria) was being very dumm. it only has to test the location that a piece
+was just moved in, just in all 8 directions. the current method works for now
+but an amendment at some point would be nice. :D
+
+- 

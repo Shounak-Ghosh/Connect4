@@ -42,6 +42,7 @@ public class GameDisplay extends Display {
                 
             }
         } else {
+            // someone has already won the game, no more moves can be made
             System.out.println("no more...");
         }
         
@@ -60,7 +61,13 @@ public class GameDisplay extends Display {
     // SHOULD HAVE: THE TWO PLAYERS - THEIR COLORS & NAMES. THE ONE WHOSE TURN IT IS
     // SHOULD BE HIGHLIGHTED. ALSO HAVE A MAIN MENU BUTTON FOR RETURNING TO MAIN MENU
     private void paintSidebar(Graphics g) {
+        g.setColor(board.getPlayer1().getColor());
+        g.fillOval(640, 50, 70, 70);
+        g.setColor(board.getPlayer2().getColor());
+        g.fillOval(640, 175, 70, 70);
         
+        g.setColor(Color.BLACK);
+       
     }
     
     /**

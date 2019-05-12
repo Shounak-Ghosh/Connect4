@@ -38,6 +38,14 @@ public class Board
         return grid;
     }
     
+    public Player getPlayer1() {
+        return p1;
+    }
+    
+    public Player getPlayer2() {
+        return p2;
+    }
+    
     /**
      * Moves a piece into the given column as far as it can go.
      * @precondition the column has at least 1 empty slot
@@ -68,7 +76,7 @@ public class Board
     }
     
     /**
-     * WRITE THIS---------------------------------------------------------------
+     * REWRITE THIS - IT'S WRITTEN SO BADLY oml
      *  horizontal & vertical testing done, TODO: diagonal...
      * @return if the winning player on the current board setup.
      *         if there is no winner, returns null.

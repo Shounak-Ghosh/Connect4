@@ -30,7 +30,7 @@ public abstract class Display extends JComponent implements MouseListener
         frame.pack();
         insets = frame.getInsets();
         
-        frame.setSize(605+insets.left+insets.right,520+insets.top+insets.right);
+        frame.setSize(750+insets.left+insets.right,520+insets.top+insets.right);
         frame.setLocation(200,100);
         frame.setTitle("Connect 4");
         Container c = frame.getContentPane();
