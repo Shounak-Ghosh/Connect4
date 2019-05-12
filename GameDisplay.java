@@ -44,6 +44,14 @@ public class GameDisplay extends Display {
                 
         paintGrid(g);
         paintPieces(g);
+        paintSidebar(g);
+    }
+    
+    // TODO: WRITE THIS
+    // SHOULD HAVE: THE TWO PLAYERS - THEIR COLORS & NAMES. THE ONE WHOSE TURN IT IS
+    // SHOULD BE HIGHLIGHTED. ALSO HAVE A MAIN MENU BUTTON FOR RETURNING TO MAIN MENU
+    private void paintSidebar(Graphics g) {
+        
     }
     
     /**
