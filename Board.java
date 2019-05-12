@@ -46,6 +46,12 @@ public class Board
     public void makeMove(int column) {
         int row = getTopmostEmptySlot(column);
         grid[row][column] = new Piece(currentPlayer.getColor(), currentPlayer);
+        updateCurrentPlayer();
+    }
+    
+    private void updateCurrentPlayer() {
+        if (currentPlayer==p1) currentPlayer = p2;
+        else currentPlayer = p1;
     }
     
     /**
@@ -77,33 +83,34 @@ public class Board
             for (int c=0;c<grid[0].length-3;c++) {
                 Piece test = grid[r][c];
                 
-                // test horizontally
-                if (test.is(grid[r][c+1]) &&
-                    test.is(grid[r][c+2]) &&
-                    test.is(grid[r][c+3])) {
+                if (test!=null) {
+                 // test horizontally
+                    if (test.is(grid[r][c+1]) &&
+                        test.is(grid[r][c+2]) &&
+                        test.is(grid[r][c+3])) {
+                        
+                        test.highlight(true);
+                        grid[r][c+1].highlight(true);
+                        grid[r][c+2].highlight(true);
+                        grid[r][c+3].highlight(true);
+                        
+                        player = test.getPlayer();
+                    }
+                        
                     
-                    test.highlight(true);
-                    grid[r][c+1].highlight(true);
-                    grid[r][c+2].highlight(true);
-                    grid[r][c+3].highlight(true);
-                    
-                    player = test.getPlayer();
-                }
-                    
-                
-                // test vertically
-                if (test.is(grid[r+1][c]) &&
-                    test.is(grid[r+2][c]) &&
-                    test.is(grid[r+3][c])) {
-                    
-                    test.highlight(true);
-                    grid[r+1][c].highlight(true);
-                    grid[r+1][c].highlight(true);
-                    grid[r+1][c].highlight(true);
-                    
-                    player = test.getPlayer();
-                }
-                    
+                    // test vertically
+                    if (test.is(grid[r+1][c]) &&
+                        test.is(grid[r+2][c]) &&
+                        test.is(grid[r+3][c])) {
+                        
+                        test.highlight(true);
+                        grid[r+1][c].highlight(true);
+                        grid[r+1][c].highlight(true);
+                        grid[r+1][c].highlight(true);
+                        
+                        player = test.getPlayer();
+                    }
+                }   
             }
         }
         
@@ -112,16 +119,18 @@ public class Board
             for(int c=0;c<=3;c++) {
                 Piece test = grid[r][c];
                 
-                if (test.is(grid[r+1][c+1]) &&
-                    test.is(grid[r+2][c+2]) &&
-                    test.is(grid[r+3][c+3])) {
-                    
-                    test.highlight(true);
-                    grid[r+1][c+1].highlight(true);
-                    grid[r+2][c+2].highlight(true);
-                    grid[r+3][c+3].highlight(true);
-                    
-                    player = test.getPlayer();
+                if (test!=null) {
+                    if (test.is(grid[r-1][c+1]) &&
+                            test.is(grid[r-2][c+2]) &&
+                            test.is(grid[r-3][c+3])) {
+                            
+                            test.highlight(true);
+                            grid[r-1][c+1].highlight(true);
+                            grid[r-2][c+2].highlight(true);
+                            grid[r-3][c+3].highlight(true);
+                            
+                            player = test.getPlayer();
+                        }
                 }
 
             }
@@ -129,20 +138,23 @@ public class Board
         
         // test diagonally with negative slope
         for (int r=3;r<=5;r++) {
-            for(int c=3;c<=7;c++) {
+            for(int c=3;c<=6;c++) {
                 Piece test = grid[r][c];
                 
-                if (test.is(grid[r-1][c-1]) &&
-                    test.is(grid[r-2][c-2]) &&
-                    test.is(grid[r-3][c-3])) {
-                    
-                    test.highlight(true);
-                    grid[r-1][c-1].highlight(true);
-                    grid[r-2][c-2].highlight(true);
-                    grid[r-3][c-3].highlight(true);
-                    
-                    player = test.getPlayer();
+                if (test!=null) {
+                    if (test.is(grid[r-1][c-1]) &&
+                            test.is(grid[r-2][c-2]) &&
+                            test.is(grid[r-3][c-3])) {
+                            
+                            test.highlight(true);
+                            grid[r-1][c-1].highlight(true);
+                            grid[r-2][c-2].highlight(true);
+                            grid[r-3][c-3].highlight(true);
+                            
+                            player = test.getPlayer();
+                        }
                 }
+                
 
             }
         }

@@ -14,6 +14,10 @@ public class GameDisplay extends Display {
         this.board = new Board(p1, p2);
         gameIsOver = false;
     }
+    
+    public void play() {
+        
+    }
 
     public void mouseClicked(MouseEvent e) {
         if (!gameIsOver) { // game is not over, the click represents a move
@@ -30,7 +34,17 @@ public class GameDisplay extends Display {
                 // mouse clicks will have different functions
                 Player winner = board.winner();
                 if (winner!=null) {
+                    System.out.println("WINNER!");
                     gameIsOver = true;
+                }
+                
+                try
+                {
+                    Thread.sleep(2);
+                } catch (InterruptedException e1)
+                {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
                 }
                 
             }

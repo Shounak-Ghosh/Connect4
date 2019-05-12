@@ -7,9 +7,15 @@ import java.awt.Color;
  */
 public abstract class Player
 {
-    private Color color;
+    protected Color color;
+    protected String name;
+    protected GameDisplay display;
     
     public Color getColor() {
         return color;
+    }
+    
+    public String getName() {
+        return name;
     }
 }
