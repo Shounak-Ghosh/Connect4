@@ -14,7 +14,7 @@ public abstract class Display extends JComponent implements MouseListener
 
     protected JFrame frame;
     
-    protected final Color BACKGROUND_COLOR = Color.WHITE;
+    protected final Color BACKGROUND_COLOR = new Color(192,192,192);
     protected final Color GRID_COLOR = Color.BLUE;
     
     // insets of the frame (platform-dependent)
