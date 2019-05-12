@@ -2,6 +2,8 @@ package Connect4;
 
 public class Tester {
     public static void main(String[] args) {
-        Display d = new GameDisplay(null,null);        
+        Player p1 = new HumanPlayer("Player 1", Color.RED);
+        Player p2 = new HumanPlayer("Player 2", Color.YELLOW);
+        Display d = new GameDisplay(p1, p2);        
     }
 }
