@@ -15,15 +15,10 @@ public abstract class Display extends JComponent implements MouseListener
     protected JFrame frame;
     
     protected final Color BACKGROUND_COLOR = Color.white;
-    protected final Color GRID_COLOR = Color.gray;
+    protected final Color GRID_COLOR = Color.LIGHT_GRAY;
     
     // insets of the frame (platform-dependent)
     protected Insets insets;
-    
-    // re-calculated every time the frame is repainted
-    // expedites painting processes
-    protected int width;
-    protected int height;
     
     public Display()
     {        
@@ -31,13 +26,13 @@ public abstract class Display extends JComponent implements MouseListener
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(this); // very important line of code reee
         
+        frame.setResizable(false);
         frame.pack();
         insets = frame.getInsets();
         
         frame.setSize(605+insets.left+insets.right,520+insets.top+insets.right);
         frame.setLocation(200,100);
         frame.setTitle("Connect 4");
-        
         Container c = frame.getContentPane();
         c.setBackground(BACKGROUND_COLOR);
       
@@ -47,11 +42,16 @@ public abstract class Display extends JComponent implements MouseListener
         frame.setVisible(true);
 
         frame.addMouseListener(this);   
+        
+        repaint();
     }
     
-    // this method is most important, will be overriden
-    // in subclases
+    // this method should be overriden 
     public void mouseClicked(MouseEvent e) {}
+    
+    
+    
+    
 
      public void mousePressed(MouseEvent e) {}
  
