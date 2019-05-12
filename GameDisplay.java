@@ -41,6 +41,7 @@ public class GameDisplay extends Display {
                 try
                 {
                     Thread.sleep(2);
+                    System.out.println("hi");
                 } catch (InterruptedException e1)
                 {
                     // TODO Auto-generated catch block

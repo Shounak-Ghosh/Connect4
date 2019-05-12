@@ -28,7 +28,7 @@ public class Board
      * @return if the column has at least 1 empty slot
      */
     public boolean isValidMove(int column) {
-        return grid[0][column] == null;
+        return (column>=0 && grid[0][column] == null);
     }
     
     /**
