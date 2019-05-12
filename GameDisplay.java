@@ -20,8 +20,9 @@ public class GameDisplay extends Display {
     }
 
     public void mouseClicked(MouseEvent e) {
-        if (!gameIsOver) { // game is not over, the click represents a move
-            
+        if (!gameIsOver) { 
+            // game is not over, the click represents a move
+                                    
             int column = getColumn(e.getX());
             
             // if the clicked column can be moved in
@@ -38,17 +39,10 @@ public class GameDisplay extends Display {
                     gameIsOver = true;
                 }
                 
-                try
-                {
-                    Thread.sleep(2);
-                    System.out.println("hi");
-                } catch (InterruptedException e1)
-                {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                }
                 
             }
+        } else {
+            System.out.println("no more...");
         }
         
     }

@@ -78,8 +78,8 @@ public class Board
         Player player = null;
         
         
-        // testing horizontal and vertical
-        for (int r=0;r<grid.length-3;r++) {
+        // testing horizontal 
+        for (int r=0;r<grid.length;r++) {
             for (int c=0;c<grid[0].length-3;c++) {
                 Piece test = grid[r][c];
                 
@@ -96,7 +96,16 @@ public class Board
                         
                         player = test.getPlayer();
                     }
-                        
+                }   
+            }
+        }
+        
+     // testing vertical
+        for (int r=0;r<grid.length-3;r++) {
+            for (int c=0;c<grid[0].length;c++) {
+                Piece test = grid[r][c];
+                
+                if (test!=null) {
                     
                     // test vertically
                     if (test.is(grid[r+1][c]) &&
@@ -105,8 +114,8 @@ public class Board
                         
                         test.highlight(true);
                         grid[r+1][c].highlight(true);
-                        grid[r+1][c].highlight(true);
-                        grid[r+1][c].highlight(true);
+                        grid[r+2][c].highlight(true);
+                        grid[r+3][c].highlight(true);
                         
                         player = test.getPlayer();
                     }
@@ -158,6 +167,8 @@ public class Board
 
             }
         }
+        
+        System.out.println("winner is "+player);
         
         return player;
     }
