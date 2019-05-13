@@ -23,4 +23,6 @@ public abstract class Player
     {
         return name;
     }
+    
+    public abstract int getMove();
 }
