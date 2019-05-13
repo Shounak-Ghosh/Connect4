@@ -11,16 +11,17 @@ public class GameDisplay extends Display
     Graphics g;
     private boolean gameIsOver;
     private boolean computerized; // true if the game is against the computer
-                                  // false if it's between 2 ppl    
-
+                                  // false if it's between 2 humans
+    private int lastColumn;
 
     public GameDisplay(Player p1, Player p2)
     {
         this.board = new Board(p1, p2);
         gameIsOver = false;
-        
+
         // change this for digitalplayer
         computerized = (p1 instanceof RandomPlayer || p2 instanceof RandomPlayer);
+        lastColumn = -1;
     }
 
 //    public void activate()
@@ -56,39 +57,55 @@ public class GameDisplay extends Display
 //    }
 
     /**
-     * Handles an entire set of moves in the game
-     * DOCUMENT THIS @GLORIA (ME)
+     * Handles an entire set of moves in the game DOCUMENT THIS @GLORIA (ME)
      */
     public void mouseClicked(MouseEvent e)
     {
         if (!gameIsOver && board.isHumanTurn()) // game is not over, the click represents a move
         {
             int column = getColumn(e.getX());
-            
-            if (makeMove(column) && computerized && !gameIsOver) {
+
+            if (makeMove(column) && computerized && !gameIsOver) // it is the non-human players move
+            {
 //                rest();
-                
+
                 // SLEEP HERE - FIGURE THIS OUT FOR DIGITALPLAYER
-                makeMove((int) (Math.random() * 7));
+                
+                makeMove(randomPlayerMove());
             }
-            
+
         }
         else
         {
             // someone has already won the game, no more moves can be made
-            System.out.println("no more..."); 
+            System.out.println("no more...");
         }
 
     }
     
-    private void rest() {
-        try { 
-            Thread.sleep(500); 
-        } 
-        catch (InterruptedException e1) {}
+    private int randomPlayerMove() 
+    {
+        int move = (int) (Math.random() * 7);
+        while(!board.isValidMove(move)) 
+        {
+            move = (int) (Math.random() * 7);
+        }
+        return move;
     }
-    
-    private boolean makeMove(int column) {
+
+    private void rest()
+    {
+        try
+        {
+            Thread.sleep(500);
+        }
+        catch (InterruptedException e1)
+        {
+        }
+    }
+
+    private boolean makeMove(int column)
+    {
 
         if (board.isValidMove(column))
         {
@@ -102,7 +119,7 @@ public class GameDisplay extends Display
                 System.out.println("WINNER!");
                 gameIsOver = true;
             }
-            
+
             return true;
         }
         return false;
