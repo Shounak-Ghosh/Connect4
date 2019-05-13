@@ -4,16 +4,16 @@ import java.awt.Color;
 
 public class RandomPlayer extends Player
 {
-    public RandomPlayer(String name) 
+    /**
+     * Constructor: Creates a RandomPlayer object
+     * 
+     * @param n The name of the player
+     * @param c The color of the player
+     */
+    public RandomPlayer(String n, Color c)
     {
-        super.name = name;
-        super.color = Color.red;
+        name = n;
+        color = c;
     }
-    
-    public int getMove() 
-    {
-       int move = (int) (Math.random() * 7);
-       System.out.println(move);
-       return move;
-    }
+
 }

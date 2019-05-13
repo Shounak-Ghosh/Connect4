@@ -10,18 +10,11 @@ public class HumanPlayer extends Player
      * 
      * @param n The name of the player
      * @param c The color of the player
-     * @param d The BoardDisplay object used to display/update the board
      */
     public HumanPlayer(String n, Color c)
     {
         name = n;
         color = c;
-
-    }
-    
-    public int getMove()
-    {
-        return 0;
     }
 
 }

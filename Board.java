@@ -62,6 +62,10 @@ public class Board
         else currentPlayer = p1;
     }
     
+    public boolean isHumanTurn() {
+        return currentPlayer instanceof HumanPlayer;
+    }
+    
     /**
      * @param column the tested column
      * @return the topmost empty slot in the given column

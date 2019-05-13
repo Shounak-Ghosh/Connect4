@@ -10,85 +10,102 @@ public class GameDisplay extends Display
 
     Graphics g;
     private boolean gameIsOver;
-    private Player currentPlayer;
-    private Player player1;
-    private Player player2;
+    private boolean computerized; // true if the game is against the computer
+                                  // false if it's between 2 ppl    
 
-    // random/digital player is assumed to be in the p2 position
+
     public GameDisplay(Player p1, Player p2)
     {
         this.board = new Board(p1, p2);
-        currentPlayer = p1;
-        player1 = p1;
-        player2 = p2;
         gameIsOver = false;
+        
+        // change this for digitalplayer
+        computerized = (p1 instanceof RandomPlayer || p2 instanceof RandomPlayer);
     }
 
-    public void play()
-    {
-        System.out.println("Reached play");
-        int move = 0;
-        while (!gameIsOver)
-        {
-            System.out.println("current: " + currentPlayer);
-            if (currentPlayer.equals(player2))
-            {
-                System.out.println("Reached random players turn");
-                move = player2.getMove();
-                System.out.println(move);
-                while(!board.isValidMove(move)) 
-                {
-                    move = player2.getMove();
-                    System.out.println(move);
-                }
-                board.makeMove(move);
-                repaint();
-                currentPlayer = player1;
-            }
-            
-//            try
+//    public void activate()
+//    {
+//        System.out.println("Reached play");
+//        int move = 0;
+//        while (!gameIsOver)
+//        {            
+//            if (!board.isHumanTurn())
 //            {
-//                Thread.sleep(1000);
+//                System.out.println("Reached random players turn");
+//                move = player2.getMove();
+//                System.out.println(move);
+//                while(!board.isValidMove(move)) 
+//                {
+//                    move = player2.getMove();
+//                    System.out.println(move);
+//                }
+//                board.makeMove(move);
+//                repaint();
+//                currentPlayer = player1;
 //            }
-//            catch (InterruptedException e)
-//            {
-//                e.printStackTrace();
-//            }
-        }
-    }
+//            
+////            try
+////            {
+////                Thread.sleep(1000);
+////            }
+////            catch (InterruptedException e)
+////            {
+////                e.printStackTrace();
+////            }
+//        }
+//    }
 
+    /**
+     * Handles an entire set of moves in the game
+     * DOCUMENT THIS @GLORIA (ME)
+     */
     public void mouseClicked(MouseEvent e)
     {
-        if (!gameIsOver)
+        if (!gameIsOver && board.isHumanTurn()) // game is not over, the click represents a move
         {
-            // game is not over, the click represents a move
-
             int column = getColumn(e.getX());
-
-            // if the clicked column can be moved in
-            if (board.isValidMove(column))
-            {
-                board.makeMove(column); // makes the move
-                repaint(); // repaints the window to reflect the move
-
-                // tests for a winner - if there is, ends the game
-                // mouse clicks will have different functions
-                Player winner = board.winner();
-                if (winner != null)
-                {
-                    System.out.println("WINNER!");
-                    gameIsOver = true;
-                }
-                currentPlayer = player2;
-                System.out.println("current: " + currentPlayer);
+            
+            if (makeMove(column) && computerized && !gameIsOver) {
+//                rest();
+                
+                // SLEEP HERE - FIGURE THIS OUT FOR DIGITALPLAYER
+                makeMove((int) (Math.random() * 7));
             }
+            
         }
         else
         {
             // someone has already won the game, no more moves can be made
-            System.out.println("no more...");
+            System.out.println("no more..."); 
         }
 
+    }
+    
+    private void rest() {
+        try { 
+            Thread.sleep(500); 
+        } 
+        catch (InterruptedException e1) {}
+    }
+    
+    private boolean makeMove(int column) {
+
+        if (board.isValidMove(column))
+        {
+            board.makeMove(column);
+            repaint();
+
+            // tests for a winner
+            Player winner = board.winner();
+            if (winner != null)
+            {
+                System.out.println("WINNER!");
+                gameIsOver = true;
+            }
+            
+            return true;
+        }
+        return false;
     }
 
     public void paintComponent(Graphics g)
