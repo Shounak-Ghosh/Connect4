@@ -18,5 +18,10 @@ public class HumanPlayer extends Player
         color = c;
 
     }
+    
+    public int getMove()
+    {
+        return 0;
+    }
 
 }
