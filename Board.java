@@ -1,5 +1,7 @@
 package Connect4;
 
+import java.util.Stack;
+
 /**
  * Represents the game board A game board handles all player actions
  */
@@ -9,7 +11,8 @@ public class Board
     private Player p1;
     private Player p2;
     private Player currentPlayer;
-    private int lastColumn; // the last column that a piece was placed in
+    // private int lastColumn; // the last column that a piece was placed in
+    private Stack<Integer> moves;
 
     /**
      * Creates a new Board
@@ -23,7 +26,8 @@ public class Board
         this.p1 = p1;
         this.p2 = p2;
         currentPlayer = p1;
-        lastColumn = -1;
+        // lastColumn = -1;
+        moves = new Stack<Integer>();
     }
 
     /**
@@ -64,20 +68,23 @@ public class Board
         int row = getTopmostEmptySlot(column);
         grid[row][column] = new Piece(currentPlayer.getColor(), currentPlayer);
         updateCurrentPlayer();
-        lastColumn = column; // resets last column
+        moves.push(column);
+        // lastColumn = column; // resets last column
     }
 
-    
-    public void undo() 
+    // TODO: make a stack (integer) of all the past moves, max size is 42 so its ok
+    // (no overflow)
+    public void undo()
     {
         int index = 0;
-        while (index < grid.length && grid[index][lastColumn] == null) 
+        while (index < grid.length && grid[index][moves.peek()] == null)
         {
             index++;
         }
-        grid[index][lastColumn] = null;
+        grid[index][moves.peek()] = null;
+        moves.pop();
     }
-    
+
     private void updateCurrentPlayer()
     {
         if (currentPlayer == p1)
