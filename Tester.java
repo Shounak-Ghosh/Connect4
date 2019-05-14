@@ -11,6 +11,6 @@ public class Tester
         Player r1 = new RandomPlayer("Random Player", Color.RED);
         
         
-        Display d = new GameDisplay(p1, r1);
+        Display d = new BoardHandler(p1, r1);
     }
 }
