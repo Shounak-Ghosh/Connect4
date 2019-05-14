@@ -61,6 +61,7 @@ public class GameDisplay extends Display
      */
     public void mouseClicked(MouseEvent e)
     {
+        // Human player is yellow, computer is red
         if (!gameIsOver && board.isHumanTurn()) // game is not over, the click represents a move
         {
             int column = getColumn(e.getX());
@@ -71,7 +72,9 @@ public class GameDisplay extends Display
 
                 // SLEEP HERE - FIGURE THIS OUT FOR DIGITALPLAYER
                 
-                makeMove(randomPlayerMove());
+                makeMove(defensivePlayerMove());
+                //makeMove(randomPlayerMove());
+                //board.undo();
             }
 
         }
@@ -83,6 +86,9 @@ public class GameDisplay extends Display
 
     }
     
+    
+   
+    
     private int randomPlayerMove() 
     {
         int move = (int) (Math.random() * 7);
@@ -91,6 +97,24 @@ public class GameDisplay extends Display
             move = (int) (Math.random() * 7);
         }
         return move;
+    }
+    
+    
+    private int defensivePlayerMove() 
+    {
+        for(int i = 0; i < 7; i++) 
+        {
+            if(makeTempMove(i)) 
+            {
+                if(board.winner() != null) 
+                {
+                    board.undo();
+                    return i;
+                }
+                board.undo();
+            }
+        }
+        return randomPlayerMove();
     }
 
     private void rest()
@@ -104,6 +128,18 @@ public class GameDisplay extends Display
         }
     }
 
+    
+    private boolean makeTempMove(int column) 
+    {
+        if(board.isValidMove(column)) 
+        {
+            board.makeTempMove(column);
+            repaint();
+            return true;
+        }
+        return false;
+    }
+    
     private boolean makeMove(int column)
     {
 
