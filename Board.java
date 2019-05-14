@@ -1,5 +1,6 @@
 package Connect4;
 
+import java.awt.Color;
 import java.util.Stack;
 
 /**
@@ -69,11 +70,25 @@ public class Board
         grid[row][column] = new Piece(currentPlayer.getColor(), currentPlayer);
         updateCurrentPlayer();
         moves.push(column);
+        System.out.println("move " + moves);
         // lastColumn = column; // resets last column
+    }
+
+    public void makeTempMove(int column)
+    {
+        int row = getTopmostEmptySlot(column);
+        grid[row][column] = new Piece(Color.YELLOW, currentPlayer);
+        System.out.println(currentPlayer.getColor());
+        moves.push(column);
+        System.out.println("tempMove " + moves);
     }
 
     // TODO: make a stack (integer) of all the past moves, max size is 42 so its ok
     // (no overflow)
+
+    /**
+     * Undos the last move on the board
+     */
     public void undo()
     {
         int index = 0;
@@ -82,10 +97,11 @@ public class Board
             index++;
         }
         grid[index][moves.peek()] = null;
-        if(moves.size() > 0) 
+        if (moves.size() > 0)
         {
             moves.pop();
         }
+        System.out.println("undo " + moves);
     }
 
     private void updateCurrentPlayer()
