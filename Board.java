@@ -82,7 +82,10 @@ public class Board
             index++;
         }
         grid[index][moves.peek()] = null;
-        moves.pop();
+        if(moves.size() > 0) 
+        {
+            moves.pop();
+        }
     }
 
     private void updateCurrentPlayer()
