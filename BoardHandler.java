@@ -62,18 +62,23 @@ public class BoardHandler extends Display
 //    }
 
     /**
-     * Handles an entire set of moves in the game DOCUMENT THIS @GLORIA (ME)
+     * Handles an entire set of moves in the game DOCUMENT THIS 
      */
     public void mouseClicked(MouseEvent e)
     {
         int xCoord = e.getX();
+        int yCoord = e.getY();
         
-//        if (isUndo(e.getX()))
+        if (isUndo(xCoord, yCoord)) {
+            board.undo();
+            repaint();
+            return;
+        }
         
         // Human player is yellow, computer is red
         if (!gameIsOver && board.isHumanTurn()) // game is not over, the click represents a move
         {
-            int column = getColumn(e.getX());
+            int column = getColumn(xCoord);
 
             if (makeMove(column) && computerized && !gameIsOver) // it is the non-human players move
             {
@@ -100,6 +105,10 @@ public class BoardHandler extends Display
             System.out.println("no more...");
         }
 
+    }
+    
+    private boolean isUndo(int xCoord, int yCoord) {
+        return xCoord > 400;
     }
     
    
@@ -207,8 +216,7 @@ public class BoardHandler extends Display
 
     /**
      * Paints the entire screen the grid color first, then paints each empty
-     * "square" icon on. Does this so that it is easy to give the empty slots
-     * rounded corners.
+     * "square" icon on.
      * 
      * @param g
      */
