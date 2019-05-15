@@ -2,6 +2,7 @@ package Connect4;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 
@@ -29,38 +30,6 @@ public class BoardHandler extends Display
         lastColumn = -1;
     }
 
-//    public void activate()
-//    {
-//        System.out.println("Reached play");
-//        int move = 0;
-//        while (!gameIsOver)
-//        {            
-//            if (!board.isHumanTurn())
-//            {
-//                System.out.println("Reached random players turn");
-//                move = player2.getMove();
-//                System.out.println(move);
-//                while(!board.isValidMove(move)) 
-//                {
-//                    move = player2.getMove();
-//                    System.out.println(move);
-//                }
-//                board.makeMove(move);
-//                repaint();
-//                currentPlayer = player1;
-//            }
-//            
-////            try
-////            {
-////                Thread.sleep(1000);
-////            }
-////            catch (InterruptedException e)
-////            {
-////                e.printStackTrace();
-////            }
-//        }
-//    }
-
     /**
      * Handles an entire set of moves in the game DOCUMENT THIS
      */
@@ -69,7 +38,7 @@ public class BoardHandler extends Display
         int xCoord = e.getX();
         int yCoord = e.getY();
 
-        if (isUndo(xCoord, yCoord))
+        if (isUndo(xCoord - insets.left, yCoord - insets.top))
         {
             board.undo();
             repaint();
@@ -103,14 +72,15 @@ public class BoardHandler extends Display
         else
         {
             // someone has already won the game, no more moves can be made
-            System.out.println("no more moves ... game is over");
+            System.out.println("no more...");
         }
 
     }
 
     private boolean isUndo(int xCoord, int yCoord)
     {
-        return xCoord > 400;
+        System.out.println(xCoord + " " + yCoord);
+        return (yCoord >= 400 && yCoord <= 440 && xCoord >= 630 && xCoord <= 715);
     }
 
     private int randomPlayerMove()
@@ -205,9 +175,18 @@ public class BoardHandler extends Display
         g.setColor(board.getPlayer2().getColor());
         g.fillOval(640, 175, 70, 70);
 
-        g.setColor(Color.WHITE);
+        g.setColor(TEXT_COLOR);
+        g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
         g.drawString(p1.name, 630, 30);
         g.drawString(p2.name, 630, 155);
+
+        g.drawRect(630, 400, 85, 40);
+
+        g.drawRect(630, 460, 85, 40);
+
+        g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
+        g.drawString("UNDO", 640, 429);
+        g.drawString("BACK", 643, 489);
 
     }
 
@@ -252,6 +231,7 @@ public class BoardHandler extends Display
         g.setColor(color);
         g.drawRoundRect(c * 75 + (c + 1) * 10, r * 75 + (r + 1) * 10, 75, 75, 45, 45);
         g.drawRoundRect(c * 75 + (c + 1) * 10 + 1, r * 75 + (r + 1) * 10 + 1, 73, 73, 45, 45);
+        g.drawRoundRect(c * 75 + (c + 1) * 10 + 2, r * 75 + (r + 1) * 10 + 2, 71, 71, 45, 45);
     }
 
     /**
