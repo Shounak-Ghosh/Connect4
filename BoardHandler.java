@@ -73,7 +73,7 @@ public class BoardHandler extends Display
         {
             // someone has already won the game, no more moves can be made
             System.out.println("Game has ended.");
-            
+
         }
 
     }
@@ -98,18 +98,30 @@ public class BoardHandler extends Display
     // instead
     private int defensivePlayerMove()
     {
+        board.setCurrentPlayer(p2);
         for (int i = 0; i < 7; i++)
         {
-            if (makeTempMove(i))
+            if (makeTempMove(i, Color.RED)) // computer makes a move
             {
-                if (board.winner() != null)
+                board.setCurrentPlayer(p1); // set player to human player
+                for (int j = 0; j < 7; j++)
                 {
+                    if (makeTempMove(j, Color.YELLOW)) // human makes a move 
+                    {
+                        if (board.winner() != null && board.winner().equals(p1)) // if the human wins on this move
+                        {
+                            board.undo();
+                            board.undo();
+                            board.setCurrentPlayer(p2); // set player to computer
+                            return j; // blocks the move from occurring
+                        }
+                    }
                     board.undo();
-                    return i;
                 }
-                board.undo();
             }
+            board.undo();
         }
+        board.setCurrentPlayer(p2);
         return randomPlayerMove();
     }
 
@@ -121,14 +133,15 @@ public class BoardHandler extends Display
         }
         catch (InterruptedException e1)
         {
+            e1.printStackTrace();
         }
     }
 
-    private boolean makeTempMove(int column)
+    private boolean makeTempMove(int column, Color c)
     {
         if (board.isValidMove(column))
         {
-            board.makeTempMove(column);
+            board.makeTempMove(column, c);
             repaint();
             return true;
         }

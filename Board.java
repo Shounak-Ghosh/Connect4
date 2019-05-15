@@ -58,6 +58,12 @@ public class Board
         return p2;
     }
 
+    
+    public void setCurrentPlayer(Player p) 
+    {
+        currentPlayer = p;
+    }
+    
     /**
      * Moves a piece into the given column as far as it can go.
      * 
@@ -82,17 +88,17 @@ public class Board
         moves.push(column);
     }
 
-    public void makeTempMove(int column)
+    public void makeTempMove(int column, Color c)
     {
         int row = getTopmostEmptySlot(column);
-        grid[row][column] = new Piece(Color.YELLOW, currentPlayer);
+        System.out.println("current player " + currentPlayer);
+        grid[row][column] = new Piece(c, currentPlayer);
         System.out.println(currentPlayer.getColor());
         moves.push(column);
         System.out.println("tempMove " + moves);
     }
 
-    // TODO: make a stack (integer) of all the past moves, max size is 42 so its ok
-    // (no overflow)
+    
 
     /**
      * Undos the last move on the board
