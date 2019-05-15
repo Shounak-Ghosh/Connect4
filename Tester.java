@@ -70,9 +70,9 @@ public class Tester
 //
 //        r1 = new RandomPlayer("Random Player", Color.RED);
 
-        //d = new BoardHandler(new HumanPlayer("p1", Color.YELLOW), new HumanPlayer("p2", Color.RED));
+        d = new BoardHandler(new HumanPlayer("p1", Color.YELLOW), new HumanPlayer("p2", Color.RED));
         d1 = new DefensivePlayer("def. player", Color.RED);
-        d = new BoardHandler(new HumanPlayer("p1", Color.YELLOW), d1);
+        //d = new BoardHandler(new HumanPlayer("p1", Color.YELLOW), d1);
     }
 
 }
