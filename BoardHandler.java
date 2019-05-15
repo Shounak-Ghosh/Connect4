@@ -62,31 +62,40 @@ public class BoardHandler extends Display
 //    }
 
     /**
-     * Handles an entire set of moves in the game DOCUMENT THIS @GLORIA (ME)
+     * Handles an entire set of moves in the game DOCUMENT THIS 
      */
     public void mouseClicked(MouseEvent e)
     {
+        int xCoord = e.getX();
+        int yCoord = e.getY();
+        
+        if (isUndo(xCoord, yCoord)) {
+            board.undo();
+            repaint();
+            return;
+        }
+        
         // Human player is yellow, computer is red
         if (!gameIsOver && board.isHumanTurn()) // game is not over, the click represents a move
         {
-            int column = getColumn(e.getX());
+            int column = getColumn(xCoord);
 
             if (makeMove(column) && computerized && !gameIsOver) // it is the non-human players move
             {
 //                rest();
 
                 // SLEEP HERE - FIGURE THIS OUT FOR DIGITALPLAYER
-
-                if (p2 instanceof RandomPlayer)
+                
+                if(p2 instanceof RandomPlayer) 
                 {
                     makeMove(randomPlayerMove());
                 }
-                else if (p2 instanceof DefensivePlayer)
+                else if(p2 instanceof DefensivePlayer) 
                 {
                     makeMove(defensivePlayerMove());
                 }
-                // makeMove(randomPlayerMove());
-                // board.undo();
+                //makeMove(randomPlayerMove());
+                //board.undo();
             }
 
         }
@@ -97,51 +106,37 @@ public class BoardHandler extends Display
         }
 
     }
-
-    private int randomPlayerMove()
+    
+    private boolean isUndo(int xCoord, int yCoord) {
+        return xCoord > 400;
+    }
+    
+   
+    
+    private int randomPlayerMove() 
     {
         int move = (int) (Math.random() * 7);
-        while (!board.isValidMove(move))
+        while(!board.isValidMove(move)) 
         {
             move = (int) (Math.random() * 7);
         }
         return move;
     }
-
-    // TODO: make a twoInARow method in board (similar to winner) and use that
-    // instead
-    private int defensivePlayerMove()
+    
+    
+    // TODO: make a twoInARow method in board (similar to winner) and use that instead
+    private int defensivePlayerMove() 
     {
-        System.out.println("Reached def player Move");
-        for (int i = 0; i < 7; i++)
+        for(int i = 0; i < 7; i++) 
         {
-            if (makeTempMove(i, Color.RED)) // computer's move
+            if(makeTempMove(i)) 
             {
-                for (int k = 0; k < 7; k++)
+                if(board.winner() != null) 
                 {
-                    if (makeTempMove(k, Color.YELLOW)) // human's move
-                    {
-                        repaint();
-                        try 
-                        {
-                            Thread.sleep(10);
-                        }
-                        catch (InterruptedException e) 
-                        {
-                            e.printStackTrace();
-                        }
-                        
-                        if (board.winner() != null && board.winner().equals(p1))
-                        {
-                            System.out.println("REACHED CORRECT MOVE TO RETURN");
-                            board.undo(); // undo's the human's move
-                            board.undo(); // undo's the computer's move
-                            return i;
-                        }
-                        board.undo(); // undo's the human's move
-                    }
+                    board.undo();
+                    return i;
                 }
-                board.undo(); // undo's the computers move
+                board.undo();
             }
         }
         return randomPlayerMove();
@@ -158,18 +153,18 @@ public class BoardHandler extends Display
         }
     }
 
-    private boolean makeTempMove(int column, Color c)
+    
+    private boolean makeTempMove(int column) 
     {
-        if (board.isValidMove(column))
+        if(board.isValidMove(column)) 
         {
-            board.makeTempMove(column, c); // computer is red
-
+            board.makeTempMove(column);
             repaint();
             return true;
         }
         return false;
     }
-
+    
     private boolean makeMove(int column)
     {
 
@@ -199,6 +194,8 @@ public class BoardHandler extends Display
         paintPieces(g);
         paintSidebar(g);
     }
+    
+    
 
     // TODO: WRITE THIS
     // SHOULD HAVE: THE TWO PLAYERS - THEIR COLORS & NAMES. THE ONE WHOSE TURN IT IS
@@ -219,8 +216,7 @@ public class BoardHandler extends Display
 
     /**
      * Paints the entire screen the grid color first, then paints each empty
-     * "square" icon on. Does this so that it is easy to give the empty slots
-     * rounded corners.
+     * "square" icon on.
      * 
      * @param g
      */
@@ -254,6 +250,14 @@ public class BoardHandler extends Display
         g.fillRoundRect(c * 75 + (c + 1) * 10, r * 75 + (r + 1) * 10, 75, 75, 45, 45);
     }
 
+    private void highlight(Graphics g, int c, int r, Color color) {
+        g.setColor(color);
+        g.drawRoundRect(c * 75 + (c + 1) * 10, r * 75 + (r + 1) * 10, 
+                75, 75, 45, 45);
+        g.drawRoundRect(c * 75 + (c + 1) * 10 + 1, r * 75 + (r + 1) * 10 + 1, 
+                73, 73, 45, 45);
+    }
+    
     /**
      * Goes through board.getPieces, and where there is a piece, use g to draw a
      * circle with the piece's color.
@@ -271,6 +275,9 @@ public class BoardHandler extends Display
                 if (piece[r][c] != null)
                 {
                     paintSlot(g, c, r, piece[r][c].getColor());
+                    if (piece[r][c].isHighlighted()) {
+                        highlight(g, c, r, HIGHLIGHT_COLOR);
+                    }
                 }
             }
         }

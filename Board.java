@@ -69,16 +69,24 @@ public class Board
         int row = getTopmostEmptySlot(column);
         grid[row][column] = new Piece(currentPlayer.getColor(), currentPlayer);
         updateCurrentPlayer();
-        moves.push(column);
-        System.out.println("move " + moves);
+
         // lastColumn = column; // resets last column
+        if (!moves.isEmpty())
+        {
+            int unhighlightRow = getTopmostEmptySlot(moves.peek()) + 1;
+            if (moves.peek() == column)
+                unhighlightRow++;
+
+            grid[unhighlightRow][moves.peek()].highlight(false);
+        }
+        moves.push(column);
     }
 
-    public void makeTempMove(int column, Color c)
+    public void makeTempMove(int column)
     {
         int row = getTopmostEmptySlot(column);
-        grid[row][column] = new Piece(c, currentPlayer);
-        //System.out.println(currentPlayer.getColor());
+        grid[row][column] = new Piece(Color.YELLOW, currentPlayer);
+        System.out.println(currentPlayer.getColor());
         moves.push(column);
         System.out.println("tempMove " + moves);
     }
@@ -91,17 +99,13 @@ public class Board
      */
     public void undo()
     {
-        int index = 0;
-        while (index < grid.length && grid[index][moves.peek()] == null)
-        {
-            index++;
-        }
-        grid[index][moves.peek()] = null;
-        if (moves.size() > 0)
-        {
-            moves.pop();
-        }
-        System.out.println("undo " + moves);
+        if (moves.isEmpty())
+            return;
+
+        int index = getTopmostEmptySlot(moves.peek()) + 1;
+        grid[index][moves.pop()] = null;
+
+        updateCurrentPlayer();
     }
 
     private void updateCurrentPlayer()
@@ -132,8 +136,7 @@ public class Board
     }
 
     /**
-     * REWRITE THIS - IT'S WRITTEN SO BADLY oml horizontal & vertical testing done,
-     * TODO: diagonal...
+     * REWRITE THIS - IT'S WRITTEN SO BADLY oml
      * 
      * @return if the winning player on the current board setup. if there is no
      *         winner, returns null.
@@ -142,8 +145,8 @@ public class Board
     {
 
         Player player = null;
-        
-        if(moves.size() >= 41) 
+
+        if (moves.size() >= 41)
         {
             System.out.println("DRAW");
             return null;
