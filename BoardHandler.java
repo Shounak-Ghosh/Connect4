@@ -38,7 +38,7 @@ public class BoardHandler extends Display
         int xCoord = e.getX();
         int yCoord = e.getY();
         
-        if (isUndo(xCoord, yCoord)) {
+        if (isUndo(xCoord - insets.left, yCoord - insets.top)) {
             board.undo();
             repaint();
             return;
@@ -47,7 +47,7 @@ public class BoardHandler extends Display
         // Human player is yellow, computer is red
         if (!gameIsOver && board.isHumanTurn()) // game is not over, the click represents a move
         {
-            int column = getColumn(xCoord);
+            int column = getColumn(xCoord - insets.left);
 
             if (makeMove(column) && computerized && !gameIsOver) // it is the non-human players move
             {
