@@ -24,7 +24,8 @@ public class BoardHandler extends Display
         this.p2 = p2;
 
         // change this for digitalplayer
-        computerized = (p1 instanceof RandomPlayer || p2 instanceof RandomPlayer);
+        // note: p2 will always be the computer bc we give human first turn
+        computerized = (p2 instanceof RandomPlayer || p2 instanceof DefensivePlayer);
         lastColumn = -1;
     }
 
@@ -76,8 +77,14 @@ public class BoardHandler extends Display
 
                 // SLEEP HERE - FIGURE THIS OUT FOR DIGITALPLAYER
                 
-                makeMove(defensivePlayerMove());
-                //TODO: add functionality that switches to the correct players move depending on the instance of the Player
+                if(p2 instanceof RandomPlayer) 
+                {
+                    makeMove(randomPlayerMove());
+                }
+                else if(p2 instanceof DefensivePlayer) 
+                {
+                    makeMove(defensivePlayerMove());
+                }
                 //makeMove(randomPlayerMove());
                 //board.undo();
             }
