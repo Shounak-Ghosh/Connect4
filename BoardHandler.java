@@ -13,11 +13,15 @@ public class BoardHandler extends Display
     private boolean computerized; // true if the game is against the computer
                                   // false if it's between 2 humans
     private int lastColumn;
+    Player p1;
+    Player p2;
 
     public BoardHandler(Player p1, Player p2)
     {
         this.board = new Board(p1, p2);
         gameIsOver = false;
+        this.p1 = p1;
+        this.p2 = p2;
 
         // change this for digitalplayer
         computerized = (p1 instanceof RandomPlayer || p2 instanceof RandomPlayer);
@@ -73,6 +77,7 @@ public class BoardHandler extends Display
                 // SLEEP HERE - FIGURE THIS OUT FOR DIGITALPLAYER
                 
                 makeMove(defensivePlayerMove());
+                //TODO: add functionality that switches to the correct players move depending on the instance of the Player
                 //makeMove(randomPlayerMove());
                 //board.undo();
             }
@@ -100,6 +105,7 @@ public class BoardHandler extends Display
     }
     
     
+    // TODO: make a twoInARow method in board (similar to winner) and use that instead
     private int defensivePlayerMove() 
     {
         for(int i = 0; i < 7; i++) 
@@ -181,7 +187,9 @@ public class BoardHandler extends Display
         g.setColor(board.getPlayer2().getColor());
         g.fillOval(640, 175, 70, 70);
 
-        g.setColor(Color.BLACK);
+        g.setColor(Color.WHITE);
+        g.drawString(p1.name, 630, 30);
+        g.drawString(p2.name, 630, 155);
 
     }
 

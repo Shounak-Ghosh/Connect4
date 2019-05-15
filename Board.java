@@ -142,6 +142,12 @@ public class Board
     {
 
         Player player = null;
+        
+        if(moves.size() >= 41) 
+        {
+            System.out.println("DRAW");
+            return null;
+        }
 
         // testing horizontal
         for (int r = 0; r < grid.length; r++)

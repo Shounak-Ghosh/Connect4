@@ -9,12 +9,19 @@ public abstract class Player
 {
     protected Color color;
     protected String name;
-    
-    public Color getColor() {
+
+    public Color getColor()
+    {
         return color;
     }
+
     
-    public String toString() 
+    public void setName(String name) 
+    {
+        this.name = name;
+    }
+    
+    public String toString()
     {
         return name;
     }
