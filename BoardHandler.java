@@ -103,7 +103,7 @@ public class BoardHandler extends Display
         else
         {
             // someone has already won the game, no more moves can be made
-            System.out.println("no more...");
+            System.out.println("no more moves ... game is over");
         }
 
     }
