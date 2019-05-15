@@ -69,9 +69,13 @@ public class Board
         int row = getTopmostEmptySlot(column);
         grid[row][column] = new Piece(currentPlayer.getColor(), currentPlayer);
         updateCurrentPlayer();
-        moves.push(column);
+        
         System.out.println("move " + moves);
         // lastColumn = column; // resets last column
+        if (!moves.isEmpty()) {
+            grid[getTopmostEmptySlot(moves.peek())+1][moves.peek()].highlight(false);
+        }
+        moves.push(column);
     }
 
     public void makeTempMove(int column)
@@ -132,8 +136,7 @@ public class Board
     }
 
     /**
-     * REWRITE THIS - IT'S WRITTEN SO BADLY oml horizontal & vertical testing done,
-     * TODO: diagonal...
+     * REWRITE THIS - IT'S WRITTEN SO BADLY oml
      * 
      * @return if the winning player on the current board setup. if there is no
      *         winner, returns null.

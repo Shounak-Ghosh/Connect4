@@ -66,6 +66,10 @@ public class BoardHandler extends Display
      */
     public void mouseClicked(MouseEvent e)
     {
+        int xCoord = e.getX();
+        
+//        if (isUndo(e.getX()))
+        
         // Human player is yellow, computer is red
         if (!gameIsOver && board.isHumanTurn()) // game is not over, the click represents a move
         {
@@ -97,7 +101,6 @@ public class BoardHandler extends Display
         }
 
     }
-    
     
    
     
@@ -182,6 +185,8 @@ public class BoardHandler extends Display
         paintPieces(g);
         paintSidebar(g);
     }
+    
+    
 
     // TODO: WRITE THIS
     // SHOULD HAVE: THE TWO PLAYERS - THEIR COLORS & NAMES. THE ONE WHOSE TURN IT IS
@@ -237,6 +242,14 @@ public class BoardHandler extends Display
         g.fillRoundRect(c * 75 + (c + 1) * 10, r * 75 + (r + 1) * 10, 75, 75, 45, 45);
     }
 
+    private void highlight(Graphics g, int c, int r, Color color) {
+        g.setColor(color);
+        g.drawRoundRect(c * 75 + (c + 1) * 10, r * 75 + (r + 1) * 10, 
+                75, 75, 45, 45);
+        g.drawRoundRect(c * 75 + (c + 1) * 10 + 1, r * 75 + (r + 1) * 10 + 1, 
+                73, 73, 45, 45);
+    }
+    
     /**
      * Goes through board.getPieces, and where there is a piece, use g to draw a
      * circle with the piece's color.
@@ -254,6 +267,9 @@ public class BoardHandler extends Display
                 if (piece[r][c] != null)
                 {
                     paintSlot(g, c, r, piece[r][c].getColor());
+                    if (piece[r][c].isHighlighted()) {
+                        highlight(g, c, r, HIGHLIGHT_COLOR);
+                    }
                 }
             }
         }

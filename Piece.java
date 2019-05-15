@@ -50,7 +50,7 @@ public class Piece
         highlighted = isHighlighted;
     }
     
-    public boolean isHighglighted() {
+    public boolean isHighlighted() {
         return highlighted;
     }
 }
