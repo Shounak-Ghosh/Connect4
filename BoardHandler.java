@@ -79,7 +79,7 @@ public class BoardHandler extends Display
         // Human player is yellow, computer is red
         if (!gameIsOver && board.isHumanTurn()) // game is not over, the click represents a move
         {
-            int column = getColumn(xCoord);
+            int column = getColumn(xCoord - insets.left);
 
             if (makeMove(column) && computerized && !gameIsOver) // it is the non-human players move
             {
