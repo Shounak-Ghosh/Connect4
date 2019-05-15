@@ -2,7 +2,6 @@ package Connect4;
 
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 
@@ -30,20 +29,53 @@ public class BoardHandler extends Display
         lastColumn = -1;
     }
 
+//    public void activate()
+//    {
+//        System.out.println("Reached play");
+//        int move = 0;
+//        while (!gameIsOver)
+//        {            
+//            if (!board.isHumanTurn())
+//            {
+//                System.out.println("Reached random players turn");
+//                move = player2.getMove();
+//                System.out.println(move);
+//                while(!board.isValidMove(move)) 
+//                {
+//                    move = player2.getMove();
+//                    System.out.println(move);
+//                }
+//                board.makeMove(move);
+//                repaint();
+//                currentPlayer = player1;
+//            }
+//            
+////            try
+////            {
+////                Thread.sleep(1000);
+////            }
+////            catch (InterruptedException e)
+////            {
+////                e.printStackTrace();
+////            }
+//        }
+//    }
+
     /**
-     * Handles an entire set of moves in the game DOCUMENT THIS 
+     * Handles an entire set of moves in the game DOCUMENT THIS
      */
     public void mouseClicked(MouseEvent e)
     {
         int xCoord = e.getX();
         int yCoord = e.getY();
-        
-        if (isUndo(xCoord, yCoord)) {
+
+        if (isUndo(xCoord, yCoord))
+        {
             board.undo();
             repaint();
             return;
         }
-        
+
         // Human player is yellow, computer is red
         if (!gameIsOver && board.isHumanTurn()) // game is not over, the click represents a move
         {
@@ -54,54 +86,52 @@ public class BoardHandler extends Display
 //                rest();
 
                 // SLEEP HERE - FIGURE THIS OUT FOR DIGITALPLAYER
-                
-                if(p2 instanceof RandomPlayer) 
+
+                if (p2 instanceof RandomPlayer)
                 {
                     makeMove(randomPlayerMove());
                 }
-                else if(p2 instanceof DefensivePlayer) 
+                else if (p2 instanceof DefensivePlayer)
                 {
                     makeMove(defensivePlayerMove());
                 }
-                //makeMove(randomPlayerMove());
-                //board.undo();
+                // makeMove(randomPlayerMove());
+                // board.undo();
             }
 
         }
         else
         {
             // someone has already won the game, no more moves can be made
-            System.out.println("no more...");
+            System.out.println("no more moves ... game is over");
         }
 
     }
-    
-    private boolean isUndo(int xCoord, int yCoord) {
-        System.out.println(xCoord+" "+yCoord);
-        return (yCoord>=400 && yCoord<=440 && xCoord>=630 && xCoord<=715);
+
+    private boolean isUndo(int xCoord, int yCoord)
+    {
+        return xCoord > 400;
     }
-    
-   
-    
-    private int randomPlayerMove() 
+
+    private int randomPlayerMove()
     {
         int move = (int) (Math.random() * 7);
-        while(!board.isValidMove(move)) 
+        while (!board.isValidMove(move))
         {
             move = (int) (Math.random() * 7);
         }
         return move;
     }
-    
-    
-    // TODO: make a twoInARow method in board (similar to winner) and use that instead
-    private int defensivePlayerMove() 
+
+    // TODO: make a twoInARow method in board (similar to winner) and use that
+    // instead
+    private int defensivePlayerMove()
     {
-        for(int i = 0; i < 7; i++) 
+        for (int i = 0; i < 7; i++)
         {
-            if(makeTempMove(i)) 
+            if (makeTempMove(i))
             {
-                if(board.winner() != null) 
+                if (board.winner() != null)
                 {
                     board.undo();
                     return i;
@@ -123,10 +153,9 @@ public class BoardHandler extends Display
         }
     }
 
-    
-    private boolean makeTempMove(int column) 
+    private boolean makeTempMove(int column)
     {
-        if(board.isValidMove(column)) 
+        if (board.isValidMove(column))
         {
             board.makeTempMove(column);
             repaint();
@@ -134,7 +163,7 @@ public class BoardHandler extends Display
         }
         return false;
     }
-    
+
     private boolean makeMove(int column)
     {
 
@@ -164,8 +193,6 @@ public class BoardHandler extends Display
         paintPieces(g);
         paintSidebar(g);
     }
-    
-    
 
     // TODO: WRITE THIS
     // SHOULD HAVE: THE TWO PLAYERS - THEIR COLORS & NAMES. THE ONE WHOSE TURN IT IS
@@ -178,18 +205,9 @@ public class BoardHandler extends Display
         g.setColor(board.getPlayer2().getColor());
         g.fillOval(640, 175, 70, 70);
 
-        g.setColor(TEXT_COLOR);
-        g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
+        g.setColor(Color.WHITE);
         g.drawString(p1.name, 630, 30);
         g.drawString(p2.name, 630, 155);
-        
-        g.drawRect(630, 400, 85, 40);
-        
-        g.drawRect(630, 460, 85, 40);
-        
-        g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
-        g.drawString("UNDO", 640, 429);
-        g.drawString("BACK", 643, 489);
 
     }
 
@@ -229,16 +247,13 @@ public class BoardHandler extends Display
         g.fillRoundRect(c * 75 + (c + 1) * 10, r * 75 + (r + 1) * 10, 75, 75, 45, 45);
     }
 
-    private void highlight(Graphics g, int c, int r, Color color) {
+    private void highlight(Graphics g, int c, int r, Color color)
+    {
         g.setColor(color);
-        g.drawRoundRect(c * 75 + (c + 1) * 10, r * 75 + (r + 1) * 10, 
-                75, 75, 45, 45);
-        g.drawRoundRect(c * 75 + (c + 1) * 10 + 1, r * 75 + (r + 1) * 10 + 1, 
-                73, 73, 45, 45);
-        g.drawRoundRect(c * 75 + (c + 1) * 10 + 2, r * 75 + (r + 1) * 10 + 2, 
-                71, 71, 45, 45);
+        g.drawRoundRect(c * 75 + (c + 1) * 10, r * 75 + (r + 1) * 10, 75, 75, 45, 45);
+        g.drawRoundRect(c * 75 + (c + 1) * 10 + 1, r * 75 + (r + 1) * 10 + 1, 73, 73, 45, 45);
     }
-    
+
     /**
      * Goes through board.getPieces, and where there is a piece, use g to draw a
      * circle with the piece's color.
@@ -256,7 +271,8 @@ public class BoardHandler extends Display
                 if (piece[r][c] != null)
                 {
                     paintSlot(g, c, r, piece[r][c].getColor());
-                    if (piece[r][c].isHighlighted()) {
+                    if (piece[r][c].isHighlighted())
+                    {
                         highlight(g, c, r, HIGHLIGHT_COLOR);
                     }
                 }
