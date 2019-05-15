@@ -69,12 +69,14 @@ public class Board
         int row = getTopmostEmptySlot(column);
         grid[row][column] = new Piece(currentPlayer.getColor(), currentPlayer);
         updateCurrentPlayer();
-        
+
         // lastColumn = column; // resets last column
-        if (!moves.isEmpty()) {
+        if (!moves.isEmpty())
+        {
             int unhighlightRow = getTopmostEmptySlot(moves.peek()) + 1;
-            if (moves.peek() == column) unhighlightRow++;
-            
+            if (moves.peek() == column)
+                unhighlightRow++;
+
             grid[unhighlightRow][moves.peek()].highlight(false);
         }
         moves.push(column);
@@ -97,11 +99,12 @@ public class Board
      */
     public void undo()
     {
-        if (moves.isEmpty()) return;
-        
+        if (moves.isEmpty())
+            return;
+
         int index = getTopmostEmptySlot(moves.peek()) + 1;
         grid[index][moves.pop()] = null;
-        
+
         updateCurrentPlayer();
     }
 
@@ -142,8 +145,8 @@ public class Board
     {
 
         Player player = null;
-        
-        if(moves.size() >= 41) 
+
+        if (moves.size() >= 41)
         {
             System.out.println("DRAW");
             return null;
