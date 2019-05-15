@@ -76,17 +76,17 @@ public class BoardHandler extends Display
 //                rest();
 
                 // SLEEP HERE - FIGURE THIS OUT FOR DIGITALPLAYER
-                
-                if(p2 instanceof RandomPlayer) 
+
+                if (p2 instanceof RandomPlayer)
                 {
                     makeMove(randomPlayerMove());
                 }
-                else if(p2 instanceof DefensivePlayer) 
+                else if (p2 instanceof DefensivePlayer)
                 {
                     makeMove(defensivePlayerMove());
                 }
-                //makeMove(randomPlayerMove());
-                //board.undo();
+                // makeMove(randomPlayerMove());
+                // board.undo();
             }
 
         }
@@ -97,34 +97,51 @@ public class BoardHandler extends Display
         }
 
     }
-    
-    
-   
-    
-    private int randomPlayerMove() 
+
+    private int randomPlayerMove()
     {
         int move = (int) (Math.random() * 7);
-        while(!board.isValidMove(move)) 
+        while (!board.isValidMove(move))
         {
             move = (int) (Math.random() * 7);
         }
         return move;
     }
-    
-    
-    // TODO: make a twoInARow method in board (similar to winner) and use that instead
-    private int defensivePlayerMove() 
+
+    // TODO: make a twoInARow method in board (similar to winner) and use that
+    // instead
+    private int defensivePlayerMove()
     {
-        for(int i = 0; i < 7; i++) 
+        System.out.println("Reached def player Move");
+        for (int i = 0; i < 7; i++)
         {
-            if(makeTempMove(i)) 
+            if (makeTempMove(i, Color.RED)) // computer's move
             {
-                if(board.winner() != null) 
+                for (int k = 0; k < 7; k++)
                 {
-                    board.undo();
-                    return i;
+                    if (makeTempMove(k, Color.YELLOW)) // human's move
+                    {
+                        repaint();
+                        try 
+                        {
+                            Thread.sleep(10);
+                        }
+                        catch (InterruptedException e) 
+                        {
+                            e.printStackTrace();
+                        }
+                        
+                        if (board.winner() != null && board.winner().equals(p1))
+                        {
+                            System.out.println("REACHED CORRECT MOVE TO RETURN");
+                            board.undo(); // undo's the human's move
+                            board.undo(); // undo's the computer's move
+                            return i;
+                        }
+                        board.undo(); // undo's the human's move
+                    }
                 }
-                board.undo();
+                board.undo(); // undo's the computers move
             }
         }
         return randomPlayerMove();
@@ -141,18 +158,18 @@ public class BoardHandler extends Display
         }
     }
 
-    
-    private boolean makeTempMove(int column) 
+    private boolean makeTempMove(int column, Color c)
     {
-        if(board.isValidMove(column)) 
+        if (board.isValidMove(column))
         {
-            board.makeTempMove(column);
+            board.makeTempMove(column, c); // computer is red
+
             repaint();
             return true;
         }
         return false;
     }
-    
+
     private boolean makeMove(int column)
     {
 

@@ -74,11 +74,11 @@ public class Board
         // lastColumn = column; // resets last column
     }
 
-    public void makeTempMove(int column)
+    public void makeTempMove(int column, Color c)
     {
         int row = getTopmostEmptySlot(column);
-        grid[row][column] = new Piece(Color.YELLOW, currentPlayer);
-        System.out.println(currentPlayer.getColor());
+        grid[row][column] = new Piece(c, currentPlayer);
+        //System.out.println(currentPlayer.getColor());
         moves.push(column);
         System.out.println("tempMove " + moves);
     }
