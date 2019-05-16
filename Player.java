@@ -13,8 +13,21 @@ public abstract class Player
     public Color getColor()
     {
         return color;
+        
     }
 
+    public String printColor() 
+    {
+        if(Color.RED == color) 
+        {
+            return "Red";
+        }
+        else if (Color.YELLOW == color) 
+        {
+            return "Yellow";
+        }
+        return color.toString();
+    }
     
     public void setName(String name) 
     {

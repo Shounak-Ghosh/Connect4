@@ -72,7 +72,7 @@ public class Tester
 
         //3d = new BoardHandler(new HumanPlayer("p1", Color.YELLOW), new HumanPlayer("p2", Color.RED));
         d1 = new DefensivePlayer("def. player", Color.RED);
-        d = new BoardHandler(new HumanPlayer("p1", Color.YELLOW), d1);
+        d = new BoardHandler(new HumanPlayer("human player", Color.YELLOW), d1);
     }
 
 }

@@ -98,18 +98,23 @@ public class BoardHandler extends Display
     // instead
     private int defensivePlayerMove()
     {
-        board.setCurrentPlayer(p2);
+        System.out.println("----------------------------------");
+        
         for (int i = 0; i < 7; i++)
         {
+            board.setCurrentPlayer(p2);
             if (makeTempMove(i, Color.RED)) // computer makes a move
             {
-                board.setCurrentPlayer(p1); // set player to human player
+                
                 for (int j = 0; j < 7; j++)
                 {
-                    if (makeTempMove(j, Color.YELLOW)) // human makes a move 
+                    board.setCurrentPlayer(p1); // set player to human player
+                    if (makeTempMove(j, Color.YELLOW)) // human makes a move
                     {
+                        
                         if (board.winner() != null && board.winner().equals(p1)) // if the human wins on this move
                         {
+                            System.out.println("MOVE TO BLOCK");
                             board.undo();
                             board.undo();
                             board.setCurrentPlayer(p2); // set player to computer
@@ -121,6 +126,7 @@ public class BoardHandler extends Display
             }
             board.undo();
         }
+
         board.setCurrentPlayer(p2);
         return randomPlayerMove();
     }

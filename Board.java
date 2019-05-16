@@ -93,7 +93,8 @@ public class Board
         int row = getTopmostEmptySlot(column);
         System.out.println("current player " + currentPlayer);
         grid[row][column] = new Piece(c, currentPlayer);
-        System.out.println(currentPlayer.getColor());
+        
+        System.out.println(currentPlayer.printColor());
         moves.push(column);
         System.out.println("tempMove " + moves);
     }
