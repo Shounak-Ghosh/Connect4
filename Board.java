@@ -126,7 +126,21 @@ public class Board
     {
         return currentPlayer instanceof HumanPlayer;
     }
-
+    
+    public void restart() 
+    {
+        moves = new Stack<Integer>();
+        for (int i = 0; i < grid.length; i++) 
+        {
+            for (int j = 0; j < grid[i].length; j++) 
+            {
+                grid[i][j] = null;
+            }
+        }
+        
+        
+        
+    }
     /**
      * @param column the tested column
      * @return the topmost empty slot in the given column
@@ -141,7 +155,6 @@ public class Board
         }
         return count;
     }
-
     /**
      * REWRITE THIS - IT'S WRITTEN SO BADLY oml
      * 
