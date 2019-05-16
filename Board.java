@@ -134,7 +134,7 @@ public class Board
      */
     private int getTopmostEmptySlot(int column)
     {
-        int count = 0;
+        int count = -1;
         while (count + 1 < grid.length && grid[count + 1][column] == null)
         {
             count++;
