@@ -5,6 +5,13 @@ import java.awt.Container;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class BoardHandler extends Display
 {
@@ -16,6 +23,7 @@ public class BoardHandler extends Display
     private int lastColumn;
     Player p1;
     Player p2;
+    private Clip dropNoise;
 
     public BoardHandler(Player p1, Player p2)
     {
@@ -28,6 +36,28 @@ public class BoardHandler extends Display
         // note: p2 will always be the computer bc we give human first turn
         computerized = (p2 instanceof RandomPlayer || p2 instanceof DefensivePlayer);
         lastColumn = -1;
+        
+        
+        try
+        {
+            dropNoise = AudioSystem.getClip();
+            dropNoise.open(AudioSystem.getAudioInputStream(new File("drop.wav")));
+        }
+        catch (LineUnavailableException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        catch (UnsupportedAudioFileException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -66,6 +96,7 @@ public class BoardHandler extends Display
                 }
                 // makeMove(randomPlayerMove());
                 // board.undo();
+                
             }
 
         }
@@ -73,7 +104,10 @@ public class BoardHandler extends Display
         {
             // someone has already won the game, no more moves can be made
             System.out.println("Game has ended.");
-
+            board.restart();
+            gameIsOver = false;
+            board.setCurrentPlayer(p1);
+            repaint();
         }
 
     }
@@ -169,7 +203,27 @@ public class BoardHandler extends Display
                 System.out.println("WINNER!");
                 gameIsOver = true;
             }
-
+            dropNoise.start();
+            try
+            {
+                dropNoise = AudioSystem.getClip();
+                dropNoise.open(AudioSystem.getAudioInputStream(new File("drop.wav")));
+            }
+            catch (LineUnavailableException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            catch (IOException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            catch (UnsupportedAudioFileException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             return true;
         }
         return false;
@@ -207,6 +261,7 @@ public class BoardHandler extends Display
         g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
         g.drawString("UNDO", 640, 429);
         g.drawString("BACK", 643, 489);
+        // TODO: add restart "button"
 
     }
 
@@ -252,6 +307,8 @@ public class BoardHandler extends Display
         g.drawRoundRect(c * 75 + (c + 1) * 10, r * 75 + (r + 1) * 10, 75, 75, 45, 45);
         g.drawRoundRect(c * 75 + (c + 1) * 10 + 1, r * 75 + (r + 1) * 10 + 1, 73, 73, 45, 45);
         g.drawRoundRect(c * 75 + (c + 1) * 10 + 2, r * 75 + (r + 1) * 10 + 2, 71, 71, 45, 45);
+        g.drawRoundRect(c * 75 + (c + 1) * 10 + 3, r * 75 + (r + 1) * 10 + 3, 71, 71, 45, 45);
+        
     }
 
     /**
