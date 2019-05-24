@@ -35,8 +35,9 @@ public class Board
      * @param column the tested column
      * @return if the column has at least 1 empty slot
      */
-    public boolean isValidMove(int column)
+    public boolean isValidMove(int column) 
     {
+    
         return (column >= 0 && grid[0][column] == null);
     }
 
@@ -73,7 +74,20 @@ public class Board
     public void makeMove(int column)
     {
         int row = getTopmostEmptySlot(column);
-        grid[row][column] = new Piece(currentPlayer.getColor(), currentPlayer);
+        Piece p = new Piece(currentPlayer.getColor(), currentPlayer);
+        grid[0][column] = p;
+        try
+        {
+            Thread.sleep(1000); // should be at 300
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+        grid[0][column] = null;
+        grid[row][column] = p;
+        
+        
         updateCurrentPlayer();
 
         // lastColumn = column; // resets last column
