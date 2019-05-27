@@ -70,7 +70,8 @@ public class Tester
 //
 //        r1 = new RandomPlayer("Random Player", Color.RED);
 
-        d = new BoardHandler(new HumanPlayer("p1",Color.RED), 
-                             new HumanPlayer("p2",Color.YELLOW));
+//        d = new BoardHandler(new HumanPlayer("p1",Color.RED), 
+//                             new HumanPlayer("p2",Color.YELLOW));
+            MenuHandler m = new MenuHandler();
     }
 }

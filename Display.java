@@ -3,16 +3,24 @@ package Connect4;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public abstract class Display extends JComponent implements MouseListener
 {
     protected Board board;
 
-    protected JFrame frame;
+    protected static JFrame frame = new JFrame();
 
     protected final Color BACKGROUND_COLOR = new Color(192, 192, 192);
     protected final Color GRID_COLOR = Color.BLUE;
@@ -21,11 +29,34 @@ public abstract class Display extends JComponent implements MouseListener
 
     // insets of the frame (platform-dependent)
     protected Insets insets;
+    
+    protected ArrayList<Game> games;
+    
+    protected static Display mainMenu;
 
     public Display()
     {
-        frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        WindowListener exitListener = new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                storeGames();
+            }
+        };
+        frame.addWindowListener(exitListener);
+    }
+    
+    private void storeGames() {
+        String workingDir = System.getProperty("user.dir");
+
+        Path filePath = Paths.get(workingDir+File.separator+"sampleFile.txt");
+    }
+    
+    protected void removeSelf() {
+        frame.getContentPane().remove(this);
+    }
+    
+    protected void displaySelf() {
         frame.getContentPane().add(this); // very important line of code reee
 
         frame.setResizable(false);
