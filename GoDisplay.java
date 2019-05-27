@@ -13,7 +13,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-public class BoardHandler extends Display
+public class GoDisplay extends Display
 {
 
     Graphics g;
@@ -24,12 +24,8 @@ public class BoardHandler extends Display
     Player p1;
     Player p2;
     
-    protected Board board;
 
-
-    private Clip dropNoise;
-
-    public BoardHandler(Player p1, Player p2)
+    public GoDisplay(Player p1, Player p2)
     {
         this.board = new Board(p1, p2);
         gameIsOver = false;
@@ -42,30 +38,7 @@ public class BoardHandler extends Display
         lastColumn = -1;
         
         
-        try
-        {
-            dropNoise = AudioSystem.getClip();
-            dropNoise.open(AudioSystem.getAudioInputStream(new File("drop.wav")));
-        }
-        catch (LineUnavailableException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        catch (IOException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        catch (UnsupportedAudioFileException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-    
-    public Board getBoard() {
-        return board;
+        
     }
 
     /**
@@ -211,27 +184,7 @@ public class BoardHandler extends Display
                 System.out.println("WINNER!");
                 gameIsOver = true;
             }
-            dropNoise.start();
-            try
-            {
-                dropNoise = AudioSystem.getClip();
-                dropNoise.open(AudioSystem.getAudioInputStream(new File("drop.wav")));
-            }
-            catch (LineUnavailableException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            catch (IOException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            catch (UnsupportedAudioFileException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            
             return true;
         }
         return false;
@@ -281,16 +234,16 @@ public class BoardHandler extends Display
      */
     private void paintGrid(Graphics g)
     {
-        frame.getContentPane().setBackground(GRID_COLOR);
+        frame.getContentPane().setBackground(Color.WHITE);
 
-        g.setColor(BACKGROUND_COLOR);
+        g.setColor(Color.BLACK);
 
         // adding in the empty slots
-        for (int c = 0; c <= 6; c++)
+        for (int c = 0; c < 19; c++)
         {
-            for (int r = 0; r <= 5; r++)
+            for (int r = 0; r < 18; r++)
             {
-                paintSlot(g, c, r, BACKGROUND_COLOR);
+                paintSlot(g, c, r, Color.BLACK);
             }
         }
     }
@@ -306,7 +259,7 @@ public class BoardHandler extends Display
     private void paintSlot(Graphics g, int c, int r, Color color)
     {
         g.setColor(color);
-        g.fillRoundRect(c * 75 + (c + 1) * 10, r * 75 + (r + 1) * 10, 75, 75, 45, 45);
+        g.drawRect(c * 75 + (c + 1) * 10, r * 75 + (r + 1) * 10, 75,75);
     }
 
     private void highlight(Graphics g, int c, int r, Color color)

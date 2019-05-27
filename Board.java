@@ -3,6 +3,7 @@ package Connect4;
 import java.awt.Color;
 import java.util.Stack;
 
+//test growl
 /**
  * Represents the game board A game board handles all player actions
  */
@@ -39,8 +40,9 @@ public class Board
      * @param column the tested column
      * @return if the column has at least 1 empty slot
      */
-    public boolean isValidMove(int column)
+    public boolean isValidMove(int column) 
     {
+    
         return (column >= 0 && grid[0][column] == null);
     }
 
@@ -62,6 +64,12 @@ public class Board
         return p2;
     }
 
+    
+    public void setCurrentPlayer(Player p) 
+    {
+        currentPlayer = p;
+    }
+    
     /**
      * Moves a piece into the given column as far as it can go.
      * 
@@ -71,41 +79,58 @@ public class Board
     public void makeMove(int column)
     {
         int row = getTopmostEmptySlot(column);
-        grid[row][column] = new Piece(currentPlayer.getColor(), currentPlayer);
-        updateCurrentPlayer();
+        Piece p = new Piece(currentPlayer.getColor(), currentPlayer);
+        grid[0][column] = p;
+        try
+        {
+            Thread.sleep(1000); // should be at 300
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+        grid[0][column] = null;
+        grid[row][column] = p;
         
+        
+        updateCurrentPlayer();
+
         // lastColumn = column; // resets last column
-        if (!moves.isEmpty()) {
+        if (!moves.isEmpty())
+        {
             int unhighlightRow = getTopmostEmptySlot(moves.peek()) + 1;
-            if (moves.peek() == column) unhighlightRow++;
-            
+            if (moves.peek() == column)
+                unhighlightRow++;
+
             grid[unhighlightRow][moves.peek()].highlight(false);
         }
         moves.push(column);
     }
 
-    public void makeTempMove(int column)
+    public void makeTempMove(int column, Color c)
     {
         int row = getTopmostEmptySlot(column);
-        grid[row][column] = new Piece(Color.YELLOW, currentPlayer);
-        System.out.println(currentPlayer.getColor());
+        System.out.println("current player " + currentPlayer);
+        grid[row][column] = new Piece(c, currentPlayer);
+        
+        System.out.println(currentPlayer.printColor());
         moves.push(column);
         System.out.println("tempMove " + moves);
     }
 
-    // TODO: make a stack (integer) of all the past moves, max size is 42 so its ok
-    // (no overflow)
+    
 
     /**
      * Undos the last move on the board
      */
     public void undo()
     {
-        if (moves.isEmpty()) return;
-        
+        if (moves.isEmpty())
+            return;
+
         int index = getTopmostEmptySlot(moves.peek()) + 1;
         grid[index][moves.pop()] = null;
-        
+
         updateCurrentPlayer();
     }
 
@@ -120,7 +145,21 @@ public class Board
     {
         return currentPlayer instanceof HumanPlayer;
     }
-
+    
+    public void restart() 
+    {
+        moves = new Stack<Integer>();
+        for (int i = 0; i < grid.length; i++) 
+        {
+            for (int j = 0; j < grid[i].length; j++) 
+            {
+                grid[i][j] = null;
+            }
+        }
+        
+        
+        
+    }
     /**
      * @param column the tested column
      * @return the topmost empty slot in the given column
@@ -135,7 +174,6 @@ public class Board
         }
         return count;
     }
-
     /**
      * REWRITE THIS - IT'S WRITTEN SO BADLY oml
      * 
@@ -146,8 +184,8 @@ public class Board
     {
 
         Player player = null;
-        
-        if(moves.size() >= 41) 
+
+        if (moves.size() >= 41)
         {
             System.out.println("DRAW");
             return null;
