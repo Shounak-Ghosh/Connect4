@@ -1,6 +1,7 @@
 package Connect4;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
@@ -47,7 +48,7 @@ public abstract class Display extends JComponent implements MouseListener
 
             @Override
             public void windowClosing(WindowEvent e) {
-                storeGames();
+//                storeGames();
             }
         };
         frame.addWindowListener(exitListener);

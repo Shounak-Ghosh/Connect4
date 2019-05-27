@@ -20,11 +20,11 @@ public class Game
     public Game()
     {
         pickHandler = new PickHandler();
-        pickHandler.displaySelf();
         pickHandler.pick();
         player1 = pickHandler.getPlayer1();
         player2 = pickHandler.getPlayer2();
         boardHandler = new BoardHandler(player1,player2);
+        System.out.println("hmmm");
     }
     
     public Player getPlayer1() {
