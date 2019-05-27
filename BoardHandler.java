@@ -16,6 +16,9 @@ public class BoardHandler extends Display
     private int lastColumn;
     Player p1;
     Player p2;
+    
+    protected Board board;
+
 
     public BoardHandler(Player p1, Player p2)
     {
@@ -28,6 +31,10 @@ public class BoardHandler extends Display
         // note: p2 will always be the computer bc we give human first turn
         computerized = (p2 instanceof RandomPlayer || p2 instanceof DefensivePlayer);
         lastColumn = -1;
+    }
+    
+    public Board getBoard() {
+        return board;
     }
 
     /**

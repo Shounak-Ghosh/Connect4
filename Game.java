@@ -26,5 +26,17 @@ public class Game
         player2 = pickHandler.getPlayer2();
         boardHandler = new BoardHandler(player1,player2);
     }
+    
+    public Player getPlayer1() {
+        return player1;
+    }
+    
+    public Player getPlayer2() {
+        return player2;
+    }
+    
+    public BoardHandler getBoardHandler() {
+        return (BoardHandler)boardHandler;
+    }
 
 }

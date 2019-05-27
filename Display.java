@@ -6,10 +6,17 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Stack;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -18,7 +25,7 @@ import javax.swing.SwingUtilities;
 
 public abstract class Display extends JComponent implements MouseListener
 {
-    protected Board board;
+//    protected Board board;
 
     protected static JFrame frame = new JFrame();
 
@@ -50,6 +57,36 @@ public abstract class Display extends JComponent implements MouseListener
         String workingDir = System.getProperty("user.dir");
 
         Path filePath = Paths.get(workingDir+File.separator+"sampleFile.txt");
+        
+        File file = new File(filePath.toString());
+
+        try
+        {
+            file.createNewFile();
+            System.out.println(filePath);
+            System.out.println(file);
+            
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
+            
+            for (Game g: games) {
+                writer.write(g.getPlayer1().toString());
+                writer.newLine();
+                writer.write(g.getPlayer2().toString());
+                writer.newLine();
+                
+                Stack<Integer> moves = g.getBoardHandler().getBoard().getMoves();
+                while(!moves.isEmpty()) {
+                    writer.write(moves.pop());
+                }
+                writer.newLine();
+            }
+            writer.close();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        
+        
     }
     
     protected void removeSelf() {
