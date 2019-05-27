@@ -23,6 +23,10 @@ public class BoardHandler extends Display
     private int lastColumn;
     Player p1;
     Player p2;
+    
+    protected Board board;
+
+
     private Clip dropNoise;
 
     public BoardHandler(Player p1, Player p2)
@@ -58,6 +62,10 @@ public class BoardHandler extends Display
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+    
+    public Board getBoard() {
+        return board;
     }
 
     /**

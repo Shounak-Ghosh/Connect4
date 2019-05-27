@@ -31,6 +31,10 @@ public class Board
         // lastColumn = -1;
         moves = new Stack<Integer>();
     }
+    
+    public Stack<Integer> getMoves() {
+        return moves;
+    }
 
     /**
      * @param column the tested column
