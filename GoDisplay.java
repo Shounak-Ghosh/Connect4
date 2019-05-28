@@ -20,7 +20,7 @@ public class GoDisplay extends Display
     private boolean gameIsOver;
     private boolean computerized; // true if the game is against the computer
                                   // false if it's between 2 humans
-    private int lastColumn;
+    
     Player p1;
     Player p2;
     
@@ -35,7 +35,7 @@ public class GoDisplay extends Display
         // change this for digitalplayer
         // note: p2 will always be the computer bc we give human first turn
         computerized = (p2 instanceof RandomPlayer || p2 instanceof DefensivePlayer);
-        lastColumn = -1;
+        
         
         
         
@@ -101,10 +101,10 @@ public class GoDisplay extends Display
 
     private int randomPlayerMove()
     {
-        int move = (int) (Math.random() * 7);
+        int move = (int) (Math.random() * 19);
         while (!board.isValidMove(move))
         {
-            move = (int) (Math.random() * 7);
+            move = (int) (Math.random() * 19);
         }
         return move;
     }
