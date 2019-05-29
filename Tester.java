@@ -74,5 +74,6 @@ public class Tester
 //                             new HumanPlayer("p2",Color.YELLOW));
 //            MenuHandler m = new MenuHandler();
         PickHandler pick = new PickHandler();
+        pick.pick();
     }
 }
