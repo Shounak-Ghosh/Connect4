@@ -23,11 +23,12 @@ public class GoBoardHandler extends Display
     
     Player p1;
     Player p2;
+    GoBoard board;
     
 
     public GoBoardHandler(Player p1, Player p2)
     {
-        this.board = new Board(p1, p2);
+        this.board = new GoBoard(p1, p2);
         gameIsOver = false;
         this.p1 = p1;
         this.p2 = p2;
@@ -59,9 +60,10 @@ public class GoBoardHandler extends Display
         // Human player is yellow, computer is red
         if (!gameIsOver && board.isHumanTurn()) // game is not over, the click represents a move
         {
-            int column = getColumn(xCoord - insets.left);
-
-            if (makeMove(column) && computerized && !gameIsOver) // it is the non-human players move
+            
+        	int column = getColumn(xCoord-insets.left);
+        	int row = getRow(yCoord-insets.top);
+            if (makeMove(row, column) && computerized && !gameIsOver) // it is the non-human players move
             {
 //                rest();
 
@@ -158,11 +160,11 @@ public class GoBoardHandler extends Display
         }
     }
 
-    private boolean makeTempMove(int column, Color c)
+    private boolean makeTempMove(int row, int column, Color c)
     {
-        if (board.isValidMove(column))
+        if (board.isValidMove(row, column))
         {
-            board.makeTempMove(column, c);
+            board.makeTempMove(row, column, c);
             repaint();
             return true;
         }
@@ -321,6 +323,14 @@ public class GoBoardHandler extends Display
         else if (x >= 520 && x <= 595)
             return 6;
         return -1;
+    }
+    
+    /**
+     * Returns the row of the game that the given y coordinate would be in
+     */
+    private int getRow(int y)
+    {
+    	
     }
 
 }
