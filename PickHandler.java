@@ -14,11 +14,16 @@ import javax.swing.JTextField;
 public class PickHandler extends Display
 {
     
-    private JTextField player1field;
-    private JTextField player2field;
+    private JTextField player1field = new JTextField(20);
+    private JTextField player2field = new JTextField(20);
+    int player1color;
+    int player2color;
     
     public PickHandler() {
         displaySelf();
+        player1color = 1;
+        player2color = 1;
+        
     }
     
     private Player player1;
@@ -26,7 +31,7 @@ public class PickHandler extends Display
 
     public void pick() {
         while((player1==null || player2==null) && frame.isActive()) {
-             System.out.println("waiting");
+//             System.out.println("waiting");
         }
         System.out.println(player1);
         System.out.println(player2);
@@ -46,7 +51,7 @@ public class PickHandler extends Display
             System.out.println("submitting...");
             submitPlayerInfo();
         } else {
-//            Color color = testColor
+            repaint();
         }
         
     }
@@ -85,12 +90,10 @@ public class PickHandler extends Display
         g.drawString("Player 1:", 200, 150);
         g.drawString("Player 2:", 200, 300);
         
-         player1field = new JTextField(20);
         player1field.setBounds(315, 120, 150, 40);
         player1field.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
         this.add(player1field);
         
-         player2field = new JTextField(20);
         player2field.setBounds(315, 270, 150, 40);
         player2field.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
         this.add(player2field);
@@ -105,9 +108,26 @@ public class PickHandler extends Display
         g.drawString("Submit", 345, 460);
     }
     
-    private void highlight(int row, int column) {
-        // write later
+    private void highlight(int row, int column, Graphics g) {
+        g.setColor(Color.BLACK);
+        
+        int y;
+        if (row==1) y = 185;
+        else y = 340;
+        
+        int x;
+        if (column==1) x = 320;
+        else if (column==2) x = 380;
+        else x = 440;
+        
+        g.drawOval(x, y, 40, 40);
+        g.drawOval(x-1,y-1,42,42);
+        g.drawOval(x+1, y+1, 38, 38);
     }
+    
+//    private int isColor() {
+//        
+//    }
     
     /**
      * p1 choices: red, blue, green
@@ -115,6 +135,7 @@ public class PickHandler extends Display
      * @param g
      */
     private void paintColorSelections(Graphics g) {
+        
         g.setColor(Color.RED);
         g.fillOval(320, 185, 40, 40);
         g.setColor(Color.BLUE);
@@ -128,6 +149,7 @@ public class PickHandler extends Display
         g.fillOval(380, 340, 40, 40);
         g.setColor(Color.MAGENTA);
         g.fillOval(440, 340, 40, 40);
+        highlight(1,1,g);
     }
     
     private void addKeyListeners(JTextField field1, JTextField field2) {

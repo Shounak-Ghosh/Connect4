@@ -73,7 +73,7 @@ public class Tester
 //        d = new BoardHandler(new HumanPlayer("p1",Color.RED), 
 //                             new HumanPlayer("p2",Color.YELLOW));
 //            MenuHandler m = new MenuHandler();
-        PickHandler pick = new PickHandler();
-        pick.pick();
+          PickHandler pick = new PickHandler();
+//        pick.pick();
     }
 }
