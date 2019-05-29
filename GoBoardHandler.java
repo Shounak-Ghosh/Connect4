@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -45,25 +45,38 @@ public class GoBoardHandler extends GoDisplay
     /**
      * Handles an entire set of moves in the game DOCUMENT THIS
      */
-    public void mouseClicked(MouseEvent e)
+    public void mouseClicked(ActionEvent e)
     {
-        int xCoord = e.getX();
-        int yCoord = e.getY();
+    	
+    	
+    	String command = e.getActionCommand();
+		int comma = command.indexOf(",");
+		int row = Integer.parseInt(command.substring(0, comma));
+		int col = Integer.parseInt(command.substring(comma + 1));
+		//Location loc = new Location(row, col);
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+//        int xCoord = e.getX();
+//        int yCoord = e.getY();
 
-        if (isUndo(xCoord - insets.left, yCoord - insets.top))
-        {
-            board.undo();
-            repaint();
-            return;
-        }
+//        if (isUndo(xCoord - insets.left, yCoord - insets.top))
+//        {
+//            board.undo();
+//            repaint();
+//            return;
+//        }
 
         // Human player is yellow, computer is red
         if (!gameIsOver && board.isHumanTurn()) // game is not over, the click represents a move
         {
             
-        	int column = getColumn(xCoord-insets.left);
-        	int row = getRow(yCoord-insets.top);
-            if (makeMove(row, column) && computerized && !gameIsOver) // it is the non-human players move
+        	
+            if (makeMove(row, col) && computerized && !gameIsOver) // it is the non-human players move
             {
 //                rest();
 
