@@ -205,63 +205,64 @@ public class GoBoard
         		
         		if(p!=null)
         		{
+        			boolean won = true;
         			Color tempC = p.getColor();
         			for(int i = c; i<c+5; i++)
         			{
         				if(grid[r][i]==null|| !grid[r][i].getColor().equals(tempC))
         				{
-        					break; //heehee I is stealth
+        					won = false;
         				}
         			}
+        			if(p!=null&&won)
+        			{
+        				return p.getPlayer();
+        			}
+        			
         		}
         	}
+        	//to be continued
         	
         }
+        
 
         // testing vertical
-        for (int r = 0; r < grid.length - 3; r++)
+        for (int c = 0; r < grid[0].length; c++)
         {
-            for (int c = 0; c < grid[0].length; c++)
+            for (int r = 0; r < grid.length-5; r++)
             {
-                Piece test = grid[r][c];
-
-                if (test != null)
-                {
-
-                    // test vertically
-                    if (test.is(grid[r + 1][c]) && test.is(grid[r + 2][c]) && test.is(grid[r + 3][c]))
-                    {
-
-                        test.highlight(true);
-                        grid[r + 1][c].highlight(true);
-                        grid[r + 2][c].highlight(true);
-                        grid[r + 3][c].highlight(true);
-
-                        player = test.getPlayer();
-                    }
-                }
+            	Piece p = grid[r][c];
+        		
+        		if(p!=null)
+        		{
+        			boolean won = true;
+        			Color tempC = p.getColor();
+        			for(int i = r; i<r+5; i++)
+        			{
+        				if(grid[i][c]==null|| !grid[i][c].getColor().equals(tempC))
+        				{
+        					won = false;
+        				}
+        			}
+        			if(p!=null&&won)
+        			{
+        				return p.getPlayer();
+        			}
+        			
+        		}
             }
         }
 
         // test diagonal with positive slope
-        for (int r = 3; r <= 5; r++)
+        for (int r = 0; r < grid.length-5; r++)
         {
-            for (int c = 0; c <= 3; c++)
+            for (int c = 0; c <grid[0].length-5; c++)
             {
-                Piece test = grid[r][c];
+                Piece p = grid[r][c];
 
-                if (test != null)
+                if(p!=null)
                 {
-                    if (test.is(grid[r - 1][c + 1]) && test.is(grid[r - 2][c + 2]) && test.is(grid[r - 3][c + 3]))
-                    {
-
-                        test.highlight(true);
-                        grid[r - 1][c + 1].highlight(true);
-                        grid[r - 2][c + 2].highlight(true);
-                        grid[r - 3][c + 3].highlight(true);
-
-                        player = test.getPlayer();
-                    }
+                	
                 }
 
             }
