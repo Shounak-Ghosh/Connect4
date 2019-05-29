@@ -28,7 +28,7 @@ public abstract class Display extends JComponent implements MouseListener
 {
 //    protected Board board;
 
-    protected static JFrame frame = new JFrame();
+    protected JFrame frame;
 
     protected final Color BACKGROUND_COLOR = new Color(192, 192, 192);
     protected final Color GRID_COLOR = Color.BLUE;
@@ -38,20 +38,25 @@ public abstract class Display extends JComponent implements MouseListener
     // insets of the frame (platform-dependent)
     protected Insets insets;
     
-    protected ArrayList<Game> games;
+    protected static ArrayList<Game> games;
     
     protected static Display mainMenu;
 
     public Display()
     {
+        frame = new JFrame();
         WindowListener exitListener = new WindowAdapter() {
 
             @Override
             public void windowClosing(WindowEvent e) {
-//                storeGames();
+                storeGames();
             }
         };
         frame.addWindowListener(exitListener);
+    }
+    
+    public ArrayList<Game> getGames() {
+        return games;
     }
     
     private void storeGames() {
@@ -69,6 +74,8 @@ public abstract class Display extends JComponent implements MouseListener
             
             BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
             
+            System.out.println("saving games");
+            System.out.println(games);
             for (Game g: games) {
                 writer.write(g.getPlayer1().toString());
                 writer.newLine();
@@ -114,6 +121,10 @@ public abstract class Display extends JComponent implements MouseListener
         frame.addMouseListener(this);
 
         repaint();
+    }
+    
+    public void closeSelf() {
+        frame.dispose();
     }
 
     // this method should be overriden

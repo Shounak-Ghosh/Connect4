@@ -47,9 +47,14 @@ public class MenuHandler extends Display {
         if (xCoord-insets.left>250 && xCoord-insets.left<500) {
             if (Math.abs((yCoord-insets.top)-300)<25) { // PLAY button clicked
                 System.out.println("playing...");
-                removeSelf();
+                closeSelf();
                 Game game = new Game();
                 games.add(game);
+//                removeSelf();
+                
+                
+                
+//                games.add(game);
             } else if (Math.abs((yCoord-insets.top)-375)<25) { // Archived Games button clicked
                 System.out.println("getting archived games...");
                 removeSelf();

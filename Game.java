@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 /**
- * plays the game (the board object plays the game tbh)
+ * plays the game (the board plays the game tbh)
  *
  */
 public class Game
@@ -19,12 +19,15 @@ public class Game
 
     public Game()
     {
-        pickHandler = new PickHandler();
-        pickHandler.pick();
-        player1 = pickHandler.getPlayer1();
-        player2 = pickHandler.getPlayer2();
-        boardHandler = new BoardHandler(player1,player2);
-        System.out.println("hmmm");
+        pickHandler = new PickHandler(this);
+    }
+    
+    public void play() {
+        System.out.println("playing...");
+      player1 = pickHandler.getPlayer1();
+      player2 = pickHandler.getPlayer2();
+      pickHandler.getGames().add(this);
+      boardHandler = new BoardHandler(player1,player2);
     }
     
     public Player getPlayer1() {

@@ -83,6 +83,12 @@ public class BoardHandler extends Display
             repaint();
             return;
         }
+        
+        if (isBack(xCoord - insets.left, yCoord - insets.top)) {
+            closeSelf();
+            mainMenu.displaySelf();
+            return;
+        }
 
         // Human player is yellow, computer is red
         if (!gameIsOver && board.isHumanTurn()) // game is not over, the click represents a move
@@ -125,6 +131,10 @@ public class BoardHandler extends Display
     {
         System.out.println(xCoord + " " + yCoord);
         return (yCoord >= 400 && yCoord <= 440 && xCoord >= 630 && xCoord <= 715);
+    }
+    
+    private boolean isBack(int xCoord, int yCoord) {
+        return (xCoord>=630 && xCoord<=715 && yCoord>=460 && yCoord<=500);
     }
 
     private int randomPlayerMove()

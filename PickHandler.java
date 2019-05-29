@@ -16,25 +16,33 @@ public class PickHandler extends Display
     
     private JTextField player1field = new JTextField(20);
     private JTextField player2field = new JTextField(20);
+    private Game game;
     int player1color;
     int player2color;
     
-    public PickHandler() {
+    public PickHandler(Game game) {
+        this.game = game;
+        System.out.println("hi pick");
         displaySelf();
+        System.out.println("finished displaying pick");
+        repaint();
         player1color = 1;
         player2color = 1;
-        
+//        pick();
     }
     
     private Player player1;
     private Player player2;
 
-    public void pick() {
-        while((player1==null || player2==null) && frame.isActive()) {
+    private void pick() {
+        System.out.println("PICKING!!!");
+
+//        while(player1==null || player2==null) {
 //             System.out.println("waiting");
-        }
+//        }
         System.out.println(player1);
         System.out.println(player2);
+//        removeSelf();
         return;
         
     }
@@ -50,10 +58,17 @@ public class PickHandler extends Display
         if (isSubmit(x,y)) {
             System.out.println("submitting...");
             submitPlayerInfo();
+            closeSelf();
+            game.play();
         } else {
             repaint();
         }
         
+    }
+
+    
+    public boolean hasPlayers() {
+        return (player1!=null && player2!=null);
     }
     // todo: don't allow semicolons in player names
     
@@ -62,7 +77,6 @@ public class PickHandler extends Display
         if (player1Name.equals("")) player1Name = "Player 1";
         String player2Name = player2field.getText();
         if (player2Name.equals("")) player2Name = "Player 2";
-        
         
         player1 = new HumanPlayer(player1Name,Color.RED);
         player2 = new HumanPlayer(player2Name,Color.YELLOW);
@@ -149,7 +163,8 @@ public class PickHandler extends Display
         g.fillOval(380, 340, 40, 40);
         g.setColor(Color.MAGENTA);
         g.fillOval(440, 340, 40, 40);
-        highlight(1,1,g);
+        highlight(player1color,1,g);
+        highlight(player2color,1,g);
     }
     
     private void addKeyListeners(JTextField field1, JTextField field2) {
