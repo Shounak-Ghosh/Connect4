@@ -113,7 +113,9 @@ public class GoBoard
         grid[row][column] = new Piece(c, currentPlayer);
         
         System.out.println(currentPlayer.printColor());
-        moves.push(column);
+        int[] mov = {row, column};
+        moves.push(mov);
+        
         System.out.println("tempMove " + moves);
     }
 
@@ -299,6 +301,9 @@ public class GoBoard
 
         return player;
     }
+    
+    
+    
 
 }
 
