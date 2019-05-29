@@ -13,7 +13,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-public class BoardHandler extends Display
+public class GoDisplay extends Display
 {
 
     Graphics g;
@@ -24,12 +24,8 @@ public class BoardHandler extends Display
     Player p1;
     Player p2;
     
-    protected Board board;
 
-
-    private Clip dropNoise;
-
-    public BoardHandler(Player p1, Player p2)
+    public GoDisplay(Player p1, Player p2)
     {
         this.board = new Board(p1, p2);
         gameIsOver = false;
@@ -40,33 +36,9 @@ public class BoardHandler extends Display
         // note: p2 will always be the computer bc we give human first turn
         computerized = (p2 instanceof RandomPlayer || p2 instanceof DefensivePlayer);
         lastColumn = -1;
-        displaySelf();
         
         
-        try
-        {
-            dropNoise = AudioSystem.getClip();
-            dropNoise.open(AudioSystem.getAudioInputStream(new File("drop.wav")));
-        }
-        catch (LineUnavailableException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        catch (IOException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        catch (UnsupportedAudioFileException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-    
-    public Board getBoard() {
-        return board;
+        
     }
 
     /**
@@ -113,9 +85,9 @@ public class BoardHandler extends Display
         {
             // someone has already won the game, no more moves can be made
             System.out.println("Game has ended.");
-//            board.restart();
+            board.restart();
             gameIsOver = false;
-//            board.setCurrentPlayer(p1);
+            board.setCurrentPlayer(p1);
             repaint();
         }
 
@@ -145,13 +117,13 @@ public class BoardHandler extends Display
         
         for (int i = 0; i < 7; i++)
         {
-//            board.setCurrentPlayer(p2);
+            board.setCurrentPlayer(p2);
             if (makeTempMove(i, Color.RED)) // computer makes a move
             {
                 
                 for (int j = 0; j < 7; j++)
                 {
-//                    board.setCurrentPlayer(p1); // set player to human player
+                    board.setCurrentPlayer(p1); // set player to human player
                     if (makeTempMove(j, Color.YELLOW)) // human makes a move
                     {
                         
@@ -160,7 +132,7 @@ public class BoardHandler extends Display
                             System.out.println("MOVE TO BLOCK");
                             board.undo();
                             board.undo();
-//                            board.setCurrentPlayer(p2); // set player to computer
+                            board.setCurrentPlayer(p2); // set player to computer
                             return j; // blocks the move from occurring
                         }
                     }
@@ -170,7 +142,7 @@ public class BoardHandler extends Display
             board.undo();
         }
 
-//        board.setCurrentPlayer(p2);
+        board.setCurrentPlayer(p2);
         return randomPlayerMove();
     }
 
@@ -190,7 +162,7 @@ public class BoardHandler extends Display
     {
         if (board.isValidMove(column))
         {
-//            board.makeTempMove(column, c);
+            board.makeTempMove(column, c);
             repaint();
             return true;
         }
@@ -212,27 +184,7 @@ public class BoardHandler extends Display
                 System.out.println("WINNER!");
                 gameIsOver = true;
             }
-            dropNoise.start();
-            try
-            {
-                dropNoise = AudioSystem.getClip();
-                dropNoise.open(AudioSystem.getAudioInputStream(new File("drop.wav")));
-            }
-            catch (LineUnavailableException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            catch (IOException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            catch (UnsupportedAudioFileException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            
             return true;
         }
         return false;
@@ -282,16 +234,16 @@ public class BoardHandler extends Display
      */
     private void paintGrid(Graphics g)
     {
-        frame.getContentPane().setBackground(GRID_COLOR);
+        frame.getContentPane().setBackground(Color.WHITE);
 
-        g.setColor(BACKGROUND_COLOR);
+        g.setColor(Color.BLACK);
 
         // adding in the empty slots
-        for (int c = 0; c <= 6; c++)
+        for (int c = 0; c < 19; c++)
         {
-            for (int r = 0; r <= 5; r++)
+            for (int r = 0; r < 18; r++)
             {
-                paintSlot(g, c, r, BACKGROUND_COLOR);
+                paintSlot(g, c, r, Color.BLACK);
             }
         }
     }
@@ -307,7 +259,7 @@ public class BoardHandler extends Display
     private void paintSlot(Graphics g, int c, int r, Color color)
     {
         g.setColor(color);
-        g.fillRoundRect(c * 75 + (c + 1) * 10, r * 75 + (r + 1) * 10, 75, 75, 45, 45);
+        g.drawRect(c * 75 + (c + 1) * 10, r * 75 + (r + 1) * 10, 75,75);
     }
 
     private void highlight(Graphics g, int c, int r, Color color)

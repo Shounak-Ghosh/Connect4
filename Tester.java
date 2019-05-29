@@ -70,10 +70,17 @@ public class Tester
 //
 //        r1 = new RandomPlayer("Random Player", Color.RED);
 
+
 //        d = new BoardHandler(new HumanPlayer("p1",Color.RED), 
 //                             new HumanPlayer("p2",Color.YELLOW));
 //            MenuHandler m = new MenuHandler();
-          PickHandler pick = new PickHandler();
-//        pick.pick();
+
+        PickHandler pick = new PickHandler();
+
+        d = new BoardHandler(new HumanPlayer("p1", Color.YELLOW), new HumanPlayer("p2", Color.RED));
+        d1 = new DefensivePlayer("def. player", Color.RED);
+        //d = new BoardHandler(new HumanPlayer("human", Color.YELLOW), d1);
+
     }
+
 }
