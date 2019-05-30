@@ -28,6 +28,7 @@ public class BoardHandler extends Display
 
 
     private Clip dropNoise;
+    private Clip buttonNoise;
 
     public BoardHandler(Player p1, Player p2)
     {
@@ -47,6 +48,8 @@ public class BoardHandler extends Display
         {
             dropNoise = AudioSystem.getClip();
             dropNoise.open(AudioSystem.getAudioInputStream(new File("drop.wav")));
+            buttonNoise = AudioSystem.getClip();
+            buttonNoise.open(AudioSystem.getAudioInputStream(new File("button.wav")));
         }
         catch (LineUnavailableException e)
         {
@@ -81,6 +84,27 @@ public class BoardHandler extends Display
         if (isUndo(xCoord - insets.left, yCoord - insets.top))
         {
             board.undo();
+            try
+            {
+                buttonNoise = AudioSystem.getClip();
+                buttonNoise.open(AudioSystem.getAudioInputStream(new File("button.wav")));
+                buttonNoise.start();
+            }
+            catch (LineUnavailableException error)
+            {
+                // TODO Auto-generated catch block
+                error.printStackTrace();
+            }
+            catch (IOException error)
+            {
+                // TODO Auto-generated catch block
+                error.printStackTrace();
+            }
+            catch (UnsupportedAudioFileException error)
+            {
+                // TODO Auto-generated catch block
+                error.printStackTrace();
+            }
             repaint();
             return;
         }
@@ -138,40 +162,49 @@ public class BoardHandler extends Display
         return move;
     }
 
+    
+    private int smartPlayerMove() 
+    {
+        return -1;
+    }
+    
+    
+    
+    
     // TODO: make a twoInARow method in board (similar to winner) and use that
     // instead
     private int defensivePlayerMove()
     {
-        System.out.println("----------------------------------");
-        
-        for (int i = 0; i < 7; i++)
-        {
-            board.setCurrentPlayer(p2);
-            if (makeTempMove(i, Color.RED)) // computer makes a move
-            {
-                
-                for (int j = 0; j < 7; j++)
-                {
-                    board.setCurrentPlayer(p1); // set player to human player
-                    if (makeTempMove(j, Color.YELLOW)) // human makes a move
-                    {
-                        
-                        if (board.winner() != null && board.winner().equals(p1)) // if the human wins on this move
-                        {
-                            System.out.println("MOVE TO BLOCK");
-                            board.undo();
-                            board.undo();
-                            board.setCurrentPlayer(p2); // set player to computer
-                            return j; // blocks the move from occurring
-                        }
-                    }
-                    board.undo();
-                }
-            }
-            board.undo();
-        }
-
-        board.setCurrentPlayer(p2);
+//        System.out.println("----------------------------------");
+//        
+//        for (int i = 0; i < 7; i++)
+//        {
+//            board.setCurrentPlayer(p2);
+//            if (makeTempMove(i, Color.RED)) // computer makes a move
+//            {
+//                
+//                for (int j = 0; j < 7; j++)
+//                {
+//                    board.setCurrentPlayer(p1); // set player to human player
+//                    if (makeTempMove(j, Color.YELLOW)) // human makes a move
+//                    {
+//                        
+//                        if (board.winner() != null && board.winner().equals(p1)) // if the human wins on this move
+//                        {
+//                            System.out.println("MOVE TO BLOCK");
+//                            board.undo();
+//                            board.undo();
+//                            board.setCurrentPlayer(p2); // set player to computer
+//                            return j; // blocks the move from occurring
+//                        }
+//                    }
+//                    board.undo();
+//                }
+//            }
+//            board.undo();
+//        }
+//
+//        board.setCurrentPlayer(p2);
         return randomPlayerMove();
     }
 
@@ -187,11 +220,11 @@ public class BoardHandler extends Display
         }
     }
 
-    private boolean makeTempMove(int column, Color c)
+    private boolean makeTempMove(int column, Color c, Player p)
     {
         if (board.isValidMove(column))
         {
-            board.makeTempMove(column, c);
+            board.makeTempMove(column, c, p);
             repaint();
             return true;
         }
@@ -244,6 +277,7 @@ public class BoardHandler extends Display
             {
                 dropNoise = AudioSystem.getClip();
                 dropNoise.open(AudioSystem.getAudioInputStream(new File("drop.wav")));
+                dropNoise.start();
             }
             catch (LineUnavailableException e)
             {
@@ -269,7 +303,7 @@ public class BoardHandler extends Display
                 System.out.println("WINNER!");
                 gameIsOver = true;
             }
-            dropNoise.start();
+            
             
             return true;
         }
