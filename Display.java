@@ -52,6 +52,7 @@ public abstract class Display extends JComponent implements MouseListener
             }
         };
         frame.addWindowListener(exitListener);
+        displaySelf();
     }
     
     private void storeGames() {
