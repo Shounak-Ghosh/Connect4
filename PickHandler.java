@@ -154,7 +154,7 @@ public class PickHandler extends Display
         difficultyfield.setFont(new Font(Font.SANS_SERIF, Font.PLAIN,22));
         this.add(difficultyfield);
         
-        addKeyListeners(player1field, player2field); // limit amount of characters
+        addKeyListenersToTextFields();
 
         g.setColor(Color.GRAY);
         g.fillRect(315, 430, 150, 40);
@@ -206,31 +206,45 @@ public class PickHandler extends Display
         highlight(2,player2color,g);
     }
     
-    private void addKeyListeners(JTextField field1, JTextField field2) {
+    private void addKeyListenersToTextFields() {
         KeyListener keyListener1 = new KeyListener() {
             public void keyPressed(KeyEvent evt) {}
 
             public void keyReleased(KeyEvent evt) {}
 
             public void keyTyped(KeyEvent evt) {
-                if ((field1.getText() + evt.getKeyChar()).length() > 13) {
+                if ((player1field.getText() + evt.getKeyChar()).length() > 13) {
                     evt.consume();
                 }
             }
           };
-          field1.addKeyListener(keyListener1);
+          player1field.addKeyListener(keyListener1);
+          
           KeyListener keyListener2 = new KeyListener() {
               public void keyPressed(KeyEvent evt) {}
 
               public void keyReleased(KeyEvent evt) {}
 
               public void keyTyped(KeyEvent evt) {
-                  if ((field2.getText() + evt.getKeyChar()).length() > 13) {
+                  if ((player2field.getText() + evt.getKeyChar()).length() > 13) {
                       evt.consume();
                   }
               }
             };
-            field2.addKeyListener(keyListener2);
+            player2field.addKeyListener(keyListener2);
+            
+            KeyListener keyListener3 = new KeyListener() {
+                public void keyPressed(KeyEvent evt) {}
+
+                public void keyReleased(KeyEvent evt) {}
+
+                public void keyTyped(KeyEvent evt) {
+                    if ((difficultyfield.getText() + evt.getKeyChar()).length() > 13) {
+                        evt.consume();
+                    }
+                }
+              };
+              difficultyfield.addKeyListener(keyListener3);
     }
 
     public Player getPlayer1() {

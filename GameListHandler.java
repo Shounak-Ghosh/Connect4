@@ -19,7 +19,8 @@ public class GameListHandler extends Display
     }
     
     private void paintGames(Graphics g) {
-        
+        for(int c=0;c<2;c++) {
+//            for
+        }
     }
-
 }

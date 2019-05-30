@@ -60,11 +60,17 @@ public abstract class Display extends JComponent implements MouseListener
     }
     
     private void storeGames() {
-        File file = new File(getClass().getResource("games.txt").getPath());
+        String workingDir = System.getProperty("user.dir");
+
+        Path filePath = Paths.get(workingDir+File.separator+"sampleFile.txt");
+        
+        File file = new File(filePath.toString());
 
         try
         {
             file.createNewFile();
+            System.out.println(filePath);
+            System.out.println(file);
             
             BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
             
@@ -104,9 +110,9 @@ public abstract class Display extends JComponent implements MouseListener
         
     }
     
-    protected void removeSelf() {
-        frame.getContentPane().remove(this);
-    }
+//    protected void removeSelf() {
+//        frame.getContentPane().remove(this);
+//    }
     
     protected void displaySelf() {
         frame.getContentPane().add(this); // very important line of code reee

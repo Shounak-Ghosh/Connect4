@@ -49,15 +49,9 @@ public class MenuHandler extends Display {
                 System.out.println("playing...");
                 closeSelf();
                 Game game = new Game();
-                games.add(game);
-//                removeSelf();
-                
-                
-                
-//                games.add(game);
             } else if (Math.abs((yCoord-insets.top)-375)<25) { // Archived Games button clicked
                 System.out.println("getting archived games...");
-                removeSelf();
+                closeSelf();
                 GameListHandler gameListHandler = new GameListHandler();
             }
         }

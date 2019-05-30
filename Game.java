@@ -26,6 +26,7 @@ public class Game
       player1 = pickHandler.getPlayer1();
       player2 = pickHandler.getPlayer2();
       pickHandler.getGames().add(this);
+      System.out.println(pickHandler.getGames());
       boardHandler = new BoardHandler(player1,player2);
     }
     
