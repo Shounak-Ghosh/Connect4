@@ -30,9 +30,11 @@ public class Board
         currentPlayer = p1;
         // lastColumn = -1;
         moves = new Stack<Integer>();
+        System.out.println("Reached Board Constructor");
     }
-    
-    public Stack<Integer> getMoves() {
+
+    public Stack<Integer> getMoves()
+    {
         return moves;
     }
 
@@ -40,9 +42,9 @@ public class Board
      * @param column the tested column
      * @return if the column has at least 1 empty slot
      */
-    public boolean isValidMove(int column) 
+    public boolean isValidMove(int column)
     {
-    
+
         return (column >= 0 && grid[0][column] == null);
     }
 
@@ -64,10 +66,22 @@ public class Board
         return p2;
     }
 
-    
-    public void setCurrentPlayer(Player p) 
+    public void setCurrentPlayer(Player p)
     {
         currentPlayer = p;
+    }
+
+    
+    public void animateMove(int column, int row) 
+    {
+        Piece p = new Piece(currentPlayer.getColor(), currentPlayer);
+        grid[row][column] = p;
+        
+    }
+    
+    public void removeAnimatedMove(int column, int row)
+    {
+        grid[row][column] = null;
     }
     
     /**
@@ -81,18 +95,10 @@ public class Board
         int row = getTopmostEmptySlot(column);
         Piece p = new Piece(currentPlayer.getColor(), currentPlayer);
         grid[0][column] = p;
-        try
-        {
-            Thread.sleep(1000); // should be at 300
-        }
-        catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }
+        // THREAD.SLEEP CODE USED TO BE HERE
         grid[0][column] = null;
         grid[row][column] = p;
-        
-        
+
         updateCurrentPlayer();
 
         // lastColumn = column; // resets last column
@@ -112,13 +118,11 @@ public class Board
         int row = getTopmostEmptySlot(column);
         System.out.println("current player " + currentPlayer);
         grid[row][column] = new Piece(c, currentPlayer);
-        
+
         System.out.println(currentPlayer.printColor());
         moves.push(column);
         System.out.println("tempMove " + moves);
     }
-
-    
 
     /**
      * Undos the last move on the board
@@ -145,27 +149,26 @@ public class Board
     {
         return currentPlayer instanceof HumanPlayer;
     }
-    
-    public void restart() 
+
+    public void restart()
     {
         moves = new Stack<Integer>();
-        for (int i = 0; i < grid.length; i++) 
+        for (int i = 0; i < grid.length; i++)
         {
-            for (int j = 0; j < grid[i].length; j++) 
+            for (int j = 0; j < grid[i].length; j++)
             {
                 grid[i][j] = null;
             }
         }
-        
-        
-        
+
     }
+
     /**
      * @param column the tested column
      * @return the topmost empty slot in the given column
      * @precondition the column has @ least 1 empty slot/
      */
-    private int getTopmostEmptySlot(int column)
+    protected int getTopmostEmptySlot(int column)
     {
         int count = -1;
         while (count + 1 < grid.length && grid[count + 1][column] == null)
@@ -174,6 +177,7 @@ public class Board
         }
         return count;
     }
+
     /**
      * REWRITE THIS - IT'S WRITTEN SO BADLY oml
      * 
