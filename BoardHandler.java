@@ -31,6 +31,7 @@ public class BoardHandler extends Display
 
     public BoardHandler(Player p1, Player p2)
     {
+        System.out.println("Reached boardHandler Constructor");
         this.board = new Board(p1, p2);
         gameIsOver = false;
         this.p1 = p1;
@@ -64,7 +65,8 @@ public class BoardHandler extends Display
         }
     }
     
-    public Board getBoard() {
+    public Board getBoard()
+    {
         return board;
     }
 
@@ -201,17 +203,43 @@ public class BoardHandler extends Display
 
         if (board.isValidMove(column))
         {
-            board.makeMove(column);
-            repaint();
-
-            // tests for a winner
-            Player winner = board.winner();
-            if (winner != null)
+//            board.makeMove(column);
+//            try
+//            {
+//                Thread.sleep(1000); // should be at 300 milliseconds
+//            }
+//            catch (InterruptedException e)
+//            {
+//                e.printStackTrace();
+//            }
+//            
+            
+            int finalRow = board.getTopmostEmptySlot(column);
+            int row = 0;
+            double dropTime = 400;
+            while (row <= finalRow) 
             {
-                System.out.println("WINNER!");
-                gameIsOver = true;
+                board.animateMove(column, row);
+                paint(getGraphics());
+                // note: I used paint because repaint would only be called if the mouse is clicked again
+                //       instead of after every iteration of the while loop
+                //       this is why the pieces seem to appear and then disappear
+                System.out.println("should have repainted row " + row);
+                try
+                {
+                    Thread.sleep((int) dropTime); // should be at 300 milliseconds
+                }
+                catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+                board.removeAnimatedMove(column, row);
+                paint(getGraphics());
+                row++;
+                dropTime *= 0.9;
             }
-            dropNoise.start();
+            board.makeMove(column);
+            paint(getGraphics());
             try
             {
                 dropNoise = AudioSystem.getClip();
@@ -232,6 +260,17 @@ public class BoardHandler extends Display
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
+            
+
+            // tests for a winner
+            Player winner = board.winner();
+            if (winner != null)
+            {
+                System.out.println("WINNER!");
+                gameIsOver = true;
+            }
+            dropNoise.start();
+            
             return true;
         }
         return false;
