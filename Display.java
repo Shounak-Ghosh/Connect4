@@ -82,7 +82,7 @@ public abstract class Display extends JComponent implements MouseListener
                 writer.write("0");
                 writer.write(g.getPlayer1().toString());
                 writer.write(";");
-                writer.write(g.getPlayer1().getColor().getRGB());
+                writer.write(String.valueOf(g.getPlayer1().getColor().getRGB()));
                 writer.newLine();
                 
                 // writing the player's type, name, and color
@@ -93,6 +93,7 @@ public abstract class Display extends JComponent implements MouseListener
                 else writer.write("0");
                 writer.write(g.getPlayer2().toString());
                 writer.write(";");
+                writer.write(String.valueOf(player2.getColor().getRGB()));
                 writer.newLine();
                 
                 Stack<Integer> moves = g.getBoardHandler().getBoard().getMoves();

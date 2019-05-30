@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class MenuHandler extends Display {
@@ -52,7 +53,12 @@ public class MenuHandler extends Display {
             } else if (Math.abs((yCoord-insets.top)-375)<25) { // Archived Games button clicked
                 System.out.println("getting archived games...");
                 closeSelf();
-                GameListHandler gameListHandler = new GameListHandler();
+                try
+                {
+                    GameListHandler gameListHandler = new GameListHandler();
+                } catch (FileNotFoundException e1)
+                {
+                }
             }
         }
     }
