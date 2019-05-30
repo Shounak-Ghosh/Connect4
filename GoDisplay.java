@@ -24,6 +24,8 @@ public class GoDisplay extends Display
     Player p1;
     Player p2;
     
+    protected Board board;
+    
 
     public GoDisplay(Player p1, Player p2)
     {

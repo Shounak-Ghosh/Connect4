@@ -36,8 +36,9 @@ public class BoardHandler extends Display
         this.p1 = p1;
         this.p2 = p2;
 
-        // change this for digitalplayer
+        // change this for digital player
         // note: p2 will always be the computer bc we give human first turn
+        
         computerized = (p2 instanceof RandomPlayer || p2 instanceof DefensivePlayer);
         lastColumn = -1;
         displaySelf();
@@ -46,23 +47,10 @@ public class BoardHandler extends Display
         try
         {
             dropNoise = AudioSystem.getClip();
-            dropNoise.open(AudioSystem.getAudioInputStream(new File("drop.wav")));
+            dropNoise.open(AudioSystem.getAudioInputStream(
+                    new File(getClass().getResource("drop.wav").getPath())));
         }
-        catch (LineUnavailableException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        catch (IOException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        catch (UnsupportedAudioFileException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        catch (Exception e) {}
     }
     
     public Board getBoard() {
@@ -90,45 +78,30 @@ public class BoardHandler extends Display
             return;
         }
 
-        // Human player is yellow, computer is red
         if (!gameIsOver && board.isHumanTurn()) // game is not over, the click represents a move
         {
             int column = getColumn(xCoord - insets.left);
 
-            if (makeMove(column) && computerized && !gameIsOver) // it is the non-human players move
-            {
-//                rest();
+            // it was a valid move, computer's turn (if it is a 1 player game)
+            if (makeMove(column) && computerized && !gameIsOver) {
+                // figure out how to sleep here
 
-                // SLEEP HERE - FIGURE THIS OUT FOR DIGITALPLAYER
-
-                if (p2 instanceof RandomPlayer)
-                {
+                if (p2 instanceof RandomPlayer) {
                     makeMove(randomPlayerMove());
-                }
-                else if (p2 instanceof DefensivePlayer)
-                {
+                } else if (p2 instanceof DefensivePlayer) {
                     makeMove(defensivePlayerMove());
                 }
-                // makeMove(randomPlayerMove());
-                // board.undo();
-                
             }
 
-        }
-        else
-        {
+        } else {
             // someone has already won the game, no more moves can be made
             System.out.println("Game has ended.");
-//            board.restart();
-            gameIsOver = false;
-//            board.setCurrentPlayer(p1);
             repaint();
         }
 
     }
 
-    private boolean isUndo(int xCoord, int yCoord)
-    {
+    private boolean isUndo(int xCoord, int yCoord) {
         System.out.println(xCoord + " " + yCoord);
         return (yCoord >= 400 && yCoord <= 440 && xCoord >= 630 && xCoord <= 715);
     }
@@ -137,8 +110,7 @@ public class BoardHandler extends Display
         return (xCoord>=630 && xCoord<=715 && yCoord>=460 && yCoord<=500);
     }
 
-    private int randomPlayerMove()
-    {
+    private int randomPlayerMove() {
         int move = (int) (Math.random() * 7);
         while (!board.isValidMove(move))
         {
@@ -149,6 +121,7 @@ public class BoardHandler extends Display
 
     // TODO: make a twoInARow method in board (similar to winner) and use that
     // instead
+    // yea we need fixes on this
     private int defensivePlayerMove()
     {
         System.out.println("----------------------------------");
@@ -180,7 +153,6 @@ public class BoardHandler extends Display
             board.undo();
         }
 
-//        board.setCurrentPlayer(p2);
         return randomPlayerMove();
     }
 
@@ -226,22 +198,10 @@ public class BoardHandler extends Display
             try
             {
                 dropNoise = AudioSystem.getClip();
-                dropNoise.open(AudioSystem.getAudioInputStream(new File("drop.wav")));
-            }
-            catch (LineUnavailableException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            catch (IOException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            catch (UnsupportedAudioFileException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                dropNoise.open(AudioSystem.getAudioInputStream(
+                        new File(getClass().getResource("drop.wav").getPath())));
+            } catch (Exception e) {
+                
             }
             return true;
         }

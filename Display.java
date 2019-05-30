@@ -60,31 +60,38 @@ public abstract class Display extends JComponent implements MouseListener
     }
     
     private void storeGames() {
-        String workingDir = System.getProperty("user.dir");
-
-        Path filePath = Paths.get(workingDir+File.separator+"sampleFile.txt");
-        
-        File file = new File(filePath.toString());
+        File file = new File(getClass().getResource("games.txt").getPath());
 
         try
         {
             file.createNewFile();
-            System.out.println(filePath);
-            System.out.println(file);
             
             BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
             
             System.out.println("saving games");
             System.out.println(games);
             for (Game g: games) {
+                
+                // writing 0 for human player & the player's name/color
+                writer.write("0");
                 writer.write(g.getPlayer1().toString());
+                writer.write(";");
+                writer.write(g.getPlayer1().getColor().getRGB());
                 writer.newLine();
+                
+                // writing the player's type, name, and color
+                Player player2 = g.getPlayer2();
+                if (player2 instanceof RandomPlayer) writer.write("1");
+                else if (player2 instanceof DefensivePlayer) writer.write("2");
+//                else if (player2 instanceof SmartPlayer) writer.write("3");
+                else writer.write("0");
                 writer.write(g.getPlayer2().toString());
+                writer.write(";");
                 writer.newLine();
                 
                 Stack<Integer> moves = g.getBoardHandler().getBoard().getMoves();
                 while(!moves.isEmpty()) {
-                    writer.write(moves.pop());
+                    writer.write(moves.pop().toString());
                 }
                 writer.newLine();
             }

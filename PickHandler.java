@@ -16,6 +16,7 @@ public class PickHandler extends Display
     
     private JTextField player1field = new JTextField(20);
     private JTextField player2field = new JTextField(20);
+    private JTextField difficultyfield = new JTextField(1);
     private Game game;
     int player1color;
     int player2color;
@@ -33,53 +34,90 @@ public class PickHandler extends Display
     
     private Player player1;
     private Player player2;
-
-    private void pick() {
-        System.out.println("PICKING!!!");
-
-//        while(player1==null || player2==null) {
-//             System.out.println("waiting");
-//        }
-        System.out.println(player1);
-        System.out.println(player2);
-//        removeSelf();
-        return;
-        
-    }
-    
-    
     
     public void mouseClicked(MouseEvent e)
     {
-        System.out.println("hi 2");
         int x = e.getX();
         int y = e.getY();
         
         if (isSubmit(x,y)) {
-            System.out.println("submitting...");
             submitPlayerInfo();
             closeSelf();
             game.play();
         } else {
+            selectColor(x,y);
             repaint();
         }
         
     }
-
     
-    public boolean hasPlayers() {
-        return (player1!=null && player2!=null);
+    /**
+     * Selects a color for the players based in given x/y coordinates of a click.
+     * If the click is not in any color, does nothing.
+     * I am aware there is probably a better way to do this. However, :(
+     * @param x
+     * @param y
+     */
+    private void selectColor(int x, int y) {
+        x-=insets.left;
+        y-=insets.top;
+        
+        int selected = 0;
+        if (x>=325 && x<=355) {
+            selected = 1;
+        } else if (x>=385 && x<=415) {
+            selected = 2;
+        } else if (x>=445 && x<=475) {
+            selected = 3;
+        }
+        if (selected==0) return;
+        
+        System.out.println(selected);
+        
+        // row 1
+        if (y>=195 && y<=215) {
+            player1color = selected;
+        } else if (y>=350 && y<=370) { // row 2
+            player2color = selected;
+        }
+        
     }
-    // todo: don't allow semicolons in player names
     
+    // todo: don't allow semicolons in player names
     private void submitPlayerInfo() {
         String player1Name = player1field.getText();
         if (player1Name.equals("")) player1Name = "Player 1";
         String player2Name = player2field.getText();
         if (player2Name.equals("")) player2Name = "Player 2";
         
-        player1 = new HumanPlayer(player1Name,Color.RED);
-        player2 = new HumanPlayer(player2Name,Color.YELLOW);
+        Color player1Color = getPlayer1Color();
+        Color player2Color = getPlayer2Color();
+        
+        player1 = new HumanPlayer(player1Name,player1Color);
+        
+        String difficulty = difficultyfield.getText();
+        
+        if (difficulty.equals("1")) {
+            player2 = new RandomPlayer(player2Name,player2Color);
+        } else if (difficulty.equals("2")) {
+            player2 = new DefensivePlayer(player2Name,player2Color);
+        } else if (difficulty.equals("3")) {
+//            player2 = new SmartPlayer(player2Name,player2Color);
+        } else {
+            player2 = new HumanPlayer(player2Name,player2Color);
+        }
+    }
+    
+    private Color getPlayer1Color() {
+        if (player1color==2) return Color.blue;
+        else if (player1color==3) return Color.green;
+        return Color.red;
+    }
+    
+    private Color getPlayer2Color() {
+        if (player2color==2) return Color.orange;
+        else if (player2color==3) return Color.magenta;
+        return Color.yellow;
     }
     
     private boolean isSubmit(int x, int y) { // write this
@@ -112,6 +150,10 @@ public class PickHandler extends Display
         player2field.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
         this.add(player2field);
         
+        difficultyfield.setBounds(600,270,40,40);
+        difficultyfield.setFont(new Font(Font.SANS_SERIF, Font.PLAIN,22));
+        this.add(difficultyfield);
+        
         addKeyListeners(player1field, player2field); // limit amount of characters
 
         g.setColor(Color.GRAY);
@@ -139,10 +181,6 @@ public class PickHandler extends Display
         g.drawOval(x+1, y+1, 38, 38);
     }
     
-//    private int isColor() {
-//        
-//    }
-    
     /**
      * p1 choices: red, blue, green
      * p2 choices: yellow, orange, purple
@@ -163,8 +201,9 @@ public class PickHandler extends Display
         g.fillOval(380, 340, 40, 40);
         g.setColor(Color.MAGENTA);
         g.fillOval(440, 340, 40, 40);
-        highlight(player1color,1,g);
-        highlight(player2color,1,g);
+        
+        highlight(1,player1color,g);
+        highlight(2,player2color,g);
     }
     
     private void addKeyListeners(JTextField field1, JTextField field2) {
@@ -193,11 +232,7 @@ public class PickHandler extends Display
             };
             field2.addKeyListener(keyListener2);
     }
-    
-    
-    
-    
-    
+
     public Player getPlayer1() {
         return player1;
     }

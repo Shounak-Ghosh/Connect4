@@ -17,13 +17,12 @@ public class Game
 
     private Board board;
 
-    public Game()
-    {
+    public Game() {
         pickHandler = new PickHandler(this);
     }
     
     public void play() {
-        System.out.println("playing...");
+      System.out.println("playing...");
       player1 = pickHandler.getPlayer1();
       player2 = pickHandler.getPlayer2();
       pickHandler.getGames().add(this);
