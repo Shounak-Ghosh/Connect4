@@ -7,9 +7,11 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -38,7 +40,7 @@ public abstract class Display extends JComponent implements MouseListener
     // insets of the frame (platform-dependent)
     protected Insets insets;
     
-    protected static ArrayList<Game> games;
+    public static ArrayList<Game> games;
     
     protected static Display mainMenu;
 
@@ -73,7 +75,6 @@ public abstract class Display extends JComponent implements MouseListener
             wiper.print("");
             wiper.close();
 
-        
             file.createNewFile();
             
             BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
@@ -111,15 +112,99 @@ public abstract class Display extends JComponent implements MouseListener
             e.printStackTrace();
         }
         
+        System.out.println("games stored: "+games);
+        
         
     }
+    
+    public void loadGames() {
+        games = new ArrayList<Game>();
+        try {
+            String workingDir = System.getProperty("user.dir");
+
+            Path filePath = Paths.get(workingDir+File.separator+"sampleFile.txt");
+
+            File file = new File(filePath.toString());
+
+            if (file.createNewFile()) return;
+
+            BufferedReader br = new BufferedReader(new FileReader(file.getAbsolutePath()));
+
+            ArrayList<String> player1name = new ArrayList<String>();
+            ArrayList<Color> player1color = new ArrayList<Color>();
+            
+            ArrayList<Integer> player2type = new ArrayList<Integer>();
+            ArrayList<String> player2name = new ArrayList<String>();
+            ArrayList<Color> player2color = new ArrayList<Color>();
+            
+            ArrayList<Stack<Integer>> moves = new ArrayList<Stack<Integer>>();
+
+            int count = 0;
+            for (String line; (line = br.readLine()) != null;) {
+                if (count==6) break;
+                String player1info = line;
+                process(player1name, player1color,player1info);
+                String player2info = br.readLine();
+                process(player2name,player2color,player2info,player2type);
+                
+                moves.add(new Stack<Integer>());
+                
+                String moveSet = br.readLine();
+                for(int i=0;i<moveSet.length();i++) {
+                    int move = Integer.valueOf(moveSet.substring(i,i+1));
+                    moves.get(count).push(move);                }
+                count++;
+            }
+            
+            for(int i=0;i<count;i++) {
+                Player p1 = new HumanPlayer(player1name.get(i),
+                                       player1color.get(i));
+                Player p2 = new HumanPlayer(player2name.get(i),
+                        player2color.get(i)); // change this after getting smartplayer
+                int p2type = player2type.get(i);
+                if (p2type==0) p2 = new HumanPlayer(player2name.get(i),
+                                        player2color.get(i));
+                else if (p2type==1) p2 = new RandomPlayer(player2name.get(i),
+                                        player2color.get(i));
+                else if (p2type==2) p2 = new DefensivePlayer(player2name.get(i),
+                                        player2color.get(i));
+//                else if (p2type==3) p2 = new SmartPlayer(player2name.get(i),
+                        
+                games.add(new Game(p1,p2,moves.get(i)));
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        System.out.println("games loaded: "+games);
+
+    }
+    
+    /**
+     * every time a window is closed, memory is wiped & local games are stored
+     * why do local games replace each other lol
+     * 
+     */
+    
+    private void process(ArrayList<String> names,ArrayList<Color> colors, String info,
+            ArrayList<Integer> types) {
+process(names,colors,info);
+types.add(0,Integer.valueOf(info.substring(0,1)));
+}
+
+private void process(ArrayList<String> names,ArrayList<Color> colors, String info) {
+int semi = info.indexOf(";");
+names.add(0,info.substring(1,semi));
+colors.add(0,new Color(Integer.valueOf(info.substring(semi+1))));
+
+}
     
 //    protected void removeSelf() {
 //        frame.getContentPane().remove(this);
 //    }
     
     protected void displaySelf() {
-        System.out.println("displaying "+this.getClass());
         frame.getContentPane().add(this); // very important line of code reee
 
         frame.setResizable(false);
@@ -145,10 +230,11 @@ public abstract class Display extends JComponent implements MouseListener
     }
     
     public void closeSelf() {
+        storeGames();
         frame.dispose();
     }
 
-    // this method should be overriden
+    // this method should be overridden
     public void mouseClicked(MouseEvent e)
     {
     }

@@ -21,13 +21,17 @@ public class PickHandler extends Display
     int player1color;
     int player2color;
     
+    private ArrayList<Game> games;
+    
     public PickHandler(Game game) {
         this.game = game;
         displaySelf();
         repaint();
         player1color = 1;
         player2color = 1;
-//        pick();
+        
+        games = new ArrayList<Game>();
+        games.addAll(Display.games);
     }
     
     private Player player1;
@@ -35,12 +39,21 @@ public class PickHandler extends Display
     
     public void mouseClicked(MouseEvent e)
     {
+        System.out.println("mouse clicked: "+Display.games);
         int x = e.getX();
         int y = e.getY();
         
         if (isSubmit(x,y)) {
             submitPlayerInfo();
+            System.out.println("before closing: "+Display.games);
             closeSelf();
+            System.out.println("before adding: "+Display.games);
+            System.out.println(Display.games);
+            System.out.println("original: "+games);
+            Display.games.add(game);
+            
+            game.initialize();
+            System.out.println("after adding: "+Display.games);
             game.play();
         } else {
             selectColor(x,y);
@@ -81,6 +94,7 @@ public class PickHandler extends Display
     
     // todo: don't allow semicolons in player names
     private void submitPlayerInfo() {
+        System.out.println("player info submitting "+Display.games);
         String player1Name = player1field.getText();
         if (player1Name.equals("")) player1Name = "Player 1";
         String player2Name = player2field.getText();
@@ -102,6 +116,7 @@ public class PickHandler extends Display
         } else {
             player2 = new HumanPlayer(player2Name,player2Color);
         }
+        System.out.println("player info submitted "+Display.games);
     }
     
     private Color getPlayer1Color() {

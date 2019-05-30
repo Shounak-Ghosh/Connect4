@@ -84,6 +84,7 @@ public class BoardHandler extends Display
      */
     public void mouseClicked(MouseEvent e)
     {
+        System.out.println("board clicked");
         int xCoord = e.getX();
         int yCoord = e.getY();
 
@@ -233,8 +234,6 @@ public class BoardHandler extends Display
 
     public void paintComponent(Graphics g)
     {
-        System.out.println("repainting");
-
         paintGrid(g);
         paintPieces(g);
         paintSidebar(g);
@@ -363,5 +362,6 @@ public class BoardHandler extends Display
             return 6;
         return -1;
     }
+
 
 }

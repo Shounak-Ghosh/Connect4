@@ -16,7 +16,6 @@ public class Game
     private Player player1;
     private Player player2;
 
-
     public Game() {
         pickHandler = new PickHandler(this);
     }
@@ -27,13 +26,24 @@ public class Game
         boardHandler = new BoardHandler(player1,player2, new Board(player1,player2,moves));
     }
     
+    public void initialize() {
+        System.out.println("initializing");
+        player1 = pickHandler.getPlayer1();
+        player2 = pickHandler.getPlayer2();
+    }
+    
     public void play() {
-      System.out.println("playing...");
-      player1 = pickHandler.getPlayer1();
-      player2 = pickHandler.getPlayer2();
-      pickHandler.getGames().add(this);
-      System.out.println(pickHandler.getGames());
+      
+      
+//      System.out.println("before adding game..."+games);
+//      games.add(this);
+//      System.out.println("added game..."+games);
+
       boardHandler = new BoardHandler(player1,player2);
+    }
+    
+    public void resume() {
+        boardHandler.displaySelf();
     }
     
     public Player getPlayer1() {
@@ -47,5 +57,11 @@ public class Game
     public BoardHandler getBoardHandler() {
         return (BoardHandler)boardHandler;
     }
+    
+    public String toString() {
+        return "GAME: "+player1+" "+player2;
+    }
+    
+    
 
 }

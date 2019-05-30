@@ -9,18 +9,14 @@ import java.util.ArrayList;
 
 public class MenuHandler extends Display {
     
-    
     public MenuHandler() {
+        loadGames(); // puts all games into local memory
         displaySelf();
         mainMenu = this;
     }
     
     public void paintComponent(Graphics g)
     {
-        System.out.println("repainting");
-        
-        games = new ArrayList<Game>();
-
         paintEverything(g);
     }
     
@@ -40,16 +36,16 @@ public class MenuHandler extends Display {
         
     public void mouseClicked(MouseEvent e)
     {
+        System.out.println("main menu clicked");
         int xCoord = e.getX();
         int yCoord = e.getY();
         
         if (xCoord-insets.left>250 && xCoord-insets.left<500) {
             if (Math.abs((yCoord-insets.top)-300)<25) { // PLAY button clicked
-                System.out.println("playing...");
                 closeSelf();
+                System.out.println(games);
                 Game game = new Game();
             } else if (Math.abs((yCoord-insets.top)-375)<25) { // Archived Games button clicked
-                System.out.println("getting archived games...");
                 closeSelf();
                 try
                 {
@@ -70,10 +66,3 @@ public class MenuHandler extends Display {
     }
     
 }
-
-/**
- * option 1: play => redirects to pickhandler
- * option 2: archived games => redirects to game list
- * option 3: settings => redirects to.. settings lol
- */
-
