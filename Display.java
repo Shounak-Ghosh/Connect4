@@ -59,22 +59,25 @@ public abstract class Display extends JComponent implements MouseListener
         return games;
     }
     
-    private void storeGames() {
+    public void storeGames() {
         String workingDir = System.getProperty("user.dir");
 
         Path filePath = Paths.get(workingDir+File.separator+"sampleFile.txt");
         
         File file = new File(filePath.toString());
-
+        
         try
         {
+            // wiping the file
+            PrintWriter wiper = new PrintWriter(file);
+            wiper.print("");
+            wiper.close();
+
+        
             file.createNewFile();
-            System.out.println(filePath);
-            System.out.println(file);
             
             BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
             
-            System.out.println("saving games");
             System.out.println(games);
             for (Game g: games) {
                 
@@ -116,6 +119,7 @@ public abstract class Display extends JComponent implements MouseListener
 //    }
     
     protected void displaySelf() {
+        System.out.println("displaying "+this.getClass());
         frame.getContentPane().add(this); // very important line of code reee
 
         frame.setResizable(false);
@@ -128,10 +132,13 @@ public abstract class Display extends JComponent implements MouseListener
         Container c = frame.getContentPane();
         c.setBackground(BACKGROUND_COLOR);
 
-        System.out.println(frame.getHeight());
-
         frame.setVisible(true);
 
+        // removing previous mouse listeners so mouse events 
+        // aren't triggered twice
+        for(int i=0;i<frame.getMouseListeners().length;i++) {
+            frame.removeMouseListener(frame.getMouseListeners()[i]);
+        }
         frame.addMouseListener(this);
 
         repaint();

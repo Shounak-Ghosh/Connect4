@@ -53,6 +53,28 @@ public class BoardHandler extends Display
         catch (Exception e) {}
     }
     
+    public BoardHandler(Player p1, Player p2, Board board) {
+        this.board = board;
+        gameIsOver = (board.winner()!=null);
+        this.p1 = p1;
+        this.p2 = p2;
+
+        // change this for digital player
+        // note: p2 will always be the computer bc we give human first turn
+        
+        computerized = (p2 instanceof RandomPlayer || p2 instanceof DefensivePlayer);
+        lastColumn = board.getLastMove();
+        
+        
+        try
+        {
+            dropNoise = AudioSystem.getClip();
+            dropNoise.open(AudioSystem.getAudioInputStream(
+                    new File(getClass().getResource("drop.wav").getPath())));
+        }
+        catch (Exception e) {}
+    }
+    
     public Board getBoard() {
         return board;
     }
@@ -73,6 +95,7 @@ public class BoardHandler extends Display
         }
         
         if (isBack(xCoord - insets.left, yCoord - insets.top)) {
+            storeGames();
             closeSelf();
             mainMenu.displaySelf();
             return;

@@ -40,10 +40,8 @@ public class MenuHandler extends Display {
         
     public void mouseClicked(MouseEvent e)
     {
-        System.out.println("hi");
         int xCoord = e.getX();
         int yCoord = e.getY();
-        System.out.println(xCoord+" "+yCoord);
         
         if (xCoord-insets.left>250 && xCoord-insets.left<500) {
             if (Math.abs((yCoord-insets.top)-300)<25) { // PLAY button clicked

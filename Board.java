@@ -32,8 +32,25 @@ public class Board
         moves = new Stack<Integer>();
     }
     
+    public Board(Player p1, Player p2, Stack<Integer> moves) {
+        grid = new Piece[6][7];
+        this.p1 = p1;
+        this.p2 = p2;
+        this.moves = moves;
+        processMoves(); // executes all moves, determines current player
+    }
+    
+    private void processMoves() {
+        // write this
+    }
+    
     public Stack<Integer> getMoves() {
         return moves;
+    }
+    
+    public int getLastMove() {
+        if (moves.isEmpty()) return -1;
+        return moves.peek();
     }
 
     /**
@@ -287,8 +304,6 @@ public class Board
 
             }
         }
-
-        System.out.println("winner is " + player);
 
         return player;
     }

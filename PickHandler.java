@@ -23,9 +23,7 @@ public class PickHandler extends Display
     
     public PickHandler(Game game) {
         this.game = game;
-        System.out.println("hi pick");
         displaySelf();
-        System.out.println("finished displaying pick");
         repaint();
         player1color = 1;
         player2color = 1;
@@ -71,9 +69,7 @@ public class PickHandler extends Display
             selected = 3;
         }
         if (selected==0) return;
-        
-        System.out.println(selected);
-        
+                
         // row 1
         if (y>=195 && y<=215) {
             player1color = selected;
@@ -128,8 +124,6 @@ public class PickHandler extends Display
 
     public void paintComponent(Graphics g)
     {
-        System.out.println("repainting");
-        
         games = new ArrayList<Game>();
 
         paintNameFields(g);
@@ -213,7 +207,7 @@ public class PickHandler extends Display
             public void keyReleased(KeyEvent evt) {}
 
             public void keyTyped(KeyEvent evt) {
-                if ((player1field.getText() + evt.getKeyChar()).length() > 13) {
+                if ((player1field.getText() + evt.getKeyChar()).length() > 9) {
                     evt.consume();
                 }
             }
@@ -226,7 +220,7 @@ public class PickHandler extends Display
               public void keyReleased(KeyEvent evt) {}
 
               public void keyTyped(KeyEvent evt) {
-                  if ((player2field.getText() + evt.getKeyChar()).length() > 13) {
+                  if ((player2field.getText() + evt.getKeyChar()).length() > 9) {
                       evt.consume();
                   }
               }
@@ -239,7 +233,7 @@ public class PickHandler extends Display
                 public void keyReleased(KeyEvent evt) {}
 
                 public void keyTyped(KeyEvent evt) {
-                    if ((difficultyfield.getText() + evt.getKeyChar()).length() > 13) {
+                    if ((difficultyfield.getText() + evt.getKeyChar()).length() > 1) {
                         evt.consume();
                     }
                 }
