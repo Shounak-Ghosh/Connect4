@@ -46,6 +46,14 @@ public class GoGame
     	int[] move = player.nextMove();
     	board.executeMove(move, player);
     	display.displaySelf();
+    	try
+        {
+            Thread.sleep(500);
+        }
+        catch(InterruptedException e)
+        {
+            
+        }
     }
     
     public static void main(String[] args)

@@ -65,7 +65,7 @@ public class GoBoard
     {
         
         GoPiece p = new GoPiece(player.getColor(), player);
-        grid[row][column] = p;
+        grid[move[0]][move[1]] = p;
         try
         {
             Thread.sleep(1000); // should be at 300
@@ -89,7 +89,7 @@ public class GoBoard
 //            grid[unhighlightRow][moves.peek()].highlight(false);
 //        }
 //        moves.push(column);
-//  }
+  }
 
 //    public void makeTempMove(int row, int column, Color c)
 //    {
@@ -141,10 +141,10 @@ public class GoBoard
      * @return if the winning player on the current board setup. if there is no
      *         winner, returns null.
      */
-    public Player winner()
+    public GoPlayer winner()
     {
 
-        Player player = null;
+        GoPlayer player = null;
 
         if (moves.size() >= 361)
         {
