@@ -52,6 +52,7 @@ public abstract class Display extends JComponent implements MouseListener
             @Override
             public void windowClosing(WindowEvent e) {
                 Noise.playButtonNoise();
+                Noise.stopMenuMusic();
                 storeGames();
             }
         };

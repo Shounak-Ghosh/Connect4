@@ -19,6 +19,7 @@ public class MenuHandler extends Display {
     
     public void paintComponent(Graphics g)
     {
+        Noise.startMenuMusic();
         paintEverything(g);
         frame.setTitle("Main Menu");
         g.setColor(Color.BLACK);
@@ -49,13 +50,12 @@ public class MenuHandler extends Display {
         if (xCoord-insets.left>250 && xCoord-insets.left<500) {
             if (Math.abs((yCoord-insets.top)-300)<25) { // PLAY button clicked
                 Noise.playButtonNoise();
-                Noise.stopMenuMusic();
+                
                 closeSelf();
                 System.out.println(games);
                 Game game = new Game();
             } else if (Math.abs((yCoord-insets.top)-375)<25) { // Archived Games button clicked
                 Noise.playButtonNoise();
-                Noise.stopMenuMusic();
                 closeSelf();
                 try
                 {

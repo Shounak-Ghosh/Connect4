@@ -32,6 +32,7 @@ public class BoardHandler extends Display
 
     public BoardHandler(Player p1, Player p2)
     {
+        Noise.stopMenuMusic();
         this.board = new Board(p1, p2);
         gameIsOver = false;
         this.p1 = p1;

@@ -94,7 +94,7 @@ public class GameListHandler extends Display {
             if (Math.abs(col-xCoord)<=50 && Math.abs(row-yCoord)<=50) {
                 Noise.playButtonNoise();
                 closeSelf();
-                games.get(i-1).resume();
+                games.get(games.size()-1).resume();
             }
         }
         

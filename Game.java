@@ -33,16 +33,13 @@ public class Game
     }
     
     public void play() {
-      
-      
-//      System.out.println("before adding game..."+games);
-//      games.add(this);
-//      System.out.println("added game..."+games);
+        Noise.stopMenuMusic();
 
       boardHandler = new BoardHandler(player1,player2);
     }
     
     public void resume() {
+        Noise.stopMenuMusic();
         boardHandler.displaySelf();
     }
     
