@@ -7,24 +7,25 @@ import java.awt.event.MouseEvent;
 import java.util.HashSet;
 
 /**
- * A BoardHandler object is in charge of painting the UI based
- * on the status of Board and determining the move of each player.
- * How the move is determined depends on the type of the player - for
- * example, if the player is of type HumanPlayer, the computer waits for 
- * a mouse click to determine a move. If the player is of type DefensivePlayer,
- * the computer uses the respective defensive move method to
- * determine the move. It then hands everything off to Board - 
- * BoardHandler only paints itself based on Board, and Board handles
- * the rest of the game.
+ * A BoardHandler object is in charge of painting the UI based on the status of
+ * Board and determining the move of each player. How the move is determined
+ * depends on the type of the player - for example, if the player is of type
+ * HumanPlayer, the computer waits for a mouse click to determine a move. If the
+ * player is of type DefensivePlayer, the computer uses the respective defensive
+ * move method to determine the move. It then hands everything off to Board -
+ * BoardHandler only paints itself based on Board, and Board handles the rest of
+ * the game.
+ * 
  * @author Gloria Zhu, Shounak Ghosh
  * @version May 31 2019
  *
  */
-public class BoardHandler extends Display {
+public class BoardHandler extends Display
+{
     // not sure what this is for, but I guess it's required
     // for extending a jcomponent
     private static final long serialVersionUID = 1L;
-    
+
     Graphics g;
     private boolean gameIsOver;
     private boolean computerized; // true if the game is against the computer
@@ -33,10 +34,9 @@ public class BoardHandler extends Display {
     Player p2;
     Player humanPlayer;
     Player computerPlayer;
-    
+
     protected Board board;
 
-    
     // Constructors/Getter
 
     public BoardHandler(Player p1, Player p2)
@@ -46,19 +46,21 @@ public class BoardHandler extends Display {
         gameIsOver = false;
         this.p1 = p1;
         this.p2 = p2;
-        
+
         computerized = (p2 instanceof RandomPlayer || p2 instanceof DefensivePlayer || p2 instanceof SmartPlayer);
-        if (computerized) {
+        if (computerized)
+        {
             humanPlayer = p1;
             computerPlayer = p2;
         }
-        
+
         displaySelf();
     }
-    
-    public BoardHandler(Player p1, Player p2, Board board) {
+
+    public BoardHandler(Player p1, Player p2, Board board)
+    {
         this.board = board;
-        gameIsOver = (board.winner()!=null);
+        gameIsOver = (board.winner() != null);
         this.p1 = p1;
         this.p2 = p2;
 
@@ -66,17 +68,20 @@ public class BoardHandler extends Display {
         // note: p2 will always be the computer bc we give human first turn
         computerized = (p2 instanceof RandomPlayer || p2 instanceof DefensivePlayer || p2 instanceof SmartPlayer);
 
-        if (computerized) {
+        if (computerized)
+        {
             humanPlayer = p1;
             computerPlayer = p2;
         }
     }
-    
-    public Board getBoard() { return board; }
 
-    
+    public Board getBoard()
+    {
+        return board;
+    }
+
     // mouseClick
-    
+
     public void mouseClicked(MouseEvent e)
     {
         System.out.println("board clicked");
@@ -90,8 +95,9 @@ public class BoardHandler extends Display {
             repaint();
             return;
         }
-        
-        if (isBack(xCoord - insets.left, yCoord - insets.top)) {
+
+        if (isBack(xCoord - insets.left, yCoord - insets.top))
+        {
             Noise.playButtonNoise();
             storeGames();
             closeSelf();
@@ -104,39 +110,49 @@ public class BoardHandler extends Display {
             int column = getColumn(xCoord - insets.left);
 
             // it was a valid move, computer's turn (if it is a 1 player game)
-            if (makeMove(column) && computerized && !gameIsOver) {
+            if (makeMove(column) && computerized && !gameIsOver)
+            {
                 // figure out how to sleep here
 
-                if (p2 instanceof RandomPlayer) {
+                if (p2 instanceof RandomPlayer)
+                {
                     makeMove(randomPlayerMove());
-                } else if (p2 instanceof DefensivePlayer) {
+                }
+                else if (p2 instanceof DefensivePlayer)
+                {
                     makeMove(defensivePlayerMove());
-                } else if (p2 instanceof SmartPlayer) {
+                }
+                else if (p2 instanceof SmartPlayer)
+                {
                     makeMove(smartPlayerMove());
                 }
             }
 
-        } else {
+        }
+        else
+        {
             // someone has already won the game, no more moves can be made
             System.out.println("Game has ended.");
             repaint();
         }
 
     }
-    
-    
+
     // mouseClick helpers
 
-    private boolean isUndo(int xCoord, int yCoord) {
+    private boolean isUndo(int xCoord, int yCoord)
+    {
         System.out.println(xCoord + " " + yCoord);
         return (yCoord >= 400 && yCoord <= 440 && xCoord >= 630 && xCoord <= 715);
     }
-    
-    private boolean isBack(int xCoord, int yCoord) {
-        return (xCoord>=630 && xCoord<=715 && yCoord>=460 && yCoord<=500);
+
+    private boolean isBack(int xCoord, int yCoord)
+    {
+        return (xCoord >= 630 && xCoord <= 715 && yCoord >= 460 && yCoord <= 500);
     }
-    
-    private int getColumn(int x) {
+
+    private int getColumn(int x)
+    {
         if (x >= 10 && x <= 85)
             return 0;
         else if (x >= 95 && x <= 170)
@@ -153,11 +169,11 @@ public class BoardHandler extends Display {
             return 6;
         return -1;
     }
-    
-    
+
     // Determining Moves
 
-    private int randomPlayerMove() {
+    private int randomPlayerMove()
+    {
         int move = (int) (Math.random() * 7);
         while (!board.isValidMove(move))
         {
@@ -166,53 +182,90 @@ public class BoardHandler extends Display {
         return move;
     }
 
+ // TODO: make a twoInARow method in board (similar to winner) and use that
+    // instead
     private int defensivePlayerMove()
     {
-        for (int i = 0; i < 7; i++) {
-//            board.setCurrentPlayer(p2);
-            if (makeTempMove(i, Color.RED)) { // computer makes a move
-                for (int j = 0; j < 7; j++) {
-//                    board.setCurrentPlayer(p1); // set player to human player
-                    if (makeTempMove(j, Color.YELLOW)) { // human makes a move
-                        if (board.winner() != null && board.winner().equals(p1)) { // if the human wins on this move
-                            System.out.println("MOVE TO BLOCK");
-                            board.undo();
-                            board.undo();
-//                            board.setCurrentPlayer(p2); // set player to computer
-                            return j; // blocks the move from occurring
-                        }
-                    }
-                    board.undo();
-                }
+
+        for(int b = 0; b < 7; b++) 
+        {
+            board.makeTempMove(b, humanPlayer.getColor(), humanPlayer);
+            if(humanPlayer.equals(board.winner())) 
+            {
+                board.clearTempMoves();
+                return b;
             }
-            board.undo();
         }
-        return randomPlayerMove();
+        board.clearTempMoves();
+        
+        for (int a = 0; a < 7; a++)
+        {
+            board.makeTempMove(a, computerPlayer.getColor(), computerPlayer);
+            if(computerPlayer.equals(board.winner())) 
+            {
+                board.clearTempMoves();
+                System.out.println("computer should win " + a);
+                return a;
+            }
+        }
+        board.clearTempMoves();
+
+        int move = board.getMoveStack().peek() - 1 + (int) (Math.random() * 3);
+        System.out.println("current move stack " + board.getMoveStack());
+        System.out.println("possible move " + move);
+        while (!board.isValidMove(move))
+        {
+            move = board.getMoveStack().peek() - 1 + (int) (Math.random() * 3);
+            System.out.println("possible move " + move);
+        }
+
+        return move;
+
     }
 
-    private int smartPlayerMove(){
+
+    private int smartPlayerMove()
+    {
         System.out.println("smart player move");
         // HashSet<Integer> validColumns = new HashSet<Integer>();
         HashSet<Integer> oneMoveWin = new HashSet<Integer>();
         HashSet<Integer> twoMoveWin = new HashSet<Integer>();
 
-        for (int a = 0; a < 7; a++) { // computer plays
+        for(int b = 0; b < 7; b++) 
+        {
+            board.makeTempMove(b, humanPlayer.getColor(), humanPlayer);
+            if(humanPlayer.equals(board.winner())) 
+            {
+                board.clearTempMoves();
+                return b;
+            }
+        }
+        board.clearTempMoves();
+        
+        for (int a = 0; a < 7; a++)
+        { // computer plays
             board.makeTempMove(a, computerPlayer.getColor(), computerPlayer);
-            if (board.winner() != null && board.winner().equals(computerPlayer)) { // win if a win is possible
+            if (board.winner() != null && board.winner().equals(computerPlayer))
+            { // win if a win is possible
                 board.clearTempMoves();
                 return a;
             }
-            for (int b = 0; b < 7; b++) { // human plays
+            for (int b = 0; b < 7; b++)
+            { // human plays
                 board.makeTempMove(b, humanPlayer.getColor(), humanPlayer);
-                if (board.winner() != null && board.winner().equals(humanPlayer)) {
+                if (board.winner() != null && board.winner().equals(humanPlayer))
+                {
                     oneMoveWin.add(b); // this strategy does not always work
                     // add case where this move helps humanPlayer win
                 }
-                for (int c = 0; c < 7; c++) { // computer plays
+                for (int c = 0; c < 7; c++)
+                { // computer plays
                     board.makeTempMove(c, computerPlayer.getColor(), computerPlayer);
-                    for (int d = 0; d < 7; d++) { // human plays
+                    for (int d = 0; d < 7; d++)
+                    { // human plays
                         board.makeTempMove(d, humanPlayer.getColor(), humanPlayer);
-                        if (board.winner() != null && board.winner().equals(humanPlayer)) {
+                        if (board.winner() != null && board.winner().equals(humanPlayer))
+                        {
                             twoMoveWin.add(d);
                         }
                         board.clearTempMoves();
@@ -234,6 +287,8 @@ public class BoardHandler extends Display {
             if (!board.isValidMove(i))
                 twoMoveWin.remove(i);
         
+        
+
         // give priority to one move wins
         if (!oneMoveWin.isEmpty())
             for (Integer i : oneMoveWin)
@@ -246,17 +301,17 @@ public class BoardHandler extends Display {
 
         while (!board.isValidMove(move))
             move = board.getMoveStack().peek() - 1 + (int) (Math.random() * 3);
-        
+
         return move;
 
     }
 
-    
     // Making Temporary/Permanent Moves
-    
+
     private boolean makeTempMove(int column, Color c)
     {
-        if (board.isValidMove(column)) {
+        if (board.isValidMove(column))
+        {
             repaint();
             return true;
         }
@@ -266,28 +321,42 @@ public class BoardHandler extends Display {
     private boolean makeMove(int column)
     {
 
-        if (board.isValidMove(column)) {
-            try { Noise.playDropNoise(); }
-            catch (Exception e) { e.printStackTrace(); }
-            
+        if (board.isValidMove(column))
+        {
+            try
+            {
+                Noise.playDropNoise();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
             int finalRow = board.getTopmostEmptySlot(column);
             int row = 0;
             double dropTime = 100;
-            while (row <= finalRow)  {
+            while (row <= finalRow)
+            {
                 gameIsOver = true;
                 board.animateMove(column, row);
                 paint(getGraphics());
-                
-                try { Thread.sleep((int) dropTime); }
-                catch (Exception e) { e.printStackTrace(); }
-                
+
+                try
+                {
+                    Thread.sleep((int) dropTime);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+
                 board.removeAnimatedMove(column, row);
                 paint(getGraphics());
                 row++;
                 dropTime *= 0.9;
                 gameIsOver = false;
             }
-            
+
             Player winner = board.makeMove(column);
             paint(getGraphics());
 
@@ -303,10 +372,10 @@ public class BoardHandler extends Display {
         return false;
     }
 
-    
     // UI painting
-    
-    public void paintComponent(Graphics g) {
+
+    public void paintComponent(Graphics g)
+    {
         paintGrid(g);
         paintPieces(g);
         paintSidebar(g);
@@ -351,23 +420,29 @@ public class BoardHandler extends Display {
         g.fillRoundRect(c * 75 + (c + 1) * 10, r * 75 + (r + 1) * 10, 75, 75, 45, 45);
     }
 
-    private void highlight(Graphics g, int c, int r, Color color) {
+    private void highlight(Graphics g, int c, int r, Color color)
+    {
         g.setColor(color);
         g.drawRoundRect(c * 75 + (c + 1) * 10, r * 75 + (r + 1) * 10, 75, 75, 45, 45);
         g.drawRoundRect(c * 75 + (c + 1) * 10 + 1, r * 75 + (r + 1) * 10 + 1, 73, 73, 45, 45);
         g.drawRoundRect(c * 75 + (c + 1) * 10 + 2, r * 75 + (r + 1) * 10 + 2, 71, 71, 45, 45);
         g.drawRoundRect(c * 75 + (c + 1) * 10 + 3, r * 75 + (r + 1) * 10 + 3, 71, 71, 45, 45);
-        
+
     }
 
-    private void paintPieces(Graphics g) {
+    private void paintPieces(Graphics g)
+    {
         Piece[][] piece = board.getPieces();
 
-        for (int c = 0; c < piece[0].length; c++) {
-            for (int r = 0; r < piece.length; r++) {
-                if (piece[r][c] != null) {
+        for (int c = 0; c < piece[0].length; c++)
+        {
+            for (int r = 0; r < piece.length; r++)
+            {
+                if (piece[r][c] != null)
+                {
                     paintSlot(g, c, r, piece[r][c].getColor());
-                    if (piece[r][c].isHighlighted()) {
+                    if (piece[r][c].isHighlighted())
+                    {
                         highlight(g, c, r, HIGHLIGHT_COLOR);
                     }
                 }
