@@ -146,15 +146,15 @@ public class PickHandler extends Display {
         
         player1field.setBounds(315, 120, 150, 40);
         player1field.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
-        this.add(player1field);
+        //this.add(player1field);
         
         player2field.setBounds(315, 270, 150, 40);
         player2field.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
-        this.add(player2field);
+        //this.add(player2field);
         
         difficultyfield.setBounds(600,270,40,40);
         difficultyfield.setFont(new Font(Font.SANS_SERIF, Font.PLAIN,22));
-        this.add(difficultyfield);
+        //this.add(difficultyfield);
         
         addKeyListenersToTextFields();
 
