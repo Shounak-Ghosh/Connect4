@@ -47,7 +47,12 @@ public class BoardHandler extends Display {
         this.p1 = p1;
         this.p2 = p2;
         
-        computerized = (p2 instanceof RandomPlayer || p2 instanceof DefensivePlayer);
+        computerized = (p2 instanceof RandomPlayer || p2 instanceof DefensivePlayer || p2 instanceof SmartPlayer);
+        if (computerized) {
+            humanPlayer = p1;
+            computerPlayer = p2;
+        }
+        
         displaySelf();
     }
     
@@ -186,6 +191,7 @@ public class BoardHandler extends Display {
     }
 
     private int smartPlayerMove(){
+        System.out.println("smart player move");
         // HashSet<Integer> validColumns = new HashSet<Integer>();
         HashSet<Integer> oneMoveWin = new HashSet<Integer>();
         HashSet<Integer> twoMoveWin = new HashSet<Integer>();
@@ -240,7 +246,7 @@ public class BoardHandler extends Display {
 
         while (!board.isValidMove(move))
             move = board.getMoveStack().peek() - 1 + (int) (Math.random() * 3);
-
+        
         return move;
 
     }
