@@ -3,7 +3,6 @@ package Connect4;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -11,9 +10,16 @@ import java.util.ArrayList;
 
 import javax.swing.JTextField;
 
+/**
+ * The PickHandler is in charge of displaying the screen where 
+ * player can enter their name, choose colors, and/or
+ * pick a difficulty for a player vs. computer game.
+ * @author Gloria Zhu, Shounak Ghosh
+ * @version May 31 2019
+ *
+ */
 public class PickHandler extends Display
-{
-    
+{ 
     private JTextField player1field = new JTextField(20);
     private JTextField player2field = new JTextField(20);
     private JTextField difficultyfield = new JTextField(1);
@@ -37,9 +43,7 @@ public class PickHandler extends Display
     private Player player1;
     private Player player2;
     
-    public void mouseClicked(MouseEvent e)
-    {
-        System.out.println("mouse clicked: "+Display.games);
+    public void mouseClicked(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
         
@@ -48,8 +52,6 @@ public class PickHandler extends Display
             submitPlayerInfo();
             closeSelf();
             Display.games.add(game);
-            
-            
             game.initialize();
             game.play();
         } else {
@@ -58,14 +60,7 @@ public class PickHandler extends Display
         }
         
     }
-    
-    /**
-     * Selects a color for the players based in given x/y coordinates of a click.
-     * If the click is not in any color, does nothing.
-     * I am aware there is probably a better way to do this. However, :(
-     * @param x
-     * @param y
-     */
+
     private void selectColor(int x, int y) {
         x-=insets.left;
         y-=insets.top;
@@ -91,9 +86,7 @@ public class PickHandler extends Display
         
     }
     
-    // todo: don't allow semicolons in player names
     private void submitPlayerInfo() {
-        System.out.println("player info submitting "+Display.games);
         String player1Name = player1field.getText();
         if (player1Name.equals("")) player1Name = "Player 1";
         String player2Name = player2field.getText();
@@ -111,11 +104,10 @@ public class PickHandler extends Display
         } else if (difficulty.equals("2")) {
             player2 = new DefensivePlayer(player2Name,player2Color);
         } else if (difficulty.equals("3")) {
-//            player2 = new SmartPlayer(player2Name,player2Color);
+            player2 = new SmartPlayer(player2Name,player2Color);
         } else {
             player2 = new HumanPlayer(player2Name,player2Color);
         }
-        System.out.println("player info submitted "+Display.games);
     }
     
     private Color getPlayer1Color() {
@@ -130,20 +122,15 @@ public class PickHandler extends Display
         return Color.yellow;
     }
     
-    private boolean isSubmit(int x, int y) { // write this
+    private boolean isSubmit(int x, int y) {
         x-=insets.left;
         y-= insets.top;
         return (Math.abs(x-390)<=75 && Math.abs(y-450)<20);
     }
 
-    public void paintComponent(Graphics g)
-    {
-//        games = new ArrayList<Game>();
-        // root of issues???
-
+    public void paintComponent(Graphics g) {
         paintNameFields(g);
         paintColorSelections(g);
-        
         frame.setTitle("Picking...");
     }
     
@@ -169,7 +156,6 @@ public class PickHandler extends Display
 
         g.setColor(Color.GRAY);
         g.fillRect(315, 430, 150, 40);
-        
         g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 25));
         g.setColor(Color.WHITE);
         g.drawString("Submit", 345, 460);
@@ -177,11 +163,9 @@ public class PickHandler extends Display
     
     private void highlight(int row, int column, Graphics g) {
         g.setColor(Color.BLACK);
-        
         int y;
         if (row==1) y = 185;
         else y = 340;
-        
         int x;
         if (column==1) x = 320;
         else if (column==2) x = 380;
@@ -195,7 +179,6 @@ public class PickHandler extends Display
     /**
      * p1 choices: red, blue, green
      * p2 choices: yellow, orange, purple
-     * @param g
      */
     private void paintColorSelections(Graphics g) {
         
@@ -218,52 +201,33 @@ public class PickHandler extends Display
     }
     
     private void addKeyListenersToTextFields() {
-        KeyListener keyListener1 = new KeyListener() {
+        player1field.addKeyListener(new KeyListener() {
             public void keyPressed(KeyEvent evt) {}
-
             public void keyReleased(KeyEvent evt) {}
-
             public void keyTyped(KeyEvent evt) {
-                if ((player1field.getText() + evt.getKeyChar()).length() > 9) {
+                if ((player1field.getText() + evt.getKeyChar()).length() > 9) 
                     evt.consume();
-                }
             }
-          };
-          player1field.addKeyListener(keyListener1);
-          
-          KeyListener keyListener2 = new KeyListener() {
-              public void keyPressed(KeyEvent evt) {}
-
-              public void keyReleased(KeyEvent evt) {}
-
-              public void keyTyped(KeyEvent evt) {
-                  if ((player2field.getText() + evt.getKeyChar()).length() > 9) {
-                      evt.consume();
-                  }
-              }
-            };
-            player2field.addKeyListener(keyListener2);
-            
-            KeyListener keyListener3 = new KeyListener() {
-                public void keyPressed(KeyEvent evt) {}
-
-                public void keyReleased(KeyEvent evt) {}
-
-                public void keyTyped(KeyEvent evt) {
-                    if ((difficultyfield.getText() + evt.getKeyChar()).length() > 1) {
-                        evt.consume();
-                    }
-                }
-              };
-              difficultyfield.addKeyListener(keyListener3);
+        });
+        player2field.addKeyListener(new KeyListener() {
+            public void keyPressed(KeyEvent evt) {}
+            public void keyReleased(KeyEvent evt) {}
+            public void keyTyped(KeyEvent evt) {
+                if ((player2field.getText() + evt.getKeyChar()).length() > 9) 
+                    evt.consume();
+            }
+        });
+        difficultyfield.addKeyListener(new KeyListener() {
+            public void keyPressed(KeyEvent evt) {}
+            public void keyReleased(KeyEvent evt) {}
+            public void keyTyped(KeyEvent evt) {
+                if ((difficultyfield.getText() + evt.getKeyChar()).length() > 1)
+                    evt.consume();
+            }
+        });
     }
 
-    public Player getPlayer1() {
-        return player1;
-    }
-    
-    public Player getPlayer2() {
-        return player2;
-    }
+    public Player getPlayer1() { return player1; }
+    public Player getPlayer2() { return player2; }
 
 }

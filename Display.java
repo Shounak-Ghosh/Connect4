@@ -26,10 +26,18 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+/**
+ * The abstract superclass for all displays in the project.
+ * Makes setting sizes, behavior, keeping constant colors,
+ * determining insets, etc. easier.
+ * Also is in charge of storing game information and reading 
+ * it back in from the text file (since all displays will need
+ * to do these methods)
+ * @author Gloria Zhu
+ *
+ */
 public abstract class Display extends JComponent implements MouseListener
 {
-//    protected Board board;
-
     protected JFrame frame;
 
     protected final Color BACKGROUND_COLOR = new Color(192, 192, 192);
@@ -40,13 +48,15 @@ public abstract class Display extends JComponent implements MouseListener
     // insets of the frame (platform-dependent)
     protected Insets insets;
     
+    // static variables (same for all displays)
     public static ArrayList<Game> games;
-    
     protected static Display mainMenu;
 
-    public Display()
-    {
+    
+    public Display() {
         frame = new JFrame();
+        
+        // stores games upon exiting
         WindowListener exitListener = new WindowAdapter() {
 
             @Override
@@ -62,6 +72,9 @@ public abstract class Display extends JComponent implements MouseListener
     public ArrayList<Game> getGames() {
         return games;
     }
+    
+    
+    // storing/reading in games
     
     public void storeGames() {
         String workingDir = System.getProperty("user.dir");
@@ -107,7 +120,7 @@ public abstract class Display extends JComponent implements MouseListener
                 Stack<Integer> moveStack = g.getBoardHandler().getBoard().getMoves();
                 ArrayList<Integer> moves = new ArrayList(moveStack);
                 for (int j=0;j<moves.size();j++) {
-                    writer.write(String.valueOf(moves.get(j)));
+                    writer.write(String.valueOf(moves.get(moves.size()-1-j)));
                 }
                 writer.newLine();
             }
@@ -188,29 +201,23 @@ public abstract class Display extends JComponent implements MouseListener
 
     }
     
-    /**
-     * every time a window is closed, memory is wiped & local games are stored
-     * why do local games replace each other lol
-     * 
-     */
-    
-    private void process(ArrayList<String> names,ArrayList<Color> colors, String info,
-            ArrayList<Integer> types) {
-process(names,colors,info);
-types.add(0,Integer.valueOf(info.substring(0,1)));
-}
 
-private void process(ArrayList<String> names,ArrayList<Color> colors, String info) {
-int semi = info.indexOf(";");
-names.add(0,info.substring(1,semi));
-colors.add(0,new Color(Integer.valueOf(info.substring(semi+1))));
+    // process 1 line of player info
+    
+    private void process(ArrayList<String> names, ArrayList<Color> colors, String info, ArrayList<Integer> types) {
+        process(names, colors, info);
+        types.add(0, Integer.valueOf(info.substring(0, 1)));
+    }
+
+    private void process(ArrayList<String> names, ArrayList<Color> colors, String info) {
+        int semi = info.indexOf(";");
+        names.add(0, info.substring(1, semi));
+        colors.add(0, new Color(Integer.valueOf(info.substring(semi + 1))));
 
 }
+
     
-//    protected void removeSelf() {
-//        frame.getContentPane().remove(this);
-//    }
-    
+    // display itself
     protected void displaySelf() {
         frame.getContentPane().add(this); // very important line of code reee
 
@@ -236,31 +243,16 @@ colors.add(0,new Color(Integer.valueOf(info.substring(semi+1))));
         repaint();
     }
     
+    // close itself
     public void closeSelf() {
         storeGames();
         frame.dispose();
     }
 
     // this method should be overridden
-    public void mouseClicked(MouseEvent e)
-    {
-    }
-
-    public void mousePressed(MouseEvent e)
-    {
-    }
-
-    public void mouseReleased(MouseEvent e)
-    {
-    }
-
-    public void mouseEntered(MouseEvent e)
-    {
-    }
-
-    public void mouseExited(MouseEvent e)
-    {
-    }
+    public void mouseClicked(MouseEvent e) {}
+    public void mousePressed(MouseEvent e) {}
+    public void mouseReleased(MouseEvent e) {}
+    public void mouseEntered(MouseEvent e) {}
+    public void mouseExited(MouseEvent e) {}
 }
-
-// accepts listeners - get x/y coordinates to determine what coordinate was clicked

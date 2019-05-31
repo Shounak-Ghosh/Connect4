@@ -5,8 +5,12 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 /**
- * plays the game (the board plays the game tbh)
- *
+ * Represents 1 game. Wraps a BoardHandler and
+ * keeps track of the players. Also takes
+ * care of picking and reading in player
+ * name, color, and/or difficulty.
+ * @author Gloria Zhu, Shounak Ghosh
+ * @version May 31 2019
  */
 public class Game
 {
@@ -15,6 +19,9 @@ public class Game
     
     private Player player1;
     private Player player2;
+    
+    
+    // constructors
 
     public Game() {
         pickHandler = new PickHandler(this);
@@ -26,8 +33,8 @@ public class Game
         boardHandler = new BoardHandler(player1,player2, new Board(player1,player2,moves));
     }
     
+    // methods to play
     public void initialize() {
-        System.out.println("initializing");
         player1 = pickHandler.getPlayer1();
         player2 = pickHandler.getPlayer2();
     }
@@ -35,30 +42,17 @@ public class Game
     public void play() {
         Noise.stopMenuMusic();
 
-      boardHandler = new BoardHandler(player1,player2);
+        boardHandler = new BoardHandler(player1, player2);
     }
-    
+
     public void resume() {
         Noise.stopMenuMusic();
         boardHandler.displaySelf();
     }
     
-    public Player getPlayer1() {
-        return player1;
-    }
-    
-    public Player getPlayer2() {
-        return player2;
-    }
-    
-    public BoardHandler getBoardHandler() {
-        return (BoardHandler)boardHandler;
-    }
-    
-    public String toString() {
-        return "GAME: "+player1+" "+player2;
-    }
-    
-    
-
+    // getters
+    public Player getPlayer1() { return player1; }
+    public Player getPlayer2() { return player2; }
+    public BoardHandler getBoardHandler() { return (BoardHandler)boardHandler; }
+    public String toString() { return "GAME: "+player1+" "+player2; }
 }

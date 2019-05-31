@@ -14,15 +14,19 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Stack;
 
+/**
+ * A GameListHandler handles displaying the list of archived games
+ * and navigating to the selected game when clicked.
+ * @author Gloria Zhu, Shounak Ghosh
+ * @version May 31 2019
+ */
 public class GameListHandler extends Display {
     
     public GameListHandler() throws FileNotFoundException {
-        System.out.println("game list created");
         displaySelf();
     }
     
-    public void paintComponent(Graphics g)
-    {
+    public void paintComponent(Graphics g) {
         paintEverything(g);
     }
     
@@ -33,12 +37,9 @@ public class GameListHandler extends Display {
     
     private void paintGrid(Graphics g) {
         g.setColor(Color.BLACK);
-        
-        for(int c=1;c<=2;c++) {
-            for(int r=1;r<=3;r++) {
+        for(int c=1;c<=2;c++)
+            for(int r=1;r<=3;r++)
                 g.drawRect(10*c+360*(c-1), 20*r+140*(r-1), 360, 140);
-            }
-        }
     }
     
     private void paintGames(Graphics g) {
@@ -80,8 +81,7 @@ public class GameListHandler extends Display {
         g.drawRect(c + 230, r + 20, 100, 100);
     }
     
-    public void mouseClicked(MouseEvent e)
-    {
+    public void mouseClicked(MouseEvent e) {
         int xCoord = e.getX();
         int yCoord = e.getY();
         
@@ -94,7 +94,7 @@ public class GameListHandler extends Display {
             if (Math.abs(col-xCoord)<=50 && Math.abs(row-yCoord)<=50) {
                 Noise.playButtonNoise();
                 closeSelf();
-                games.get(games.size()-1).resume();
+                games.get(games.size()-i).resume();
             }
         }
         

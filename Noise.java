@@ -3,6 +3,14 @@ package Connect4;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
+/**
+ * The Noise class is in charge of processing audio
+ * files then playing them upon command. It contains
+ * only static method for playing these noises.
+ * @author Gloria Zhu, Shounak Ghosh
+ * @version May 31 2019
+ *
+ */
 public class Noise
 {
     private static Clip dropNoise;
