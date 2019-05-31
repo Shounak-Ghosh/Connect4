@@ -28,22 +28,32 @@ public class GoGame
     /**
      * Displays and plays the game
      */
-    public void play()
+    public static void play(GoBoard board, GoDisplay display, Player white, Player black)
     {
-
+    	while(true)//replace with win condition
+        {
+            Piece a = nextTurn(board, display, white);
+            Piece b = nextTurn(board, display, black);
+        }
     }
 
     /**
      * Executes the next move in the game
      */
-    private void nextMove()
+    private static void nextTurn(GoBoard board, GoDisplay display, Player player)
     {
-
+    	display.setTitle(player.getName());
+    	
+    	int[] move = player.nextMove();
     }
     
     public static void main(String[] args)
     {
-    	NewGoBoard board = new NewGoBoard();
+    	GoBoard board = new GoBoard();
     	GoDisplay display = new GoDisplay(board);
+    	GoHumanPlayer player1 = new GoHumanPlayer("Player 1", Color.WHITE, board, display);
+    	//change player2 to a SmartPlayer or smth to play against a computer
+    	GoHumanPlayer player2 = new GoHumanPlayer("Player 2", Color.BLACK, board, display);
+    	play(board, display, player1, player2);
     }
 }
