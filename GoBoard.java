@@ -217,7 +217,7 @@ public class GoBoard
         			}
         			if(p!=null&&won)
         			{
-        				return p.getPlayer();
+        				player= p.getPlayer();
         			}
         			
         		}
@@ -247,14 +247,14 @@ public class GoBoard
         			}
         			if(p!=null&&won)
         			{
-        				return p.getPlayer();
+        				player= p.getPlayer();
         			}
         			
         		}
             }
         }
 
-        // test diagonal with positive slope
+        // test diagonal with negative slope
         for (int r = 0; r < grid.length-5; r++)
         {
             for (int c = 0; c <grid[0].length-5; c++)
@@ -263,35 +263,56 @@ public class GoBoard
 
                 if(p!=null)
                 {
-                	
+                	Color color = p.getColor();
+                	boolean win = true;
+                	for(int i = r; i<r+5; i++)
+                	{
+                		for(int j = c; j<c+5; j++)
+                		{
+                			if(grid[i][j]==null || !grid[i][j].getColor().equals(color))
+                			{
+                				win = false;
+                			}
+                		}
+                	}
+                	if(win)
+                	{
+                		player = p.getPlayer();
+                	}
                 }
 
             }
         }
 
-        // test diagonally with negative slope
-        for (int r = 3; r <= 5; r++)
+        // test diagonally with positive slope
+        for(int r = 0; r<grid.length-5; r++)
         {
-            for (int c = 3; c <= 6; c++)
-            {
-                Piece test = grid[r][c];
-
-                if (test != null)
-                {
-                    if (test.is(grid[r - 1][c - 1]) && test.is(grid[r - 2][c - 2]) && test.is(grid[r - 3][c - 3]))
-                    {
-
-                        test.highlight(true);
-                        grid[r - 1][c - 1].highlight(true);
-                        grid[r - 2][c - 2].highlight(true);
-                        grid[r - 3][c - 3].highlight(true);
-
-                        player = test.getPlayer();
-                    }
-                }
-
-            }
+        	for(int c = 4; c<grid[0].length; c++)
+        	{
+        		Piece p = grid[r][c];
+        		if(p!=null)
+        		{
+        			boolean won = true;
+        			Color color = p.getColor();
+        			for(int i = r; i<r+5; i++)
+        			{
+        				for(int j = c; j>c-5;j--)
+        				{
+        					if(grid[i][j]==null|| !grid[i][j].getColor().equals(color))
+        					{
+        						won = false;
+        					}
+        				}
+        			}
+        			if(won)
+        			{
+        				player = p.getPlayer();
+        			}
+        		}
+        	}
         }
+        
+        
 
         System.out.println("winner is " + player);
 
