@@ -18,6 +18,7 @@ public class MenuHandler extends Display {
     public void paintComponent(Graphics g)
     {
         paintEverything(g);
+        frame.setTitle("Main Menu");
     }
     
     private void paintEverything(Graphics g) {

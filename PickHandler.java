@@ -134,10 +134,13 @@ public class PickHandler extends Display
 
     public void paintComponent(Graphics g)
     {
-        games = new ArrayList<Game>();
+//        games = new ArrayList<Game>();
+        // root of issues???
 
         paintNameFields(g);
         paintColorSelections(g);
+        
+        frame.setTitle("Picking...");
     }
     
     private void paintNameFields(Graphics g) {

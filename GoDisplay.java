@@ -164,7 +164,7 @@ public class GoDisplay extends Display
     {
         if (board.isValidMove(column))
         {
-            board.makeTempMove(column, c);
+//            board.makeTempMove(column, c);
             repaint();
             return true;
         }

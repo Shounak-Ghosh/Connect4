@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -23,6 +24,8 @@ public class BoardHandler extends Display
     private int lastColumn;
     Player p1;
     Player p2;
+    Player humanPlayer;
+    Player computerPlayer;
     
     protected Board board;
 
@@ -62,7 +65,14 @@ public class BoardHandler extends Display
         // change this for digital player
         // note: p2 will always be the computer bc we give human first turn
         
-        computerized = (p2 instanceof RandomPlayer || p2 instanceof DefensivePlayer);
+        computerized = (p2 instanceof RandomPlayer || p2 instanceof DefensivePlayer || p2 instanceof SmartPlayer);
+
+        if (computerized)
+        {
+            humanPlayer = p1;
+            computerPlayer = p2;
+        }
+        
         lastColumn = board.getLastMove();
         
         
@@ -114,6 +124,8 @@ public class BoardHandler extends Display
                     makeMove(randomPlayerMove());
                 } else if (p2 instanceof DefensivePlayer) {
                     makeMove(defensivePlayerMove());
+                } else if (p2 instanceof SmartPlayer) {
+                    makeMove(smartPlayerMove());
                 }
             }
 
@@ -180,6 +192,96 @@ public class BoardHandler extends Display
         return randomPlayerMove();
     }
 
+    private int smartPlayerMove()
+    {
+        // HashSet<Integer> validColumns = new HashSet<Integer>();
+        HashSet<Integer> oneMoveWin = new HashSet<Integer>();
+        HashSet<Integer> twoMoveWin = new HashSet<Integer>();
+
+        for (int a = 0; a < 7; a++) // computer plays
+        {
+            board.makeTempMove(a, computerPlayer.getColor(), computerPlayer);
+            if (board.winner() != null && board.winner().equals(computerPlayer)) // win if a win is possible
+            {
+                board.clearTempMoves();
+                return a;
+            }
+            for (int b = 0; b < 7; b++) // human plays
+            {
+                board.makeTempMove(b, humanPlayer.getColor(), humanPlayer);
+                if (board.winner() != null && board.winner().equals(humanPlayer))
+                {
+                    oneMoveWin.add(b); // this strategy does not always work
+                    // add case where this move helps humanPlayer win
+                }
+                for (int c = 0; c < 7; c++) // computer plays
+                {
+                    board.makeTempMove(c, computerPlayer.getColor(), computerPlayer);
+                    for (int d = 0; d < 7; d++) // human plays
+                    {
+                        board.makeTempMove(d, humanPlayer.getColor(), humanPlayer);
+                        if (board.winner() != null && board.winner().equals(humanPlayer))
+                        {
+                            twoMoveWin.add(d);
+                        }
+                        board.clearTempMoves();
+                    }
+                    board.clearTempMoves();
+                }
+                board.clearTempMoves();
+            }
+            board.clearTempMoves();
+        }
+        board.clearTempMoves();
+
+        // flush out the invalid moves
+
+        for (Integer i : oneMoveWin)
+        {
+            if (!board.isValidMove(i))
+            {
+                oneMoveWin.remove(i);
+            }
+        }
+
+        for (Integer i : twoMoveWin)
+        {
+            if (!board.isValidMove(i))
+            {
+                twoMoveWin.remove(i);
+            }
+        }
+
+        // give priority to one move wins
+        if (!oneMoveWin.isEmpty())
+        {
+            for (Integer i : oneMoveWin)
+            {
+                return i;
+            }
+        }
+
+        if (!twoMoveWin.isEmpty())
+        {
+            for (Integer i : twoMoveWin)
+            {
+                return i;
+            }
+        }
+
+        int lastHumanMove = board.getMoveStack().peek();
+
+        int move = board.getMoveStack().peek() - 1 + (int) (Math.random() * 3);
+
+        while (!board.isValidMove(move))
+        {
+            move = board.getMoveStack().peek() - 1 + (int) (Math.random() * 3);
+        }
+
+        return move;
+
+    }
+    
     private void rest()
     {
         try
@@ -208,25 +310,53 @@ public class BoardHandler extends Display
 
         if (board.isValidMove(column))
         {
-            board.makeMove(column);
-            repaint();
-
-            // tests for a winner
-            Player winner = board.winner();
-            if (winner != null)
-            {
-                System.out.println("WINNER!");
-                gameIsOver = true;
-            }
             dropNoise.start();
             try
             {
                 dropNoise = AudioSystem.getClip();
                 dropNoise.open(AudioSystem.getAudioInputStream(
-                        new File(getClass().getResource("drop.wav").getPath())));
-            } catch (Exception e) {
-                
+                        getClass().getResource("drop.wav")));
             }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            
+            int finalRow = board.getTopmostEmptySlot(column);
+            int row = 0;
+            double dropTime = 100;
+            while (row <= finalRow) 
+            {
+                gameIsOver = true;
+                board.animateMove(column, row);
+                paint(getGraphics());
+                try
+                {
+                    Thread.sleep((int) dropTime); // should be at 300 milliseconds
+                }
+                catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+                board.removeAnimatedMove(column, row);
+                paint(getGraphics());
+                row++;
+                dropTime *= 0.9;
+                gameIsOver = false;
+            }
+            
+            Player winner = board.makeMove(column);
+            paint(getGraphics());
+            
+
+
+            // tests for a winner
+            if (winner != null)
+            {
+                System.out.println("WINNER!");
+                gameIsOver = true;
+            }
+
             return true;
         }
         return false;

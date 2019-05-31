@@ -16,6 +16,8 @@ public class Board
     private Player currentPlayer;
     // private int lastColumn; // the last column that a piece was placed in
     private Stack<Integer> moves;
+    private boolean[][] boolGrid;
+ // true indicates piece is temporary
 
     /**
      * Creates a new Board
@@ -31,6 +33,7 @@ public class Board
         currentPlayer = p1;
         // lastColumn = -1;
         moves = new Stack<Integer>();
+        boolGrid = new boolean[6][7];
     }
     
     public Board(Player p1, Player p2, ArrayList<Integer> moves) {
@@ -39,14 +42,13 @@ public class Board
         this.p2 = p2;
         currentPlayer = p1;
         processMoves(moves); // executes all moves, determines current player
+        boolGrid = new boolean[6][7];
     }
     
     private void processMoves(ArrayList<Integer> moveList) {
         moves = new Stack<Integer>();
         System.out.println("movelist: "+moveList);
         for(int i=0;i<moveList.size();i++) {
-            System.out.println(i);
-            moves.push(moveList.get(i));
             makeMove(moveList.get(i));
         }
     }
@@ -100,19 +102,20 @@ public class Board
      * @precondition the column has at least 1 empty slot
      * @param column the given column
      */
-    public void makeMove(int column)
+    public Player makeMove(int column)
     {
+        System.out.println("moving "+column);
         int row = getTopmostEmptySlot(column);
         Piece p = new Piece(currentPlayer.getColor(), currentPlayer);
         grid[0][column] = p;
-        try
-        {
-            Thread.sleep(1000); // should be at 300
-        }
-        catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }
+//        try
+//        {
+//            Thread.sleep(1000); // should be at 300
+//        }
+//        catch (InterruptedException e)
+//        {
+//            e.printStackTrace();
+//        }
         grid[0][column] = null;
         grid[row][column] = p;
         
@@ -127,24 +130,48 @@ public class Board
             if (moves.peek() == column)
                 unhighlightRow++;
 
-            System.out.println("peek: "+moves.peek());
             if (unhighlightRow<=5)
                 grid[unhighlightRow][moves.peek()].highlight(false);
         }
         moves.push(column);
-    }
-
-    public void makeTempMove(int column, Color c)
-    {
-        int row = getTopmostEmptySlot(column);
-        System.out.println("current player " + currentPlayer);
-        grid[row][column] = new Piece(c, currentPlayer);
         
-        System.out.println(currentPlayer.printColor());
-        moves.push(column);
-        System.out.println("tempMove " + moves);
+        return winner();
     }
-
+    
+    public Stack<Integer> getMoveStack()
+    {
+        return moves;
+    }
+    
+    public void makeTempMove(int column, Color c, Player p)
+    {
+        if(isValidMove(column)) 
+        {
+            int row = getTopmostEmptySlot(column);
+            System.out.println("current player " + p);
+            grid[row][column] = new Piece(c, p);
+            boolGrid[row][column] = true;
+            System.out.println(currentPlayer.printColor());
+            //moves.push(column);
+            System.out.println("tempMove " + moves);
+        }
+        
+    }
+    
+    public void clearTempMoves()
+    {
+        for (int r = 0; r < grid.length; r++)
+        {
+            for (int c = 0; c < grid[r].length; c++)
+            {
+                if(boolGrid[r][c]) 
+                {
+                    grid[r][c] = null;
+                    boolGrid[r][c] = false;
+                }
+            }
+        }
+    }
     
 
     /**
@@ -187,12 +214,25 @@ public class Board
         
         
     }
+    
+    public void animateMove(int column, int row) 
+    {
+        Piece p = new Piece(currentPlayer.getColor(), currentPlayer);
+        grid[row][column] = p;
+
+    }
+
+    public void removeAnimatedMove(int column, int row)
+    {
+        grid[row][column] = null;
+    }
+    
     /**
      * @param column the tested column
      * @return the topmost empty slot in the given column
      * @precondition the column has @ least 1 empty slot/
      */
-    private int getTopmostEmptySlot(int column)
+    public int getTopmostEmptySlot(int column)
     {
         int count = -1;
         while (count + 1 < grid.length && grid[count + 1][column] == null)
