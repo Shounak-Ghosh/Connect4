@@ -92,6 +92,7 @@ public class GameListHandler extends Display {
             int row = 20*(r+1)+140*r + 70;
             
             if (Math.abs(col-xCoord)<=50 && Math.abs(row-yCoord)<=50) {
+                Noise.playButtonNoise();
                 closeSelf();
                 games.get(i-1).resume();
             }

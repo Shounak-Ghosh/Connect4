@@ -44,9 +44,11 @@ public class PickHandler extends Display
         int y = e.getY();
         
         if (isSubmit(x,y)) {
+            Noise.playButtonNoise();
             submitPlayerInfo();
             closeSelf();
             Display.games.add(game);
+            
             
             game.initialize();
             game.play();
@@ -80,8 +82,10 @@ public class PickHandler extends Display
                 
         // row 1
         if (y>=195 && y<=215) {
+            Noise.playButtonNoise();
             player1color = selected;
         } else if (y>=350 && y<=370) { // row 2
+            Noise.playButtonNoise();
             player2color = selected;
         }
         

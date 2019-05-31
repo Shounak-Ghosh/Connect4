@@ -30,8 +30,6 @@ public class BoardHandler extends Display
     protected Board board;
 
 
-    private Clip dropNoise;
-
     public BoardHandler(Player p1, Player p2)
     {
         this.board = new Board(p1, p2);
@@ -45,15 +43,6 @@ public class BoardHandler extends Display
         computerized = (p2 instanceof RandomPlayer || p2 instanceof DefensivePlayer);
         lastColumn = -1;
         displaySelf();
-        
-        
-        try
-        {
-            dropNoise = AudioSystem.getClip();
-            dropNoise.open(AudioSystem.getAudioInputStream(
-                    new File(getClass().getResource("drop.wav").getPath())));
-        }
-        catch (Exception e) {}
     }
     
     public BoardHandler(Player p1, Player p2, Board board) {
@@ -74,15 +63,6 @@ public class BoardHandler extends Display
         }
         
         lastColumn = board.getLastMove();
-        
-        
-        try
-        {
-            dropNoise = AudioSystem.getClip();
-            dropNoise.open(AudioSystem.getAudioInputStream(
-                    new File(getClass().getResource("drop.wav").getPath())));
-        }
-        catch (Exception e) {}
     }
     
     public Board getBoard() {
@@ -100,12 +80,14 @@ public class BoardHandler extends Display
 
         if (isUndo(xCoord - insets.left, yCoord - insets.top))
         {
+            Noise.playButtonNoise();
             board.undo();
             repaint();
             return;
         }
         
         if (isBack(xCoord - insets.left, yCoord - insets.top)) {
+            Noise.playButtonNoise();
             storeGames();
             closeSelf();
             mainMenu.displaySelf();
@@ -310,12 +292,8 @@ public class BoardHandler extends Display
 
         if (board.isValidMove(column))
         {
-            dropNoise.start();
-            try
-            {
-                dropNoise = AudioSystem.getClip();
-                dropNoise.open(AudioSystem.getAudioInputStream(
-                        getClass().getResource("drop.wav")));
+            try {
+            Noise.playDropNoise();
             }
             catch (Exception e)
             {

@@ -11,6 +11,7 @@ public class MenuHandler extends Display {
     
     public MenuHandler() {
         loadGames(); // puts all games into local memory
+        Noise.initializeSounds();
         displaySelf();
         mainMenu = this;
     }
@@ -43,10 +44,12 @@ public class MenuHandler extends Display {
         
         if (xCoord-insets.left>250 && xCoord-insets.left<500) {
             if (Math.abs((yCoord-insets.top)-300)<25) { // PLAY button clicked
+                Noise.playButtonNoise();
                 closeSelf();
                 System.out.println(games);
                 Game game = new Game();
             } else if (Math.abs((yCoord-insets.top)-375)<25) { // Archived Games button clicked
+                Noise.playButtonNoise();
                 closeSelf();
                 try
                 {
