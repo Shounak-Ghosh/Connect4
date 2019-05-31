@@ -43,8 +43,9 @@ public class GoGame
     private static void nextTurn(GoBoard board, GoDisplay display, GoPlayer player)
     {
     	display.setTitle(player.getName());
-    	
     	int[] move = player.nextMove();
+    	board.executeMove(move, player);
+    	display.displaySelf();
     }
     
     public static void main(String[] args)

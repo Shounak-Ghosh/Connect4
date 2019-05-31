@@ -9,7 +9,7 @@ import java.util.Stack;
  */
 public class GoBoard
 {
-    private Piece[][] grid;
+    private GoPiece[][] grid;
     // private int lastColumn; // the last column that a piece was placed in
     private Stack<int[]> moves; 
 
@@ -21,7 +21,7 @@ public class GoBoard
      */
     public GoBoard()
     {
-        grid = new Piece[19][19];
+        grid = new GoPiece[19][19];
         // lastColumn = -1;
         moves = new Stack<int[]>();
     }
@@ -43,7 +43,7 @@ public class GoBoard
     /**
      * @return the grid of pieces
      */
-    public Piece[][] getPieces()
+    public GoPiece[][] getPieces()
     {
         return grid;
     }
@@ -55,28 +55,28 @@ public class GoBoard
     
 
     
-//    /**
-//     * Moves a piece into the given column as far as it can go.
-//     * 
-//     * @precondition the column has at least 1 empty slot
-//     * @param column the given column
-//     */
-//    public void makeMove(int row, int column)
-//    {
-//        
-//        Piece p = new Piece(currentPlayer.getColor(), currentPlayer);
-//        grid[row][column] = p;
-//        try
-//        {
-//            Thread.sleep(1000); // should be at 300
-//        }
-//        catch (InterruptedException e)
-//        {
-//            e.printStackTrace();
-//        }
-//        
-//        
-//        
+    /**
+     * Moves a piece into the given column as far as it can go.
+     * 
+     * @precondition the column has at least 1 empty slot
+     * @param column the given column
+     */
+    public void executeMove(int[] move, GoPlayer player)
+    {
+        
+        GoPiece p = new GoPiece(player.getColor(), player);
+        grid[row][column] = p;
+        try
+        {
+            Thread.sleep(1000); // should be at 300
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+        
+        
+        
 //        updateCurrentPlayer();
 
         // lastColumn = column; // resets last column
@@ -95,7 +95,7 @@ public class GoBoard
 //    {
 //        
 //        System.out.println("current player " + currentPlayer);
-//        grid[row][column] = new Piece(c, currentPlayer);
+//        grid[row][column] = new GoPiece(c, currentPlayer);
 //        
 //        System.out.println(currentPlayer.printColor());
 //        int[] move = {row,column};
@@ -157,7 +157,7 @@ public class GoBoard
         {
 //            for (int c = 0; c < grid[0].length - 3; c++)
 //            {
-//                Piece test = grid[r][c];
+//                GoPiece test = grid[r][c];
 //
 //                if (test != null)
 //                {
@@ -176,7 +176,7 @@ public class GoBoard
 //            }
         	for(int c = 0; c<grid.length-5; c++)
         	{
-        		Piece p = grid[r][c];
+        		GoPiece p = grid[r][c];
         		
         		if(p!=null)
         		{
@@ -206,7 +206,7 @@ public class GoBoard
         {
             for (int r = 0; r < grid.length-5; r++)
             {
-            	Piece p = grid[r][c];
+            	GoPiece p = grid[r][c];
         		
         		if(p!=null)
         		{
@@ -233,7 +233,7 @@ public class GoBoard
         {
             for (int c = 0; c <grid[0].length-5; c++)
             {
-                Piece p = grid[r][c];
+                GoPiece p = grid[r][c];
 
                 if(p!=null)
                 {
@@ -263,7 +263,7 @@ public class GoBoard
         {
         	for(int c = 4; c<grid[0].length; c++)
         	{
-        		Piece p = grid[r][c];
+        		GoPiece p = grid[r][c];
         		if(p!=null)
         		{
         			boolean won = true;
