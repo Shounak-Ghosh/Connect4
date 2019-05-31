@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import javax.sound.sampled.AudioSystem;
@@ -142,7 +143,7 @@ public class BoardHandler extends Display
                 }
                 // makeMove(randomPlayerMove());
                 // board.undo();
-
+                System.out.println(board.getMoveStack());
             }
 
         }
@@ -242,18 +243,26 @@ public class BoardHandler extends Display
                 return i;
             }
         }
-        
-        if(!twoMoveWin.isEmpty()) 
+
+        if (!twoMoveWin.isEmpty())
         {
             for (Integer i : twoMoveWin)
             {
                 return i;
             }
         }
-        
-        return randomPlayerMove();
-        
-        
+
+        int lastHumanMove = board.getMoveStack().peek();
+
+        int move = board.getMoveStack().peek() - 1 + (int) (Math.random() * 3);
+
+        while (!board.isValidMove(move))
+        {
+            move = board.getMoveStack().peek() - 1 + (int) (Math.random() * 3);
+        }
+
+        return move;
+
     }
 
     // TODO: make a twoInARow method in board (similar to winner) and use that
@@ -346,7 +355,7 @@ public class BoardHandler extends Display
                 System.out.println("should have repainted row " + row);
                 try
                 {
-                    Thread.sleep((int) dropTime); // should be at 300 milliseconds
+                    Thread.sleep((int) dropTime);
                 }
                 catch (InterruptedException e)
                 {
@@ -355,7 +364,7 @@ public class BoardHandler extends Display
                 board.removeAnimatedMove(column, row);
                 paint(getGraphics());
                 row++;
-                dropTime *= 0.9;
+                dropTime *= 0.75;
             }
             board.makeMove(column);
             paint(getGraphics());
