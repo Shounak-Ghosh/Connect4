@@ -11,7 +11,7 @@ import java.util.*;
  * @author Michael Tran
  * @version 2019.5.28
  */
-public class GoDisplay extends JComponent implements ActionListener
+public class GoDisplay extends JComponent implements ActionListener//, MouseListener
 {
     private GoBoard board;
     private JButton[][] grid;
@@ -30,6 +30,7 @@ public class GoDisplay extends JComponent implements ActionListener
         this.board = board;
         grid = new JButton[19][19];
         colors = new Color[19][19];
+        
 
         //Schedule a job for the event-dispatching thread:
         //creating and showing this application's GUI.
@@ -246,7 +247,32 @@ public class GoDisplay extends JComponent implements ActionListener
                 colors[row][col] = null;
         showBoard();
     }
-    
+
+//    public void mouseClicked(MouseEvent e)
+//    {
+//    	int x = e.getX();
+//    	int y = e.getY();
+//    	int xCoord = x%50;
+//    	int yCoord = y%50;
+//    	GoPiece[][] pieces = board.getPieces();
+//    }
+//
+//    public void mousePressed(MouseEvent e)
+//    {
+//    }
+//
+//    public void mouseReleased(MouseEvent e)
+//    {
+//    }
+//
+//    public void mouseEntered(MouseEvent e)
+//    {
+//    }
+//
+//    public void mouseExited(MouseEvent e)
+//    {
+//    }
+
 //    protected void displaySelf() {
 //      frame.getContentPane().add(this); // very important line of code reee
 //
