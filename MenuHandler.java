@@ -21,6 +21,9 @@ public class MenuHandler extends Display {
     {
         paintEverything(g);
         frame.setTitle("Main Menu");
+        g.setColor(Color.BLACK);
+        g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 80));
+        g.drawString("CONNECT 4", 155, 200);
     }
     
     private void paintEverything(Graphics g) {
