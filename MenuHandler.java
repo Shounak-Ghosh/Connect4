@@ -14,6 +14,7 @@ public class MenuHandler extends Display {
         Noise.initializeSounds();
         displaySelf();
         mainMenu = this;
+        Noise.startMenuMusic();
     }
     
     public void paintComponent(Graphics g)
@@ -45,11 +46,13 @@ public class MenuHandler extends Display {
         if (xCoord-insets.left>250 && xCoord-insets.left<500) {
             if (Math.abs((yCoord-insets.top)-300)<25) { // PLAY button clicked
                 Noise.playButtonNoise();
+                Noise.stopMenuMusic();
                 closeSelf();
                 System.out.println(games);
                 Game game = new Game();
             } else if (Math.abs((yCoord-insets.top)-375)<25) { // Archived Games button clicked
                 Noise.playButtonNoise();
+                Noise.stopMenuMusic();
                 closeSelf();
                 try
                 {

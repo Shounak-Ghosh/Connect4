@@ -21,9 +21,9 @@ public class Noise
             buttonNoise.open(AudioSystem.getAudioInputStream(
                     Noise.class.getResource("button.wav")));
             
-//            menuNoise = AudioSystem.getClip();
-//            menuNoise.open(AudioSystem.getAudioInputStream(
-//                    Noise.class.getResource("menu.wav")));
+            menuNoise = AudioSystem.getClip();
+            menuNoise.open(AudioSystem.getAudioInputStream(
+                    Noise.class.getResource("menu_music.wav")));
         }
         catch (Exception e)
         {
@@ -44,9 +44,15 @@ public class Noise
         buttonNoise.start();
     }
     
-    public static void playMenuNoise() {
+    public static void startMenuMusic() {
         if (menuNoise==null) return;
         menuNoise.setFramePosition(0);
         menuNoise.start();
+    }
+    
+    public static void stopMenuMusic() {
+        if (menuNoise==null) return;
+        menuNoise.stop();
+        menuNoise.setFramePosition(0);
     }
 }

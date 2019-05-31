@@ -72,7 +72,7 @@ public class GameListHandler extends Display {
         g.fillOval(c + 20, r + 20, 20, 20);
         
         g.setColor(player2.getColor());
-        g.fillOval(c + 20, 20*(r+1)+140*r + 90, 20, 20);
+        g.fillOval(c + 20, r + 90, 20, 20);
         
         g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 26));
         g.setColor(Color.BLACK);
@@ -88,7 +88,7 @@ public class GameListHandler extends Display {
         for(int i=1;i<=games.size() && i<=6;i++) {
             int c = (i+1)%2;
             int col = 10*(c+1)+360*c + 280;
-            int r = i/2;
+            int r = (i-1)/2;
             int row = 20*(r+1)+140*r + 70;
             
             if (Math.abs(col-xCoord)<=50 && Math.abs(row-yCoord)<=50) {
