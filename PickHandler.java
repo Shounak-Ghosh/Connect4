@@ -175,7 +175,7 @@ public class PickHandler extends Display
     private Color getPlayer1Color()
     {
         if (player1color == 2)
-            return Color.blue;
+            return Color.cyan;
         else if (player1color == 3)
             return Color.green;
         return Color.red;
@@ -205,7 +205,7 @@ public class PickHandler extends Display
         paintNameFields(g);
         paintColorSelections(g);
 
-        frame.setTitle("Picking...");
+        frame.setTitle("...Choosing gamemode...");
     }
 
     private void paintNameFields(Graphics g)
