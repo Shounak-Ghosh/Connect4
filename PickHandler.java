@@ -18,8 +18,12 @@ import javax.swing.JTextField;
  * @version May 31 2019
  *
  */
-public class PickHandler extends Display
-{ 
+public class PickHandler extends Display {
+    
+    // not sure what this is for, but I guess it's required
+    // for extending a jcomponent
+    private static final long serialVersionUID = 1L;
+    
     private JTextField player1field = new JTextField(20);
     private JTextField player2field = new JTextField(20);
     private JTextField difficultyfield = new JTextField(1);

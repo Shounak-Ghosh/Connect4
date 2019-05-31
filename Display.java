@@ -1,7 +1,6 @@
 package Connect4;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
@@ -10,12 +9,10 @@ import java.awt.event.WindowListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -23,8 +20,6 @@ import java.util.Stack;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 /**
  * The abstract superclass for all displays in the project.
@@ -38,6 +33,10 @@ import javax.swing.SwingUtilities;
  */
 public abstract class Display extends JComponent implements MouseListener
 {
+    // not sure what this is for, but I guess it's required
+    // for extending a jcomponent
+    private static final long serialVersionUID = 1L;
+    
     protected JFrame frame;
 
     protected final Color BACKGROUND_COLOR = new Color(192, 192, 192);
@@ -118,7 +117,7 @@ public abstract class Display extends JComponent implements MouseListener
                 writer.newLine();
                 
                 Stack<Integer> moveStack = g.getBoardHandler().getBoard().getMoves();
-                ArrayList<Integer> moves = new ArrayList(moveStack);
+                ArrayList<Integer> moves = new ArrayList<Integer>(moveStack);
                 for (int j=0;j<moves.size();j++) {
                     writer.write(String.valueOf(moves.get(moves.size()-1-j)));
                 }
@@ -176,11 +175,13 @@ public abstract class Display extends JComponent implements MouseListener
                 count++;
             }
             
+            br.close();
+            
             for(int i=0;i<count;i++) {
                 Player p1 = new HumanPlayer(player1name.get(i),
                                        player1color.get(i));
                 Player p2 = new HumanPlayer(player2name.get(i),
-                        player2color.get(i)); // change this after getting smartplayer
+                        player2color.get(i)); // change this after getting smart player
                 int p2type = player2type.get(i);
                 if (p2type==0) p2 = new HumanPlayer(player2name.get(i),
                                         player2color.get(i));
@@ -198,7 +199,6 @@ public abstract class Display extends JComponent implements MouseListener
         }
         
         System.out.println("games loaded: "+games);
-
     }
     
 

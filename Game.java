@@ -1,8 +1,6 @@
 package Connect4;
 
-import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Stack;
 
 /**
  * Represents 1 game. Wraps a BoardHandler and

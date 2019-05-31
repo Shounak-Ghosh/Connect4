@@ -21,6 +21,10 @@ import java.util.HashSet;
  *
  */
 public class BoardHandler extends Display {
+    // not sure what this is for, but I guess it's required
+    // for extending a jcomponent
+    private static final long serialVersionUID = 1L;
+    
     Graphics g;
     private boolean gameIsOver;
     private boolean computerized; // true if the game is against the computer
@@ -232,7 +236,6 @@ public class BoardHandler extends Display {
             for (Integer i : twoMoveWin)
                 return i;
 
-        int lastHumanMove = board.getMoveStack().peek();
         int move = board.getMoveStack().peek() - 1 + (int) (Math.random() * 3);
 
         while (!board.isValidMove(move))

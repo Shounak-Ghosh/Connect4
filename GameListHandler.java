@@ -4,15 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Stack;
 
 /**
  * A GameListHandler handles displaying the list of archived games
@@ -21,6 +13,10 @@ import java.util.Stack;
  * @version May 31 2019
  */
 public class GameListHandler extends Display {
+    
+    // not sure what this is for, but I guess it's required
+    // for extending a jcomponent
+    private static final long serialVersionUID = 1L;
     
     public GameListHandler() throws FileNotFoundException {
         displaySelf();

@@ -20,6 +20,10 @@ import java.util.ArrayList;
  */
 public class MenuHandler extends Display {
     
+    // not sure what this is for, but I guess it's required
+    // for extending a jcomponent
+    private static final long serialVersionUID = 1L;
+
     public MenuHandler() {
         loadGames(); // puts all games into local memory
         Noise.initializeSounds();
@@ -60,11 +64,13 @@ public class MenuHandler extends Display {
             if (Math.abs((yCoord-insets.top)-300)<25) { // PLAY button clicked
                 Noise.playButtonNoise();
                 closeSelf();
+                @SuppressWarnings("unused")
                 Game game = new Game();
             } else if (Math.abs((yCoord-insets.top)-375)<25) { // Archived Games button clicked
                 Noise.playButtonNoise();
                 closeSelf();
-                try { GameListHandler gameListHandler = new GameListHandler(); } 
+                try { @SuppressWarnings("unused")
+                GameListHandler gameListHandler = new GameListHandler(); } 
                 catch (FileNotFoundException e1) {}
             }
         }
