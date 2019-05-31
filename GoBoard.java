@@ -7,7 +7,7 @@ import java.util.Stack;
 /**
  * Represents the game board A game board handles all player actions
  */
-public class GoBoard extends BoundedGrid<GoPiece>
+public class GoBoard
 {
     private Piece[][] grid;
     private Player p1;
