@@ -15,6 +15,7 @@ public class Board
     private Player currentPlayer;
     // private int lastColumn; // the last column that a piece was placed in
     private Stack<Integer> moves;
+    private boolean[][] boolGrid;
 
     /**
      * Creates a new Board
@@ -30,6 +31,8 @@ public class Board
         currentPlayer = p1;
         // lastColumn = -1;
         moves = new Stack<Integer>();
+        boolGrid = new boolean[6][7];
+        // true indicates piece is temporary
         System.out.println("Reached Board Constructor");
     }
 
@@ -71,19 +74,18 @@ public class Board
         currentPlayer = p;
     }
 
-    
-    public void animateMove(int column, int row) 
+    public void animateMove(int column, int row)
     {
         Piece p = new Piece(currentPlayer.getColor(), currentPlayer);
         grid[row][column] = p;
-        
+
     }
-    
+
     public void removeAnimatedMove(int column, int row)
     {
         grid[row][column] = null;
     }
-    
+
     /**
      * Moves a piece into the given column as far as it can go.
      * 
@@ -113,15 +115,40 @@ public class Board
         moves.push(column);
     }
 
-    public void makeTempMove(int column, Color c)
+    
+    public Stack<Integer> getMoveStack()
     {
-        int row = getTopmostEmptySlot(column);
-        System.out.println("current player " + currentPlayer);
-        grid[row][column] = new Piece(c, currentPlayer);
+        return moves;
+    }
+    
+    public void clearTempMoves()
+    {
+        for (int r = 0; r < grid.length; r++)
+        {
+            for (int c = 0; c < grid[r].length; c++)
+            {
+                if(boolGrid[r][c]) 
+                {
+                    grid[r][c] = null;
+                    boolGrid[r][c] = false;
+                }
+            }
+        }
+    }
 
-        System.out.println(currentPlayer.printColor());
-        moves.push(column);
-        System.out.println("tempMove " + moves);
+    public void makeTempMove(int column, Color c, Player p)
+    {
+        if(isValidMove(column)) 
+        {
+            int row = getTopmostEmptySlot(column);
+            System.out.println("current player " + p);
+            grid[row][column] = new Piece(c, p);
+            boolGrid[row][column] = true;
+            System.out.println(currentPlayer.printColor());
+            //moves.push(column);
+            System.out.println("tempMove " + moves);
+        }
+        
     }
 
     /**
