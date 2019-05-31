@@ -32,7 +32,7 @@ public class GoBoard
         moves = new Stack<int[]>();
     }
     
-    public Stack<Integer> getMoves() {
+    public Stack<int[]> getMoves() {
         return moves;
     }
 
@@ -113,7 +113,8 @@ public class GoBoard
         grid[row][column] = new Piece(c, currentPlayer);
         
         System.out.println(currentPlayer.printColor());
-        moves.push(column);
+        int[] move = {row,column};
+        moves.push(move);
         System.out.println("tempMove " + moves);
     }
 
@@ -227,7 +228,7 @@ public class GoBoard
         
 
         // testing vertical
-        for (int c = 0; r < grid[0].length; c++)
+        for (int c = 0; c < grid[0].length; c++)
         {
             for (int r = 0; r < grid.length-5; r++)
             {
