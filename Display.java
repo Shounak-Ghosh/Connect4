@@ -137,7 +137,7 @@ public abstract class Display extends JComponent implements MouseListener
         {
             String workingDir = System.getProperty("user.dir");
 
-            Path filePath = Paths.get(workingDir + File.separator + "sampleFile.txt");
+            Path filePath = Paths.get(workingDir + File.separator + "ArchivedGames.txt");
 
             File file = new File(filePath.toString());
 
