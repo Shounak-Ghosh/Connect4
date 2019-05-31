@@ -131,20 +131,20 @@ public class PickHandler extends Display
 
         if (difficulty.equals("1"))
         {
-            if (player2Name.equals(""))
-                player2Name = "Random";
+            
+            player2Name = "Easy";
             player2 = new RandomPlayer(player2Name, player2Color);
         }
         else if (difficulty.equals("2"))
         {
-            if (player2Name.equals(""))
-                player2Name = "Defensive";
+           
+            player2Name = "Medium";
             player2 = new DefensivePlayer(player2Name, player2Color);
         }
         else if (difficulty.equals("3"))
         {
-            if (player2Name.equals(""))
-                player2Name = "Smart";
+            
+            player2Name = "Hard";
             player2 = new SmartPlayer(player2Name, player2Color);
         }
         else
@@ -302,7 +302,7 @@ public class PickHandler extends Display
 
             public void keyTyped(KeyEvent evt)
             {
-                if ((difficultyfield.getText() + evt.getKeyChar()).length() > 1)
+                if ((difficultyfield.getText() + evt.getKeyChar()).length() > 2)
                     evt.consume();
             }
         });
