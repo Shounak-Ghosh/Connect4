@@ -9,21 +9,21 @@ import java.util.ArrayList;
  */
 public class GoGame
 {
-	private Piece[][] grid;
-    private boolean isGameOver;
-    private Display gameDisplay;
-    private Player player1;
-    private Player player2;
+//	private Piece[][] grid;
+//    private boolean isGameOver;
+//    private Display gameDisplay;
+//    private Player player1;
+//    private Player player2;
+//
+//    private GoBoard board;
 
-    private Board board;
-
-    public GoGame(Player p1, Player p2)
-    {
-        board = new GoBoard(p1, p2);
-        player1 = p1;
-        player2 = p2;
-        grid = new Piece[19][19];
-    }
+//    public GoGame(Player p1, Player p2)
+//    {
+//        board = new GoBoard(p1, p2);
+//        player1 = p1;
+//        player2 = p2;
+//        grid = new Piece[19][19];
+//    }
 
     /**
      * Displays and plays the game
@@ -39,5 +39,11 @@ public class GoGame
     private void nextMove()
     {
 
+    }
+    
+    public static void main(String[] args)
+    {
+    	NewGoBoard board = new NewGoBoard();
+    	GoDisplay display = new GoDisplay(board);
     }
 }

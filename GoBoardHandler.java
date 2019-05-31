@@ -1,10 +1,11 @@
 package Connect4;
 
+
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.event.*;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 
@@ -13,7 +14,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-public class GoBoardHandler extends GoDisplay
+public class GoBoardHandler extends Display
 {
 
     Graphics g;
@@ -23,12 +24,11 @@ public class GoBoardHandler extends GoDisplay
     
     Player p1;
     Player p2;
-    GoBoard board;
     
 
     public GoBoardHandler(Player p1, Player p2)
     {
-        this.board = new GoBoard(p1, p2);
+        this.board = new Board(p1, p2);
         gameIsOver = false;
         this.p1 = p1;
         this.p2 = p2;
@@ -45,38 +45,24 @@ public class GoBoardHandler extends GoDisplay
     /**
      * Handles an entire set of moves in the game DOCUMENT THIS
      */
-    public void mouseClicked(ActionEvent e)
+    public void mouseClicked(MouseEvent e)
     {
-    	
-    	
-    	String command = e.getActionCommand();
-		int comma = command.indexOf(",");
-		int row = Integer.parseInt(command.substring(0, comma));
-		int col = Integer.parseInt(command.substring(comma + 1));
-		//Location loc = new Location(row, col);
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-//        int xCoord = e.getX();
-//        int yCoord = e.getY();
+        int xCoord = e.getX();
+        int yCoord = e.getY();
 
-//        if (isUndo(xCoord - insets.left, yCoord - insets.top))
-//        {
-//            board.undo();
-//            repaint();
-//            return;
-//        }
+        if (isUndo(xCoord - insets.left, yCoord - insets.top))
+        {
+            board.undo();
+            repaint();
+            return;
+        }
 
         // Human player is yellow, computer is red
         if (!gameIsOver && board.isHumanTurn()) // game is not over, the click represents a move
         {
-            
-        	
-            if (makeMove(row, col) && computerized && !gameIsOver) // it is the non-human players move
+            int column = getColumn(xCoord - insets.left);
+
+            if (makeMove(column) && computerized && !gameIsOver) // it is the non-human players move
             {
 //                rest();
 
@@ -84,13 +70,11 @@ public class GoBoardHandler extends GoDisplay
 
                 if (p2 instanceof RandomPlayer)
                 {
-                	int[] r = randomPlayerMove();
-                    makeMove(r[0],r[1]);
+                    makeMove(randomPlayerMove());
                 }
                 else if (p2 instanceof DefensivePlayer)
                 {
-                	int[] d = defensivePlayerMove();
-                    makeMove(d[0],d[1]);
+                    makeMove(defensivePlayerMove());
                 }
                 // makeMove(randomPlayerMove());
                 // board.undo();
@@ -116,13 +100,12 @@ public class GoBoardHandler extends GoDisplay
         return (yCoord >= 400 && yCoord <= 440 && xCoord >= 630 && xCoord <= 715);
     }
 
-    private int[] randomPlayerMove()
+    private int randomPlayerMove()
     {
-        int[] move = {(int) (Math.random() * 19),(int) (Math.random() * 19)};
-        while (!board.isValidMove(move[0],move[1]))
+        int move = (int) (Math.random() * 19);
+        while (!board.isValidMove(move))
         {
-            move[0] = (int) (Math.random() * 19);
-            move[1]= (int) (Math.random() * 19);
+            move = (int) (Math.random() * 19);
         }
         return move;
     }
@@ -176,11 +159,11 @@ public class GoBoardHandler extends GoDisplay
         }
     }
 
-    private boolean makeTempMove(int row, int column, Color c)
+    private boolean makeTempMove(int column, Color c)
     {
-        if (board.isValidMove(row, column))
+        if (board.isValidMove(column))
         {
-            board.makeTempMove(row, column, c);
+            board.makeTempMove(column, c);
             repaint();
             return true;
         }
@@ -340,15 +323,5 @@ public class GoBoardHandler extends GoDisplay
             return 6;
         return -1;
     }
-    
-    /**
-     * Returns the row of the game that the given y coordinate would be in
-     */
-    private int getRow(int y)
-    {
-    	
-    }
 
 }
-
-
