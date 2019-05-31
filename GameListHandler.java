@@ -47,13 +47,14 @@ public class GameListHandler extends Display {
         for(int i=1;i<=games.size() && i<=6;i++) {
             int c = (i+1)%2;
             int col = 10*(c+1)+360*c;
-            int r = i/2;
+            int r = (i-1)/2;
             int row = 20*(r+1)+140*r;
-            paintGame(g, games.get(i-1), col, row);
+            paintGame(g, games.get(games.size()-i), col, row);
         }
     }
     
     private void paintGame(Graphics g, Game game, int c, int r) {
+        g.setColor(Color.WHITE);
         g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 24));
 
         Player player1 = game.getPlayer1();

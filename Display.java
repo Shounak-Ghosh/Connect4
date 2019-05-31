@@ -80,7 +80,9 @@ public abstract class Display extends JComponent implements MouseListener
             BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
             
             System.out.println(games);
-            for (Game g: games) {
+            for (int i=games.size()-1;i>=0;i--) {
+                
+                Game g = games.get(i);
                 
                 // writing 0 for human player & the player's name/color
                 writer.write("0");
@@ -100,9 +102,10 @@ public abstract class Display extends JComponent implements MouseListener
                 writer.write(String.valueOf(player2.getColor().getRGB()));
                 writer.newLine();
                 
-                Stack<Integer> moves = g.getBoardHandler().getBoard().getMoves();
-                while(!moves.isEmpty()) {
-                    writer.write(moves.pop().toString());
+                Stack<Integer> moveStack = g.getBoardHandler().getBoard().getMoves();
+                ArrayList<Integer> moves = new ArrayList(moveStack);
+                for (int j=0;j<moves.size();j++) {
+                    writer.write(String.valueOf(moves.get(j)));
                 }
                 writer.newLine();
             }
@@ -137,7 +140,7 @@ public abstract class Display extends JComponent implements MouseListener
             ArrayList<String> player2name = new ArrayList<String>();
             ArrayList<Color> player2color = new ArrayList<Color>();
             
-            ArrayList<Stack<Integer>> moves = new ArrayList<Stack<Integer>>();
+            ArrayList<ArrayList<Integer>> moves = new ArrayList<ArrayList<Integer>>();
 
             int count = 0;
             for (String line; (line = br.readLine()) != null;) {
@@ -147,12 +150,14 @@ public abstract class Display extends JComponent implements MouseListener
                 String player2info = br.readLine();
                 process(player2name,player2color,player2info,player2type);
                 
-                moves.add(new Stack<Integer>());
+                moves.add(new ArrayList<Integer>());
                 
                 String moveSet = br.readLine();
                 for(int i=0;i<moveSet.length();i++) {
                     int move = Integer.valueOf(moveSet.substring(i,i+1));
-                    moves.get(count).push(move);                }
+                    System.out.println("pushed move "+move+" to i");
+                    moves.get(count).add(move);         
+                 }
                 count++;
             }
             

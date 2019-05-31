@@ -1,6 +1,7 @@
 package Connect4;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Stack;
 
 //test growl
@@ -32,16 +33,22 @@ public class Board
         moves = new Stack<Integer>();
     }
     
-    public Board(Player p1, Player p2, Stack<Integer> moves) {
+    public Board(Player p1, Player p2, ArrayList<Integer> moves) {
         grid = new Piece[6][7];
         this.p1 = p1;
         this.p2 = p2;
-        this.moves = moves;
-        processMoves(); // executes all moves, determines current player
+        currentPlayer = p1;
+        processMoves(moves); // executes all moves, determines current player
     }
     
-    private void processMoves() {
-        // write this
+    private void processMoves(ArrayList<Integer> moveList) {
+        moves = new Stack<Integer>();
+        System.out.println("movelist: "+moveList);
+        for(int i=0;i<moveList.size();i++) {
+            System.out.println(i);
+            moves.push(moveList.get(i));
+            makeMove(moveList.get(i));
+        }
     }
     
     public Stack<Integer> getMoves() {
@@ -116,10 +123,13 @@ public class Board
         if (!moves.isEmpty())
         {
             int unhighlightRow = getTopmostEmptySlot(moves.peek()) + 1;
+            
             if (moves.peek() == column)
                 unhighlightRow++;
 
-            grid[unhighlightRow][moves.peek()].highlight(false);
+            System.out.println("peek: "+moves.peek());
+            if (unhighlightRow<=5)
+                grid[unhighlightRow][moves.peek()].highlight(false);
         }
         moves.push(column);
     }

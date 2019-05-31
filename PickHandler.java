@@ -45,15 +45,10 @@ public class PickHandler extends Display
         
         if (isSubmit(x,y)) {
             submitPlayerInfo();
-            System.out.println("before closing: "+Display.games);
             closeSelf();
-            System.out.println("before adding: "+Display.games);
-            System.out.println(Display.games);
-            System.out.println("original: "+games);
             Display.games.add(game);
             
             game.initialize();
-            System.out.println("after adding: "+Display.games);
             game.play();
         } else {
             selectColor(x,y);

@@ -20,7 +20,7 @@ public class Game
         pickHandler = new PickHandler(this);
     }
     
-    public Game(Player player1, Player player2, Stack<Integer> moves) {
+    public Game(Player player1, Player player2, ArrayList<Integer> moves) {
         this.player1 = player1;
         this.player2 = player2;
         boardHandler = new BoardHandler(player1,player2, new Board(player1,player2,moves));
