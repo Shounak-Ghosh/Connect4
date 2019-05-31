@@ -89,7 +89,7 @@ public class GoBoard
 //            grid[unhighlightRow][moves.peek()].highlight(false);
 //        }
 //        moves.push(column);
-  }
+    }
 
 //    public void makeTempMove(int row, int column, Color c)
 //    {
