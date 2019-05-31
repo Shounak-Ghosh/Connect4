@@ -32,8 +32,8 @@ public class GoGame
     {
     	while(true)//replace with win condition
         {
-            Piece a = nextTurn(board, display, white);
-            Piece b = nextTurn(board, display, black);
+            nextTurn(board, display, white);
+            nextTurn(board, display, black);
         }
     }
 
