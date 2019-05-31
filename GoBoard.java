@@ -10,9 +10,6 @@ import java.util.Stack;
 public class GoBoard
 {
     private Piece[][] grid;
-    private Player p1;
-    private Player p2;
-    private Player currentPlayer;
     // private int lastColumn; // the last column that a piece was placed in
     private Stack<int[]> moves; 
 
@@ -22,12 +19,9 @@ public class GoBoard
      * @param p1 player 1
      * @param p2 player 2
      */
-    public GoBoard(Player p1, Player p2)
+    public GoBoard()
     {
         grid = new Piece[19][19];
-        this.p1 = p1;
-        this.p2 = p2;
-        currentPlayer = p1;
         // lastColumn = -1;
         moves = new Stack<int[]>();
     }
@@ -53,46 +47,37 @@ public class GoBoard
     {
         return grid;
     }
-
-    public Player getPlayer1()
-    {
-        return p1;
-    }
-
-    public Player getPlayer2()
-    {
-        return p2;
-    }
+    
+    
+    
+    //VERY IMPORTANT - MOVES WILL BE MADE WITHIN EACH PLAYER CLASS AND HANDLED BY GOGAME
+    
+    
 
     
-    public void setCurrentPlayer(Player p) 
-    {
-        currentPlayer = p;
-    }
-    
-    /**
-     * Moves a piece into the given column as far as it can go.
-     * 
-     * @precondition the column has at least 1 empty slot
-     * @param column the given column
-     */
-    public void makeMove(int row, int column)
-    {
-        
-        Piece p = new Piece(currentPlayer.getColor(), currentPlayer);
-        grid[row][column] = p;
-        try
-        {
-            Thread.sleep(1000); // should be at 300
-        }
-        catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }
-        
-        
-        
-        updateCurrentPlayer();
+//    /**
+//     * Moves a piece into the given column as far as it can go.
+//     * 
+//     * @precondition the column has at least 1 empty slot
+//     * @param column the given column
+//     */
+//    public void makeMove(int row, int column)
+//    {
+//        
+//        Piece p = new Piece(currentPlayer.getColor(), currentPlayer);
+//        grid[row][column] = p;
+//        try
+//        {
+//            Thread.sleep(1000); // should be at 300
+//        }
+//        catch (InterruptedException e)
+//        {
+//            e.printStackTrace();
+//        }
+//        
+//        
+//        
+//        updateCurrentPlayer();
 
         // lastColumn = column; // resets last column
 //        if (!moves.isEmpty())
@@ -104,19 +89,19 @@ public class GoBoard
 //            grid[unhighlightRow][moves.peek()].highlight(false);
 //        }
 //        moves.push(column);
-    }
+//  }
 
-    public void makeTempMove(int row, int column, Color c)
-    {
-        
-        System.out.println("current player " + currentPlayer);
-        grid[row][column] = new Piece(c, currentPlayer);
-        
-        System.out.println(currentPlayer.printColor());
-        int[] move = {row,column};
-        moves.push(move);
-        System.out.println("tempMove " + moves);
-    }
+//    public void makeTempMove(int row, int column, Color c)
+//    {
+//        
+//        System.out.println("current player " + currentPlayer);
+//        grid[row][column] = new Piece(c, currentPlayer);
+//        
+//        System.out.println(currentPlayer.printColor());
+//        int[] move = {row,column};
+//        moves.push(move);
+//        System.out.println("tempMove " + moves);
+//    }
 
     
 
@@ -131,20 +116,9 @@ public class GoBoard
         int[] move = moves.pop();
         grid[move[0]][move[1]] = null;
 
-        updateCurrentPlayer();
+        //updateCurrentPlayer();
     }
 
-    private void updateCurrentPlayer()
-    {
-        if (currentPlayer == p1)
-            currentPlayer = p2;
-        else currentPlayer = p1;
-    }
-
-    public boolean isHumanTurn()
-    {
-        return currentPlayer instanceof HumanPlayer;
-    }
     
     public void restart() 
     {

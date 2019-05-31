@@ -28,7 +28,7 @@ public class GoGame
     /**
      * Displays and plays the game
      */
-    public static void play(GoBoard board, GoDisplay display, Player white, Player black)
+    public static void play(GoBoard board, GoDisplay display, GoPlayer white, GoPlayer black)
     {
     	while(true)//replace with win condition
         {
@@ -40,7 +40,7 @@ public class GoGame
     /**
      * Executes the next move in the game
      */
-    private static void nextTurn(GoBoard board, GoDisplay display, Player player)
+    private static void nextTurn(GoBoard board, GoDisplay display, GoPlayer player)
     {
     	display.setTitle(player.getName());
     	
