@@ -29,6 +29,11 @@ public class GoBoard
     public Stack<int[]> getMoves() {
         return moves;
     }
+    
+    public GoPiece get(int[] loc)
+    {
+    	return grid[loc[0]][loc[1]];
+    }
 
     /**
      * @param column the tested column
@@ -66,6 +71,7 @@ public class GoBoard
         
         GoPiece p = new GoPiece(player.getColor(), player);
         grid[move[0]][move[1]] = p;
+        p.setLocation(move);
         try
         {
             Thread.sleep(1000); // should be at 300

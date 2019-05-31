@@ -68,7 +68,7 @@ public class RandomTest {
 //
 //        r1 = new RandomPlayer("Random Player", Color.RED);
 
-        d = new GoDislay(new HumanPlayer("p1", Color.YELLOW), new HumanPlayer("p2", Color.RED));
+        d = new GoDisplay(new HumanPlayer("p1", Color.YELLOW), new HumanPlayer("p2", Color.RED));
         d1 = new DefensivePlayer("def. player", Color.RED);
         //d = new BoardHandler(new HumanPlayer("human", Color.YELLOW), d1);
     }

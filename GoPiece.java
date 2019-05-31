@@ -11,6 +11,7 @@ public class GoPiece
 {
     private Color color;
     private GoPlayer player;
+    private int[] currentLocation;
     
     private boolean highlighted;
     
@@ -19,6 +20,7 @@ public class GoPiece
         color = type;
         this.player = player;
         highlighted = true;
+        currentLocation = null;
     }
 
     /**
@@ -33,6 +35,25 @@ public class GoPiece
      */
     public GoPlayer getPlayer() {
         return player;
+    }
+    
+    public int[] getLocation()
+    {
+    	return currentLocation;
+    }
+    
+    public void setLocation(int[] loc)
+    {
+    	currentLocation = loc;
+    }
+    
+    public String getImageFileName()
+    {
+    	if(color == Color.BLACK)
+    		return "BlackPiece.jpg";
+    	else {
+    		return "WhitePiece.jpg";
+    	}
     }
     
     /**

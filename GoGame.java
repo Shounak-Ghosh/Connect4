@@ -45,7 +45,7 @@ public class GoGame
     	display.setTitle(player.getName());
     	int[] move = player.nextMove();
     	board.executeMove(move, player);
-    	display.displaySelf();
+    	//display.displaySelf();
     	try
         {
             Thread.sleep(500);
